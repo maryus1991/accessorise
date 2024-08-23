@@ -1,0 +1,19 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en" class="darkmode" data-theme="light" dir="rtl">
+<head>
+    {% include 'Layouts/Header/References/HeaderReferences.html' %}
+    <title>
+        {% block title %}
+        {% endblock %}
+    </title>
+</head>
+<body>
+    {% include 'Layouts/Header/HeaderBase.html' %}
+    {% block content %}
+    {% endblock %}
+    {% include 'Layouts/Footer/FooterBase.html' %}
+    {% include 'Layouts/Footer/References/FooterReferences.html' %}
+</body>
+</html>
