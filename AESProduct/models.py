@@ -2,12 +2,18 @@ from django.core.validators import MinValueValidator, MaxValueValidator
 from django.db import models
 
 
+class ProductManager(models.Manager):
+    def get_queryset(self):
+        return super().get_queryset().filter(is_delete=False, is_active=True)
+
+
 class Product_Tags(models.Model):
     title = models.CharField(max_length=100, verbose_name='عنوان تگ')
     slug = models.CharField(max_length=100, verbose_name='نام در url (باید انگلیسی باشد)')
     is_active = models.BooleanField(default=True, verbose_name='فعال')
     is_delete = models.BooleanField(default=False, verbose_name='حذف')
     products = models.ManyToManyField('Product', verbose_name='محصولات')
+    active = ProductManager()
 
     def __str__(self):
         return self.title
@@ -23,6 +29,7 @@ class Product_Categories(models.Model):
     is_active = models.BooleanField(default=True, verbose_name='فعال')
     is_delete = models.BooleanField(default=False, verbose_name='حذف')
     products = models.ManyToManyField('Product', verbose_name='محصولات')
+    active = ProductManager()
 
     def __str__(self):
         return self.title
@@ -41,6 +48,8 @@ class Product_Brands(models.Model):
 
     def __str__(self):
         return self.title
+
+    active = ProductManager()
 
     class Meta:
         verbose_name = 'برند'
@@ -66,6 +75,8 @@ class Product(models.Model):
                             validators=[MinValueValidator(0), MaxValueValidator(100)])
     new = models.BooleanField(default=False, verbose_name='جدید')
 
+    active = ProductManager()
+
     def __str__(self):
         return self.title
 
@@ -79,6 +90,7 @@ class Products_Sizes(models.Model):
     product = models.ForeignKey(Product, on_delete=models.CASCADE, verbose_name='محصول')
     is_active = models.BooleanField(default=True, verbose_name='فعال')
     is_delete = models.BooleanField(default=False, verbose_name='حذف')
+    active = ProductManager()
 
     def __str__(self):
         return f'{self.product.title} {self.size}'
@@ -93,9 +105,11 @@ class Products_Gallery(models.Model):
     product = models.ForeignKey(Product, on_delete=models.CASCADE, verbose_name='محصول')
     is_active = models.BooleanField(default=True, verbose_name='فعال')
     is_delete = models.BooleanField(default=False, verbose_name='حذف')
+    active = ProductManager()
 
     def __str__(self):
         return f'{self.product.title} {self.id}'
+    active = ProductManager()
 
     class Meta:
         verbose_name = 'گالری'
@@ -110,6 +124,7 @@ class Product_comment(models.Model):
     product = models.ForeignKey(Product, on_delete=models.CASCADE, verbose_name='محصول')
     is_active = models.BooleanField(default=True, verbose_name='فعال')
     is_delete = models.BooleanField(default=False, verbose_name='حذف')
+    active = ProductManager()
 
     def __str__(self):
         return f'{self.product.title} {self.full_name}'

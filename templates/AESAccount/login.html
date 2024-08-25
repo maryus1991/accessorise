@@ -1,43 +1,54 @@
 {% extends 'Layouts/Base.html' %}
 
 {% block title %}
-	ورود یا ثبت نام
+    ورود یا ثبت نام
 {% endblock %}
 
 {% block content %}
-	
+
     <!--login-area start-->
     <div class="login-area">
         <div class="container">
             <div class="row">
+                <div class="form">
+                    {% if UserLoginForm.has_error or request.GET.code == '0' %}
+                        <div class="alert alert-danger">
+                            {% for error in UserLoginForm.errors %}
+                                {{ error }}
+                            {% endfor %}
+                            {{ request.GET.status }}
+                        </div>
+                    {% endif %}
+                    {% if request.GET.code == '1' %}
+                        <div class="alert alert-info">
+                            {{ request.GET.status }}
+                        </div>
+                    {% endif %}
+                </div>
                 <div class="col-lg-6 col-md-12 mr-10">
                     <div class="login-form">
                         <div class="section-title">
-                            <h2>Login</h2>
+                            <h2>ورود به سایت</h2>
                         </div>
                         <div class="card">
                             <div class="card-body">
-                                <form>
+                                <form method="post" action="{% url 'Authentication.login.account' %}">
+                                    {% csrf_token %}
                                     <div class="form">
-                                        <input type="text" class="form-control" id="username"
-                                            placeholder="Username or email address*" required />
+                                        {{ UserLoginForm.email }}
                                     </div>
                                     <div class="form">
 
                                         <div class="password-input">
-                                            <input type="password" class="form-control" id="password"
-                                                placeholder="Password*" required />
+                                            {{ UserLoginForm.password }}
                                             <span class="show-password-input"></span>
                                         </div>
                                     </div>
+
                                     <div class="form">
-                                        <input type="checkbox" class="form-check-input" id="remember" />
-                                        <label for="remember" class="form-label">Remember Me</label>
+                                        <button type="submit" class="btn">ورود</button>
                                     </div>
-                                    <div class="form">
-                                        <button type="submit" class="btn">Login</button>
-                                    </div>
-                                    <a class="forgot-password" href="#">Lost your password?</a>
+                                    <a class="forgot-password" href="#">رمزم را فراموش کردم </a>
                                 </form>
                             </div>
                         </div>
@@ -46,29 +57,27 @@
                 <div class="col-lg-6 col-md-12 ml-10">
                     <div class="register-form">
                         <div class="section-title">
-                            <h2>Registration</h2>
+                            <h2>ثبت نام</h2>
                         </div>
                         <div class="card">
                             <div class="card-body">
-                                <form>
+                                <form action="{% url 'Authentication.register.account' %}" method="post">
+                                    {% csrf_token %}
                                     <div class="form">
-                                        <input type="text" class="form-control" id="username"
-                                            placeholder="Username or email address*" required />
+                                        {{ UserRegisterForm.username }}
                                     </div>
                                     <div class="form">
-
-                                        <input type="email" class="form-control" id="username"
-                                            placeholder="Email address*" required />
+                                        {{ UserRegisterForm.email }}
                                     </div>
                                     <div class="form">
                                         <div class="password-input">
-                                            <input type="password" class="form-control" id="password"
-                                                placeholder="Password*" required />
+                                            {{ UserRegisterForm.password }}
                                             <span class="show-password-input"></span>
                                         </div>
                                     </div>
+
                                     <div class="form">
-                                        <button type="submit" class="btn">Register</button>
+                                        <button type="submit" class="btn">ثبت نام</button>
                                     </div>
                                 </form>
                             </div>
