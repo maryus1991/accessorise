@@ -1,3 +1,10 @@
 from django.shortcuts import render
+from django.contrib.auth.decorators import login_required
 
-# Create your views here.
+@login_required
+def Dashboard(request):
+    return render(request, 'AESAccount/account.html')
+
+
+def Authentication(request):
+    return render(request, 'AESAccount/login.html')

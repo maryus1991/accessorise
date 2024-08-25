@@ -7,131 +7,29 @@
             <div class="navbar-part navbar-part1 navbar-part5">
                 <div class="navbar-inner">
                     <div class="left-side">
-                        <a href="index.html" class="logo"><img src="../../static/images/logo8.svg"
-                                                               alt="weiboo-logo"></a>
+                        <a href="{% url 'index.home' %}" class="logo"><img src="../../static/images/logo8.svg"
+                                                                           alt="weiboo-logo"></a>
                     </div>
                     <div class="rts-menu">
                         <nav class="menus menu-toggle">
                             <ul class="nav__menu">
-                                <li class="has-dropdown"><a class="menu-item active1" href="#">Home <i
-                                        class="rt-plus"></i></a>
-                                    <ul class="dropdown-ul">
-                                        <li class="dropdown-li"><a class="dropdown-link" href="index.html">Main
-                                            Home</a>
-                                        </li>
-                                        <li class="dropdown-li"><a class="dropdown-link"
-                                                                   href="index-two.html">Fashion
-                                            Home</a>
-                                        </li>
-                                        <li class="dropdown-li"><a class="dropdown-link"
-                                                                   href="index-three.html">Furniture
-                                            Home</a>
-                                        </li>
-                                        <li class="dropdown-li"><a class="dropdown-link"
-                                                                   href="index-four.html">Decor
-                                            Home</a>
-                                        </li>
-                                        <li class="dropdown-li"><a class="dropdown-link"
-                                                                   href="index-five.html">Electronics
-                                            Home</a>
-                                        </li>
-                                        <li class="dropdown-li"><a class="dropdown-link"
-                                                                   href="index-six.html">Grocery
-                                            Home</a>
-                                        </li>
-                                        <li class="dropdown-li"><a class="dropdown-link"
-                                                                   href="index.html">Footwear
-                                            Home</a>
-                                        </li>
-                                        <li class="dropdown-li"><a class="dropdown-link"
-                                                                   href="index-eight.html">Gaming
-                                            Home</a>
-                                        </li>
-                                    </ul>
-                                </li>
-                                <li class="has-dropdown"><a class="menu-item" href="#">Shop <i
-                                        class="rt-plus"></i></a>
-                                    <ul class="dropdown-ul mega-dropdown">
-                                        <li class="mega-dropdown-li">
-                                            <ul class="mega-dropdown-ul">
-                                                <li class="dropdown-li"><a class="dropdown-link2"
-                                                                           href="../../accessories_tmp/shop.html">Shop</a>
-                                                </li>
-                                                <li class="dropdown-li"><a class="dropdown-link2"
-                                                                           href="../AESProduct/slidebar-left.html">Left
-                                                    Sidebar Shop</a>
-                                                </li>
-                                                <li class="dropdown-li"><a class="dropdown-link2"
-                                                                           href="../../accessories_tmp/slidebar-right.html">Right
-                                                    Sidebar Shop</a>
-                                                </li>
-                                                <li class="dropdown-li"><a class="dropdown-link2"
-                                                                           href="../../accessories_tmp/full-width-shop.html">Full
-                                                    Width Shop</a>
-                                                </li>
-                                            </ul>
-                                        </li>
-                                        <li class="mega-dropdown-li">
-                                            <ul class="mega-dropdown-ul">
-                                                <li class="dropdown-li"><a class="dropdown-link2"
-                                                                           href="../AESProduct/product-details.html">Single
-                                                    Product Layout One</a>
-                                                </li>
-                                                <li class="dropdown-li"><a class="dropdown-link2"
-                                                                           href="../../accessories_tmp/product-details2.html">Single
-                                                    Product Layout Two</a>
-                                                </li>
-                                                <li class="dropdown-li"><a class="dropdown-link2"
-                                                                           href="../AESProduct/variable-products.html">Variable
-                                                    Product</a>
-                                                </li>
-                                                <li class="dropdown-li"><a class="dropdown-link2"
-                                                                           href="../../accessories_tmp/grouped-products.html">Grouped
-                                                    Product</a>
-                                                </li>
-                                            </ul>
-                                        </li>
-                                        <li class="mega-dropdown-li last-child">
-                                            <ul class="mega-dropdown-ul">
-                                                <li class="dropdown-li"><a class="dropdown-link2"
-                                                                           href="../AESOrder/cart.html">Cart</a>
-                                                </li>
+                                <li class=""><a class="menu-item active1" href="{% url 'index.home' %}">Home</a>
 
-                                                <li class="dropdown-li"><a class="dropdown-link2"
-                                                                           href="../../accessories_tmp/checkout.html">Checkout</a>
-                                                </li>
-                                                <li class="dropdown-li"><a class="dropdown-link2"
-                                                                           href="../AESAccount/account.html">My
-                                                    Account</a>
-                                                </li>
-                                            </ul>
-                                        </li>
-                                    </ul>
                                 </li>
-                                <li class="has-dropdown"><a class="menu-item" href="#">Pages <i
-                                        class="rt-plus"></i></a>
-                                    <ul class="dropdown-ul">
-                                        <li class="dropdown-li"><a class="dropdown-link" href="about.html">About</a>
-                                        </li>
-                                        <li class="dropdown-li"><a class="dropdown-link" href="faq.html">FAQ's</a>
-                                        </li>
-                                        <li class="dropdown-li"><a class="dropdown-link" href="../Layouts/error.html">Error
-                                            404</a>
-                                        </li>
-                                    </ul>
+                                <li class="has-dropdown"><a class="menu-item" href="{% url 'product.list.product' %}">Shop </a>
                                 </li>
-
-                                <li class="has-dropdown"><a class="menu-item" href="#">Blog <i
-                                        class="rt-plus"></i></a>
-                                    <ul class="dropdown-ul">
-                                        <li class="dropdown-li"><a class="dropdown-link" href="../AESBlog/news.html">Blog</a>
-                                        </li>
-                                        <li class="dropdown-li"><a class="dropdown-link"
-                                                                   href="../AESBlog/news-grid.html">Blog Grid</a></li>
-                                        <li class="dropdown-li"><a class="dropdown-link"
-                                                                   href="../AESBlog/news-details.html">Blog Details</a>
-                                        </li>
-                                    </ul>
+                                <li class="has-dropdown"><a class="menu-item"
+                                                           href="../AESOrder/cart.html">Cart</a>
+                                </li>
+{#                                <li class="has-dropdown"><a class="menu-item"#}
+{#                                                           href="../AESAccount/account.html">My#}
+{#                                    Account</a>#}
+{#                                </li>#}
+                                <li class="has-dropdown"><a class="menu-item" href="#">Blog</a>
+                                </li>
+                                <li class="has-dropdown"><a class="menu-item" href="about.html">About</a>
+                                </li>
+                                <li class="has-dropdown"><a class="menu-item" href="faq.html">FAQ's</a>
                                 </li>
                                 <li><a class="menu-item" href="contact.html">Contact</a></li>
                             </ul>
@@ -167,7 +65,7 @@
                                 </div>
                             </div>
                         </div>
-                        <a href="../AESAccount/login.html" class="account"><i class="rt-user-2"></i></a>
+                        <a href="{% if request.user.is_authenticated%} {% url 'Dashboard.account' %} {% else %} {% url 'Authentication.account' %} {% endif %}" class="account"><i class="rt-user-2"></i></a>
                         <div class="cart action-item">
                             <div class="cart-nav">
                                 <div class="cart-icon icon"><a href="#0"><i aria-hidden="true"
@@ -444,117 +342,6 @@
         <!-- side-mobile-menu end -->
     </aside>
     <!--================= Banner Section Start Here =================-->
-    <div class="banner banner-2 banner-7 bg-image">
-        <div class="container">
-            <div class="banner-inner">
-                <div class="row align-items-center">
-                    <div class="col-xl-4 col-lg-4 col-md-12 col-sm-12 first-child">
-                        <div class="rts-heading">
-                            <div class="title-inner">
-                                <div class="sub-title">
-                                    <h2>2022</h2>
-                                </div>
-                                <h2 class="title">
-                                        <span class="watermark">
-                                            New Arrivals
-                                        </span>
-                                </h2>
-                            </div>
-                            <p class="description">Sale up to 30% off
-                            </p>
-                            <div class="section-btn">
-                                <div class="rts-btn">
-                                    <a href="#">Veiw Collections</a>
-                                </div>
-                                <div class="rts-video">
-                                    <a href="../../../../../external.html?link=https://www.youtube.com/watch?v=S05bHj0LBE4"
-                                       class="popup-videos">
-                                        <i class="far fa-play"></i>
-                                    </a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-xl-4 col-lg-4 col-md-12 col-sm-12">
-                        <div class="product-item2 element-item2">
-                            <a href="../AESProduct/product-details.html" class="product-image2 image-slider-variations">
-                                <img src="../../static/images/banner/banner-img.webp" alt="">
-                            </a>
-                        </div>
-                    </div>
-                    <div class="col-xl-4 col-lg-4 last-child">
-                        <div class="row">
-                            <div class="col-xl-2"></div>
-                            <div class="col-xl-10 col-lg-12 col-12">
-                                <div class="product-item element-item2">
-                                    <a href="../AESProduct/product-details.html"
-                                       class="product-image image-slider-variations">
-                                        <div class="hot">HOT</div>
-                                        <div class="swiper productSlide">
-                                            <div class="swiper-wrapper">
-                                                <div class="swiper-slide">
-                                                    <div class="image-vari1 image-vari"><img
-                                                            src="../../static/images/banner/foot-7-338x450.webp"
-                                                            alt="product-image">
-                                                    </div>
-                                                </div>
-                                                <div class="swiper-slide">
-                                                    <div class="image-vari2 image-vari"><img
-                                                            src="../../static/images/hand-picked/slider-img8_2.jpg"
-                                                            alt="product-image">
-                                                    </div>
-                                                </div>
-                                                <div class="swiper-slide">
-                                                    <div class="image-vari2 image-vari"><img
-                                                            src="../../static/images/hand-picked/slider-img8_3.jpg"
-                                                            alt="product-image">
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="slider-buttons">
-                                            <div class="button-prev slider-btn"><i class="rt-arrow-left-long"></i>
-                                            </div>
-                                            <div class="button-next slider-btn"><i class="rt-arrow-right-long"></i>
-                                            </div>
-                                        </div>
-                                    </a>
-                                    <div class="bottom-content">
-                                        <div class="star-rating">
-                                            <i class="fas fa-star"></i>
-                                            <i class="fas fa-star"></i>
-                                            <i class="fas fa-star"></i>
-                                            <i class="fas fa-star"></i>
-                                            <i class="fas fa-star"></i>
-                                        </div>
-                                        <a href="../AESProduct/product-details.html" class="product-name">Apex Men's
-                                            Shoe</a>
-                                        <div class="action-wrap">
-                                            <span class="price">$44.00 - $233.00</span>
-                                        </div>
-                                    </div>
-                                    <div class="quick-action-button">
-                                        <div class="cta-single cta-plus">
-                                            <a href="#"><i class="rt-plus"></i></a>
-                                        </div>
-                                        <div class="cta-single cta-quickview">
-                                            <button class="product-details-popup-btn"><i class="far fa-eye"></i>
-                                            </button>
-                                        </div>
-                                        <div class="cta-single cta-wishlist">
-                                            <a href="../AESProduct/wishlist.html"><i class="far fa-heart"></i></a>
-                                        </div>
-                                        <div class="cta-single cta-addtocart">
-                                            <a href="../AESOrder/cart.html"><i class="rt-basket-shopping"></i></a>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
+
     <!--================= Banner Section End Here =================-->
 </header>
