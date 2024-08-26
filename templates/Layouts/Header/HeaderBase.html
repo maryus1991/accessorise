@@ -19,19 +19,14 @@
                                 <li class="has-dropdown"><a class="menu-item" href="{% url 'product.list.product' %}">Shop </a>
                                 </li>
                                 <li class="has-dropdown"><a class="menu-item"
-                                                           href="../AESOrder/cart.html">Cart</a>
+                                                            href="../AESOrder/cart.html">Cart</a>
                                 </li>
-{#                                <li class="has-dropdown"><a class="menu-item"#}
-{#                                                           href="../AESAccount/account.html">My#}
-{#                                    Account</a>#}
-{#                                </li>#}
-                                <li class="has-dropdown"><a class="menu-item" href="#">Blog</a>
                                 </li>
-                                <li class="has-dropdown"><a class="menu-item" href="about.html">About</a>
+                                <li class="has-dropdown"><a class="menu-item" href="{% url 'about-us.home' %}">About</a>
                                 </li>
-                                <li class="has-dropdown"><a class="menu-item" href="faq.html">FAQ's</a>
+                                <li class="has-dropdown"><a class="menu-item" href="{% url 'faq.home' %}">FAQ's</a>
                                 </li>
-                                <li><a class="menu-item" href="contact.html">Contact</a></li>
+                                <li><a class="menu-item" href="{% url 'contact-us.home' %}">Contact</a></li>
                             </ul>
                         </nav>
                     </div>
@@ -65,7 +60,8 @@
                                 </div>
                             </div>
                         </div>
-                        <a href="{% if request.user.is_authenticated%} {% url 'Dashboard.account' %} {% else %} {% url 'Authentication.account' %} {% endif %}" class="account"><i class="rt-user-2"></i></a>
+                        <a href="{% if request.user.is_authenticated %} {% url 'Dashboard.account' %} {% else %} {% url 'Authentication.account' %} {% endif %}"
+                           class="account"><i class="rt-user-2"></i></a>
                         <div class="cart action-item">
                             <div class="cart-nav">
                                 <div class="cart-icon icon"><a href="#0"><i aria-hidden="true"

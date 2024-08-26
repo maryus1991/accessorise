@@ -25,7 +25,7 @@ SECRET_KEY = 'django-insecure-fmi5+=ms%whng1d8knth29ygm$up_)&iy24pc^7#$xz&(hpo-6
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['*']
+ALLOWED_HOSTS = []
 
 
 # Application definition
@@ -39,7 +39,6 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     # apps
     "AESAccount",
-    "AESBlog",
     "AESOrder",
     "AESProduct",
     "AESHome",

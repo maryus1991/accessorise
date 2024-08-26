@@ -63,7 +63,7 @@ def Authentication_register(request):
             email = UserRegisterForm_context.cleaned_data.get('email')
             user: User = User.objects.filter(Q(username=username) | Q(email=email), is_delete=False).first()
             if user is not None:
-                status = '?status= کاربر موجود می باشد یا نام کاربری موجود می باشد&code=1'
+                status = '?status=(نام کاربری باید با زبان انگلیسی و اعداد باشد) کاربر موجود می باشد یا نام کاربری موجود می باشد&code=1'
                 return redirect(reverse('Authentication.account') + status)
             elif user is None:
                 new_user = User.objects.create(username=username, email=email, email_validation_code=get_random_string(80))
