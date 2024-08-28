@@ -42,6 +42,9 @@ INSTALLED_APPS = [
     "AESOrder",
     "AESProduct",
     "AESHome",
+
+    # installed app
+    'django_render_partial'
 ]
 
 MIDDLEWARE = [

@@ -1,4 +1,5 @@
 {% load static %}
+{% load render_partial %}
 
 <!DOCTYPE html>
 <html lang="en" class="darkmode" data-theme="light" dir="rtl">
@@ -13,7 +14,7 @@
     {% include 'Layouts/Header/HeaderBase.html' %}
     {% block content %}
     {% endblock %}
-    {% include 'Layouts/Footer/FooterBase.html' %}
+    {% render_partial 'AESHome.views.Footer' %}
     {% include 'Layouts/Footer/References/FooterReferences.html' %}
 </body>
 </html>

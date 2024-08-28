@@ -25,3 +25,7 @@ def AboutUs(request):
 
 def FAQ(request):
     return render(request, 'AESHome/faq.html')
+
+
+def Footer(request):
+    return render(request, 'Layouts/Footer/FooterBase.html')
