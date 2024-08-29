@@ -3,7 +3,7 @@ from django.db import models
 
 class ProductManager(models.Manager):
     def get_queryset(self):
-        return super().get_queryset().filter(is_delete=False, is_active=True)
+        return super().get_queryset().filter(is_delete=False, is_active=True).all()
 
 
 class SiteSetting(models.Model):
@@ -26,7 +26,6 @@ class SiteSetting(models.Model):
     is_active = models.BooleanField(default=True, verbose_name='فعال')
     is_delete = models.BooleanField(default=False, verbose_name='حذف')
     active = ProductManager()
-
 
     def __str__(self):
         return self.title
@@ -74,7 +73,7 @@ class InstaFeed(models.Model):
     active = ProductManager()
 
     def __str__(self):
-        return self.id
+        return str(self.id)
 
     class Meta:
         verbose_name = 'لینک  پایین صفحه بخش اینستا'
@@ -88,6 +87,7 @@ class FooterFeatures(models.Model):
     is_active = models.BooleanField(default=True, verbose_name='فعال')
     is_delete = models.BooleanField(default=False, verbose_name='حذف')
     active = ProductManager()
+    objects = models.Manager()
 
     def __str__(self):
         return self.title + '  ' + self.SiteSetting.title
@@ -127,7 +127,7 @@ class About_us(models.Model):
     active = ProductManager()
 
     def __str__(self):
-        return self.id
+        return self.title
 
     class Meta:
         verbose_name = 'درباره ما'

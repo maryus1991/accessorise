@@ -11,7 +11,7 @@
     </title>
 </head>
 <body>
-    {% include 'Layouts/Header/HeaderBase.html' %}
+    {% render_partial 'AESHome.views.Header' %}
     {% block content %}
     {% endblock %}
     {% render_partial 'AESHome.views.Footer' %}

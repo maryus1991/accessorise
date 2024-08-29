@@ -1,55 +1,34 @@
 {% load static %}
 
+
 <div class="footer footer-2 footer-7">
     <div class="container">
         <div class="footer-features">
             <div class="row">
+
+                {% for feature in FooterFeatures %}
                 <div class="col-xl-3 col-md-6">
                     <div class="feature-item">
-                        <div class="icon"><img src="../../static/images/icons/box.svg" alt="icon"></div>
                         <div class="content">
-                            <h3 class="title">Free shipping</h3>
-                            <p>Free shipping on orders over $65.</p>
+                            <h3 class="title">{{feature.title}}</h3>
+                            <p>{{ feature.description}}</p>
                         </div>
                     </div>
                 </div>
-                <div class="col-xl-3 col-md-6">
-                    <div class="feature-item">
-                        <div class="icon"><img src="../../static/images/icons/delivery-van.svg" alt="icon"></div>
-                        <div class="content">
-                            <h3 class="title">Free Returns</h3>
-                            <p>30-days free return policy.</p>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-xl-3 col-md-6">
-                    <div class="feature-item">
-                        <div class="icon"><img src="../../static/images/icons/credit-card.svg" alt="icon"></div>
-                        <div class="content">
-                            <h3 class="title">Secured Payments</h3>
-                            <p>We accept all major credit cards</p>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-xl-3 col-md-6">
-                    <div class="feature-item last-child">
-                        <div class="icon"><img src="../../static/images/icons/24hours.svg" alt="icon"></div>
-                        <div class="content">
-                            <h3 class="title">Customer Service</h3>
-                            <p>Top notch customer setvice</p>
-                        </div>
-                    </div>
-                </div>
+
+                {% endfor %}
+
+
             </div>
         </div>
         <div class="footer-inner">
             <div class="row">
                 <div class="col-xl-3 col-md-6 col-sm-6">
                     <div class="footer-widget">
-                        <div class="footer-logo"><img src="../../static/images/logo9.svg" alt="footer-logo"></div>
-                        <p class="widget-text">“ This is genuinely the first theme i bought for
-                            which i did not had to write one line of code. I
-                            would recommand everybody to get it. “</p>
+                        <div class="footer-logo">
+                            <img src="{{ SiteSetting.logo.url }}" width="100px" height="34px" alt="footer-logo">
+                        </div>
+                        <p class="widget-text">{{ SiteSetting.short_desc }}</p>
                         <div class="quick-contact">
                             <div class="phone contact-item">
                                 <div class="icon">
@@ -64,7 +43,7 @@
                                 <div class="contact-info">
                                     <span class="title">Get Support</span>
                                     <a href="mailto:info@webmail.com"
-                                       class="email-address info info2">info@webmail.com</a>
+                                       class="email-address info info2">{{ SiteSetting.email }}</a>
                                 </div>
                             </div>
                             <div class="email contact-item">
@@ -80,7 +59,7 @@
                                     </svg>
                                 </div>
                                 <div class="contact-info"><span class="title">Call Us</span>
-                                    <a href="tel:75565236595" class="phone-number info info2">755. 652. 365. 95</a>
+                                    <a href="tel:75565236595" class="phone-number info info2">{{ SiteSetting.number }}</a>
                                 </div>
                             </div>
                         </div>
@@ -90,48 +69,72 @@
                     <div class="footer-widget">
                         <h3 class="footer-widget-title">Information</h3>
                         <ul class="widget-items cata-widget">
-                            <li class="widget-list-item"><a href="#0">Custom Service</a></li>
-                            <li class="widget-list-item"><a href="#0">FAQs</a></li>
-                            <li class="widget-list-item"><a href="#0">Ordering</a></li>
-                            <li class="widget-list-item"><a href="#0">Tracking</a></li>
-                            <li class="widget-list-item"><a href="#0">Contacts</a></li>
-                            <li class="widget-list-item"><a href="#0">Events</a></li>
+                            {% for link in Footer_Link_info %}
+                            <li class="widget-list-item"><a href="{{ link.url }}">{{ link.title }}</a></li>
+
+                            {% endfor %}
+
+
                         </ul>
                     </div>
                 </div>
                 <div class="col-xl-2 col-md-6 col-sm-6">
                     <h3 class="footer-widget-title">My Account</h3>
                     <ul class="footer-widget">
-                        <li class="widget-list-item"><a href="#0">Delivery Infomation</a></li>
-                        <li class="widget-list-item"><a href="#0">Privacy Policy</a></li>
-                        <li class="widget-list-item"><a href="#0">Discount</a></li>
-                        <li class="widget-list-item"><a href="#0">Custom Service</a></li>
-                        <li class="widget-list-item"><a href="#0">Terms & Condition</a></li>
+                            {% for link in Footer_Link_my_account %}
+                            <li class="widget-list-item"><a href="{{ link.url }}">{{ link.title }}</a></li>
+
+                            {% endfor %}
+
                     </ul>
                 </div>
                 <div class="col-xl-2 col-md-6 col-sm-6">
                     <h3 class="footer-widget-title">Social Network</h3>
                     <ul class="footer-widget social-links-footer">
-                        <li><a class="platform" href="../../../../../external.html?link=http://facebook.com/"
+                        {% if SiteSetting.whatsapp_link  is not None %}
+                        	
+                        <li><a class="platform" href="{{ SiteSetting.whatsapp_link }}"
                                target="_blank"><i
-                                class="fab fa-facebook"></i>
-                            Facebook</a></li>
-                        <li><a class="platform" href="../../../../../external.html?link=http://linkedin.com/"
+                                class="fab fa-whatsapp"></i>
+                            whatsapp</a></li>
+                        {% endif %} 
+                    
+                        {% if SiteSetting.insta_link  is not None %}
+                        	
+                        <li><a class="platform" href="{{ SiteSetting.insta_link }}"
                                target="_blank"><i
-                                class="fab fa-linkedin"></i>
-                            Linkedin</a></li>
-                        <li><a class="platform" href="../../../../../external.html?link=http://twitter.com/"
+                                class="fab fa-instagram"></i>
+                            Instagram</a></li>
+                        {% endif %} 
+                    
+                        {% if SiteSetting.twitter_link  is not None %}
+                        	
+                        <li><a class="platform" href="{{ SiteSetting.twitter_link }}"
                                target="_blank"><i
                                 class="fab fa-twitter"></i> Twitter</a>
                         </li>
-                        <li><a class="platform" href="../../../../../external.html?link=http://behance.com/"
+                        {% endif %} 
+                    
+                        {% if SiteSetting.linkin_link   is not None %}
+                        	
+                        <li><a class="platform" href="{{ SiteSetting.linkin_link  }}"
                                target="_blank"><i
-                                class="fab fa-behance"></i> Behance</a>
+                                class="fab fa-linkedin"></i> Linkedin</a>
                         </li>
-                        <li><a class="platform" href="../../../../../external.html?link=http://youtube.com/"
+                        {% endif %} 
+                    
+                    {% if SiteSetting.telegram_url  is not None %}
+                        <li><a class="platform" href="{{ SiteSetting.telegram_url }}"
                                target="_blank"><i
-                                class="fab fa-youtube"></i> YouTube</a>
+                                class="fab fa-telegram"></i> Telegram</a>
                         </li>
+                        {% endif %}                     
+                        {% if SiteSetting.facebook_url  is not None %}
+                        <li><a class="platform" href="{{ SiteSetting.facebook_url }}"
+                               target="_blank"><i
+                                class="fab fa-facebook"></i> Facebook</a>
+                        </li>
+                        {% endif %} 
                     </ul>
                 </div>
                 <div class="col-xl-3 col-md-6 col-sm-12">
@@ -139,29 +142,13 @@
                         <h3 class="footer-widget-title">Instagram Feeds</h3>
                         <div class="ig-feed">
                             <div class="row">
+                                {% for link in InstaFeed %}
                                 <div class="col-xl-4 col-md-4 col-sm-4 col-6"><a href="#0" class="feed-item"><img
-                                        src="../../static/images/footer/feed.jpg" alt="ig-feed"><i
+                                        src="{{ link.image.url }}" width="90px" height="90px" alt="ig-feed"><i
                                         class="fab fa-instagram"></i></a></div>
-                                <div class="col-xl-4 col-xl-4 col-md-4 col-sm-4 col-6"><a href="#0"
-                                                                                          class="feed-item"><img
-                                        src="../../static/images/footer/feed-1.jpg"
-                                        alt="ig-feed"><i class="fab fa-instagram"></i></a></div>
-                                <div class="col-xl-4 col-xl-4 col-md-4 col-sm-4 col-6"><a href="#0"
-                                                                                          class="feed-item"><img
-                                        src="../../static/images/footer/feed-2.jpg"
-                                        alt="ig-feed"><i class="fab fa-instagram"></i></a></div>
-                                <div class="col-xl-4 col-xl-4 col-md-4 col-sm-4 col-6"><a href="#0"
-                                                                                          class="feed-item"><img
-                                        src="../../static/images/footer/feed-3.jpg"
-                                        alt="ig-feed"><i class="fab fa-instagram"></i></a></div>
-                                <div class="col-xl-4 col-xl-4 col-md-4 col-sm-4 col-6"><a href="#0"
-                                                                                          class="feed-item"><img
-                                        src="../../static/images/footer/feed-4.jpg"
-                                        alt="ig-feed"><i class="fab fa-instagram"></i></a></div>
-                                <div class="col-xl-4 col-xl-4 col-md-4 col-sm-4 col-6"><a href="#0"
-                                                                                          class="feed-item"><img
-                                        src="../../static/images/footer/feed-5.jpg"
-                                        alt="ig-feed"><i class="fab fa-instagram"></i></a></div>
+                                {% endfor %}
+                                
+
                             </div>
                         </div>
                     </div>
@@ -172,11 +159,10 @@
     <div class="footer-bottom-area">
         <div class="container">
             <div class="footer-bottom-inner">
-                    <span class="copyright">Copyright 2022 <span class="site">©Weiboo</span>. All rights reserved.
-                        Powered by <a href="http://reacthemes.com/" class="brand"
-                                      target="_blank">Reacthemes.</a></span>
-                <div class="payment-methods"><img src="../../static/images/footer/payment2.svg" alt="payment-methods">
-                </div>
+                    <span class="copyright">
+                        {{ SiteSetting.copyright }}
+                    </span>
+
             </div>
         </div>
     </div>
