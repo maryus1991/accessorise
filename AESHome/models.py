@@ -118,6 +118,7 @@ class Contact_us(models.Model):
 
 
 class About_us(models.Model):
+    small_title = models.CharField(max_length=75, verbose_name='متن بالای عنوان')
     title = models.CharField(max_length=75, verbose_name='عنوان')
     description = models.TextField(verbose_name='توضیحات')
     description2 = models.TextField(verbose_name='قسمت دوم توضیحات')
@@ -138,6 +139,9 @@ class About_Team(models.Model):
     image = models.ImageField(upload_to='about/teams', verbose_name='عکس')
     full_name = models.CharField(max_length=200, verbose_name='نام کامل')
     response = models.CharField(max_length=200, verbose_name='مسئولیت')
+    linkin_url = models.URLField(verbose_name='لینک این', null=True, blank=True)
+    telegram_url = models.URLField(verbose_name='لینک تلگرام', null=True, blank=True)
+    costume_url = models.URLField(verbose_name='لینک های دیگر', null=True, blank=True)
     is_active = models.BooleanField(default=True, verbose_name='فعال')
     is_delete = models.BooleanField(default=False, verbose_name='حذف')
     about = models.ForeignKey(About_us, on_delete=models.CASCADE)
@@ -160,6 +164,7 @@ class About_Features(models.Model):
     is_active = models.BooleanField(default=True, verbose_name='فعال')
     is_delete = models.BooleanField(default=False, verbose_name='حذف')
     about = models.ForeignKey(About_us, on_delete=models.CASCADE, verbose_name='مربوط به توضیحات')
+    sub_title = models.CharField(max_length=75, verbose_name='بالای عنوان')
     active = ProductManager()
 
     def __str__(self):

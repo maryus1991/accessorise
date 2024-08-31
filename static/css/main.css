@@ -43,7 +43,7 @@
     32. video
 
 -----------------------------------------------------------------------------------*/
-@import url("../../../../../../../external.html?link=https://fonts.googleapis.com/css2?family=Jost:wght@300;400;500;600;700&amp;display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Jost:wght@300;400;500;600;700&amp;display=swap");
 * {
   margin: 0;
   padding: 0;
@@ -16215,6 +16215,10 @@ tr:first-child {
   font-size: 17px;
   font-weight: 300;
   z-index: 2;
+}
+
+.large_txt{
+  font-size: 50em !important;
 }
 .contact-area .container .right-side .section-button {
   text-align: center;
