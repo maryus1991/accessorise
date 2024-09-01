@@ -24,7 +24,6 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('AESHome.urls')),
     path('user/', include('AESAccount.urls')),
-    # path('blog/', include('AESBlog.urls')),
     path('product/', include('AESProduct.urls')),
-    # path('order/', include('AESOrder.urls')),
+    path('order/', include('AESOrder.urls')),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

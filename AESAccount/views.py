@@ -4,13 +4,70 @@ from django.db.models import Q
 from django.shortcuts import render, redirect, reverse
 from django.utils.crypto import get_random_string
 
-from .forms import UserLoginForm, UserRegisterForm
+from .forms import UserLoginForm, UserRegisterForm, EditAddrForm, UserEditProfile
 from .models import User
 
 
 @login_required
 def Dashboard(request):
-    return render(request, 'AESAccount/account.html')
+    status_red = None
+    user = User.objects.filter(id=request.user.id, is_active=True, is_delete=False,
+                               email__iexact=request.user.email,
+                               username__iexact=request.user.username
+                               ).first()
+
+    if request.method == 'POST':
+        form = EditAddrForm(request.POST)
+        if form.is_valid():
+            addr = form.cleaned_data['addr']
+            post = form.cleaned_data['post']
+            if user is not None:
+                if user.is_active or not user.is_delete or user.email_verified:
+                    if addr is not None and post is not None:
+                        user.addr = addr
+                        user.post = post
+                        user.save()
+                        status_red = 200
+                    else:
+                        form.add_error(addr, 'لطفا اطلاعات خواسته شده را به درستی وارد فرمایید')
+                        form.add_error(post, 'لطفا اطلاعات خواسته شده را به درستی وارد فرمایید')
+                else:
+                    status_red = 'لطفا حساب کاربری خود را فعال کنید'
+        else:
+            status_red = 'لطفا اطلاعات خواسته شده را به درستی وارد فرمایید'
+
+    context = {'user': user,
+               'EditAddrForm': EditAddrForm(initial={
+                   'addr': user.addr,
+                   'post': user.post
+               }),
+               'status_red': status_red,
+               'UserEditProfile': UserEditProfile(instance=user)
+               }
+    return render(request, 'AESAccount/account.html', context)
+
+
+@login_required
+def UserEditProfile_from(request):
+    if request.method == 'POST':
+        curren_user = User.objects.filter(id=request.user.id, is_active=True, is_delete=False,
+                                          email__iexact=request.user.email,
+                                          username__iexact=request.user.username
+                                          ).first()
+        form = UserEditProfile(request.POST, request.FILES, instance=curren_user)
+        if form.is_valid():
+            form.save(commit=True)
+            return redirect(reverse('Dashboard.account') + '?status=اطلاعات شما با موفقیت ویرایش شد&code=200')
+        else:
+            return redirect(reverse('Dashboard.account') + '?status=مشکلی پیش امده است&code=0')
+
+
+def Email_verification_send_mail(request):
+    pass
+
+
+def Email_verification_from_email(request):
+    pass
 
 
 def Authentication(request):
@@ -66,7 +123,8 @@ def Authentication_register(request):
                 status = '?status=(نام کاربری باید با زبان انگلیسی و اعداد باشد) کاربر موجود می باشد یا نام کاربری موجود می باشد&code=1'
                 return redirect(reverse('Authentication.account') + status)
             elif user is None:
-                new_user = User.objects.create(username=username, email=email, email_validation_code=get_random_string(80))
+                new_user = User.objects.create(username=username, email=email,
+                                               email_validation_code=get_random_string(80))
                 new_user.set_password(UserRegisterForm_context.cleaned_data.get('password'))
                 # todo : send email
                 new_user.save()

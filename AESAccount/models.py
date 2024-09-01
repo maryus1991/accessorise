@@ -9,6 +9,7 @@ class User(AbstractUser):
     email_verified = models.BooleanField(default=False, verbose_name='فعال بودن ایمیل')
     is_active = models.BooleanField(default=False, verbose_name='فعال بودن کاربر')
     is_delete = models.BooleanField(default=False, verbose_name='حذف کاربر')
+    post = models.CharField(null=True, blank=True, verbose_name='کد پستی', max_length=80)
     email_validation_code = models.CharField(null=True, blank=True, verbose_name='کد ایمیل', max_length=80)
 
     def __str__(self):
