@@ -29,6 +29,11 @@ class Product_Categories(models.Model):
     is_active = models.BooleanField(default=True, verbose_name='فعال')
     is_delete = models.BooleanField(default=False, verbose_name='حذف')
     products = models.ManyToManyField('Product', verbose_name='محصولات')
+    parent = models.ForeignKey('Product_Categories', on_delete=models.CASCADE, null=True, blank=True,
+                               verbose_name='زیر مجموعه',
+                               related_name='child'
+
+                               )
     active = ProductManager()
 
     def __str__(self):
@@ -109,6 +114,7 @@ class Products_Gallery(models.Model):
 
     def __str__(self):
         return f'{self.product.title} {self.id}'
+
     active = ProductManager()
 
     class Meta:

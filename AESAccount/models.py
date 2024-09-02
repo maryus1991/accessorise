@@ -1,8 +1,10 @@
 from django.contrib.auth.models import AbstractUser
+from django.contrib.auth.validators import ASCIIUsernameValidator
 from django.db import models
 
 
 class User(AbstractUser):
+    username_validator = ASCIIUsernameValidator()
     avatar = models.ImageField(upload_to='user/avatar', null=True, blank=True, verbose_name='پروفایل')
     addr = models.TextField(null=True, blank=True, verbose_name='ادرس')
     phone = models.IntegerField(null=True, blank=True, verbose_name='شماره موبایل')

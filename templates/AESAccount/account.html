@@ -1,6 +1,6 @@
 {% extends 'Layouts/Base.html' %}
 {% load jalali_tags %}
-{% load %}
+
 {% block title %}
     حساب کاربری
 {% endblock %}
@@ -81,6 +81,19 @@
                                 </p>
                             </div>
                         {% endif %}
+                    {% if UserEditProfile.has_error %}
+                    	
+                        {% for field in UserEditProfile %}
+                            {% for error in field.errors %}
+                                <div class="alert alert-danger">
+                                    <p>
+                                        {{ error }}
+                                    </p>
+                                </div>
+                            {% endfor %}
+                        {% endfor %}
+                    {% endif %} 
+
                         <div class="activity-box">
                             <div class="activity-item">
 
@@ -196,7 +209,8 @@
                         </div>
                     </div>
                     <div class="account-main accountdtls filterd-items hide">
-                        <form action="{% url 'UserEditProfile_from.account' %}" method="post" enctype="multipart/form-data">
+                        <form action="{% url 'UserEditProfile_from.account' %}" method="post"
+                              enctype="multipart/form-data">
                             {% csrf_token %}
                             {{ UserEditProfile.username }}
                             <br>
@@ -209,7 +223,7 @@
                             {{ UserEditProfile.avatar }}
                             <br>
                             {{ UserEditProfile.phone }}
-                            <br>
+
                             <button class="btn btn-light btn-close-white btn-xs" type="submit">
                                 ویرایش
                             </button>

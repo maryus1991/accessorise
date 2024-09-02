@@ -19,14 +19,19 @@ class EditAddrForm(forms.Form):
 
 
 class UserEditProfile(forms.ModelForm):
+    alphanumeric = RegexValidator(r'^[0-9a-zA-Z]*$', 'نام کاربری باید با زبان انگلیسی و اعداد باشد')
+    username = forms.CharField(validators=[alphanumeric], max_length=20,
+                               widget=forms.TextInput(
+                                   attrs={'class': 'form-control',
+                                          'id': 'username',
+                                          'placeholder': 'لطفا را نام کاربری خود را وارد کنید ...',
+                                          'pattern': '^[0-9a-zA-Z]*$'
+                                          }))
+
     class Meta:
         model = User
         fields = ['avatar', 'phone', 'username', 'first_name', 'last_name', 'email']
         widgets = {
-            'username': forms.TextInput(attrs={
-                'class': "form-control",
-                'placeholder': 'نام کاربری (حتما باید انگلیسی باشد)',
-            }),
             'first_name': forms.TextInput(attrs={
                 'class': 'form-control',
                 'placeholder': 'نام',
@@ -55,6 +60,7 @@ class UserEditProfile(forms.ModelForm):
     def clean_avatar(self):
         avatar = self.cleaned_data['avatar']
         avatar.name = str(avatar.name).replace(' ', 'xx')
+
         return avatar
 
 
@@ -85,7 +91,8 @@ class UserRegisterForm(forms.ModelForm):
                                widget=forms.TextInput(
                                    attrs={'class': 'form-control',
                                           'id': 'username',
-                                          'placeholder': 'لطفا را نام کاربری خود را وارد کنید ...'
+                                          'placeholder': 'لطفا را نام کاربری خود را وارد کنید ...',
+                                          'pattern': '^[0-9a-zA-Z]*$'
                                           }))
 
     class Meta:

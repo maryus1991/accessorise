@@ -18,4 +18,4 @@ def lists_maker(item: list, slicer_count=2):
     return return_list
 
 
-print(lists_maker([1, 2, 3, 4, 5, 6]))
+

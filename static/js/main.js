@@ -1411,3 +1411,8 @@ function EditFormForAddr() {
 
     }
 }
+
+function selectio_format(){
+    let value_x = document.getElementById('selectio_format').value
+    console.log(value_x)
+}

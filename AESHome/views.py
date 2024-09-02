@@ -2,9 +2,9 @@ from django.shortcuts import render
 from django.urls import reverse
 from django.views.generic import CreateView
 
+from AESUtils.lists_maker import lists_maker
 from .forms import ContactUsForm
 from .models import SiteSetting, Footer_Link_my_account, Footer_Link_info, InstaFeed, FooterFeatures, FAQS, About_us
-from AESUtils.lists_maker import lists_maker
 
 
 def index(request):
@@ -51,7 +51,16 @@ def Footer(request):
 
 
 def Header(request):
-    context = {'SiteSetting': SiteSetting.active.first(),
+    try:
+        OrderListCookie: str = request.COOKIES.get(f'OL_{request.user.username}').count('.')
+        WishListCookie: str = request.COOKIES.get(f'WL_{request.user.username}').count('.')
 
-               }
+    except:
+        OrderListCookie = 0
+        WishListCookie = 0
+    context = {
+        'SiteSetting': SiteSetting.active.first(),
+        'OrderListCookie': OrderListCookie,
+        'WishListCookie': WishListCookie
+    }
     return render(request, 'Layouts/Header/HeaderBase.html', context)
