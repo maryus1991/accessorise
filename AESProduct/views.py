@@ -1,7 +1,7 @@
 from django.db.models.aggregates import Count
 from django.views.generic import ListView, DetailView
 from django.db.models import Q
-from .models import Product, Product_Brands, Product_Categories
+from .models import Product, Product_Brands, Product_Categories, Product_comment
 
 
 # Create your views here.
@@ -45,9 +45,55 @@ class Product_Detail(DetailView):
     template_name = 'AESProduct/variable-products.html'
     context_object_name = 'product'
 
+    def post(self, request, *args, **kwargs):
+        self.object = self.get_object()
+        context = self.get_context_data(**kwargs)
+        cid = request.POST.get('cid')
+        try:
+            if cid !=  '':
+                cid = Product_comment.objects.filter(id=cid).first()
+                cid.is_delete = True
+                cid.save()
+                return self.render_to_response(context)
+        except:
+            cid = ''
+        Message = request.POST.get('Message')
+        email = request.POST.get('email')
+        name = request.POST.get('name')
+        pid = request.POST.get('pid')
+        star_rate = request.POST.get('star_rate')
+        comment_parent = request.POST.get('comment_parent')
+        product = self.get_object()
+
+        if star_rate == '' or Message == '' or name == '' or pid == '' or email == '' or product.id != int(pid) :
+            context['err'] = 'لطفا اطلاعات را کامل وارد کنید و سپس نظرات را ارسال کنید'
+
+            return self.render_to_response(context)
+
+        try:
+            comment_parent = Product_comment.active.filter(id=comment_parent).first()
+        except:
+            comment_parent = None
+
+        Product_comment.active.create(
+            full_name=name,
+            email=email,
+            comment=Message,
+            rate=star_rate,
+            product=product,
+            parent =  comment_parent,
+        ).save()
+        return  self.render_to_response(context)
+
     def get_context_data(self, **kwargs):
         context = super().get_context_data()
         product = context['product']
+        context['comments'] = Product_comment.active.filter(
+            parent=None, product=product
+            ).all()
+        context['comments_count'] = Product_comment.active.filter(
+            product=product
+            ).count()
         cid = product.categories.last()
         bid = product.brands.last()
         tid = product.tags.last()

@@ -134,10 +134,16 @@ class Product_comment(models.Model):
     email = models.EmailField(max_length=150, verbose_name='ایمیل')
     comment = models.TextField(verbose_name='کامنت')
     rate = models.IntegerField(validators=[MinValueValidator(0), MaxValueValidator(5)], verbose_name='ریت')
-    product = models.ForeignKey(Product, on_delete=models.CASCADE, verbose_name='محصول')
+    product = models.ForeignKey(Product, on_delete=models.CASCADE, verbose_name='محصول'
+                                ,related_name='comments'
+                                )
     is_active = models.BooleanField(default=True, verbose_name='فعال')
     is_delete = models.BooleanField(default=False, verbose_name='حذف')
+    parent = models.ForeignKey('self', on_delete=models.CASCADE, null=True, blank=True,
+                               related_name='child',
+                               )
     active = ProductManager()
+    objects = models.Manager()
 
     def __str__(self):
         return f'{self.product.title} {self.full_name}'

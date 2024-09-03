@@ -1430,3 +1430,14 @@ function AddToCart(pid) {
     )
 
 }
+
+function comment_reply(cpid) {
+    $('#comment_parent').val(cpid)
+    document.getElementById('comment_parent').value = cpid;
+    document.getElementById('validationDefault01').scrollIntoView({ behavior: "smooth" })
+}
+function star_rate(num) {
+    $('#star_rate').val(num)
+    document.getElementById('star_rate').value = num;
+
+}

@@ -12,3 +12,7 @@ def tdc(value: int):
 def discount(price: int, discount: int):
     discount_price = price * (discount / 100)
     return '{:,}'.format(price - discount_price)
+
+@register.filter
+def RFS(num: int):
+    return range(num)
