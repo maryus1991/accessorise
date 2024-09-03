@@ -12,7 +12,8 @@ class Product_Tags(models.Model):
     slug = models.CharField(max_length=100, verbose_name='نام در url (باید انگلیسی باشد)')
     is_active = models.BooleanField(default=True, verbose_name='فعال')
     is_delete = models.BooleanField(default=False, verbose_name='حذف')
-    products = models.ManyToManyField('Product', verbose_name='محصولات')
+    products = models.ManyToManyField('Product', verbose_name='محصولات',
+                                      related_name='tags')
     active = ProductManager()
 
     def __str__(self):
@@ -28,7 +29,9 @@ class Product_Categories(models.Model):
     slug = models.CharField(max_length=100, verbose_name='نام در url (باید انگلیسی باشد)')
     is_active = models.BooleanField(default=True, verbose_name='فعال')
     is_delete = models.BooleanField(default=False, verbose_name='حذف')
-    products = models.ManyToManyField('Product', verbose_name='محصولات')
+    products = models.ManyToManyField('Product', verbose_name='محصولات'
+                                      ,related_name='categories'
+                                      )
     parent = models.ForeignKey('Product_Categories', on_delete=models.CASCADE, null=True, blank=True,
                                verbose_name='زیر مجموعه',
                                related_name='child'
@@ -49,7 +52,9 @@ class Product_Brands(models.Model):
     slug = models.CharField(max_length=100, verbose_name='نام در url (باید انگلیسی باشد)')
     is_active = models.BooleanField(default=True, verbose_name='فعال')
     is_delete = models.BooleanField(default=False, verbose_name='حذف')
-    products = models.ManyToManyField('Product', verbose_name='محصولات')
+    products = models.ManyToManyField('Product', verbose_name='محصولات',
+                                      related_name='brands'
+                                      )
 
     def __str__(self):
         return self.title
@@ -79,7 +84,7 @@ class Product(models.Model):
     off = models.FloatField(null=True, blank=True, verbose_name='تخفیف',
                             validators=[MinValueValidator(0), MaxValueValidator(100)])
     new = models.BooleanField(default=False, verbose_name='جدید')
-
+    has_size = models.BooleanField(default=False, verbose_name="داشتن سایز برای محصول")
     active = ProductManager()
 
     def __str__(self):
@@ -107,7 +112,9 @@ class Products_Sizes(models.Model):
 
 class Products_Gallery(models.Model):
     image = models.ImageField(upload_to='products/gallery', verbose_name='عکس')
-    product = models.ForeignKey(Product, on_delete=models.CASCADE, verbose_name='محصول')
+    product = models.ForeignKey(Product, on_delete=models.CASCADE, verbose_name='محصول',
+                                related_name='gallery'
+                                )
     is_active = models.BooleanField(default=True, verbose_name='فعال')
     is_delete = models.BooleanField(default=False, verbose_name='حذف')
     active = ProductManager()

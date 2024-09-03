@@ -1412,7 +1412,21 @@ function EditFormForAddr() {
     }
 }
 
-function selectio_format(){
-    let value_x = document.getElementById('selectio_format').value
-    console.log(value_x)
+// function selectio_format(){
+//     let value_x = document.getElementById('selectio_format').value
+//     console.log(value_x)
+// }
+
+function sizerField(size) {
+    $('#sizer').text(size)
+
+}
+
+function AddToCart(pid) {
+    let count = $('#counter').val()
+    let sizer = $('#sizer').text().replace(/\s/g, '')
+    $.ajax('/order/set-order-cookie-size/'+pid+'/'+count+'/'+sizer+'/').then(
+                   location.reload()
+    )
+
 }

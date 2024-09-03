@@ -124,6 +124,7 @@
                     </div>
                     <div class="products-area products-area3">
                         <div class="row justify-content-center">
+                        {% if products %}
                             {% for product in products %}
                                 <div class="col-xl-4 col-md-4 col-sm-6">
                                     <div class="product-item product-item2 element-item3 sidebar-left">
@@ -137,8 +138,11 @@
                                                class="product-name">{{ product.title|truncatechars:35 }}</a>
                                             <div class="action-wrap">
                                                 <span class="product-price">{{ product.price|tdc }}</span>
+                                                {% if product.stock > 0 %}
                                                 <a href="{% url 'Order.Set.Cookie' pid=product.id count=1 %}" class="addto-cart"><i
                                                         class="fal fa-shopping-cart"></i> افزودن به سبد خرید</a>
+                                                {% endif %} 
+                                                
                                             </div>
                                         </div>
                                         <div class="product-actions">
@@ -151,6 +155,13 @@
                                     </div>
                                 </div>
                             {% endfor %}
+                            {% else %}
+                            <div class="alert alert-warning">
+                            <p>
+                                محصولی یافت نشد
+                            </p>
+                            </div>
+                        {% endif %} 
 
                         </div>
                     </div>

@@ -1,6 +1,4 @@
-from django.shortcuts import render
-
-from AESUtils.set_cookies import request_set_cookies_and_render
+from django.shortcuts import render, redirect
 
 
 # Create your views here.
@@ -8,11 +6,14 @@ def Wishlist(request):
     return render(request, 'AESOrder/wishlist.html')
 
 
-def Set_Order_Cookie(request, pid, count=1):
-    return request_set_cookies_and_render(request, f'OL_{request.user.username}',
-                                          f'{pid}.{count};')
+def Set_Order_Cookie(request, pid, count=1, size=None):
+    previous_url = request.META.get('HTTP_REFERER')
+    response = redirect(previous_url)
+    print(pid,count,size)
+    return response
 
 
-def Set_WishList_Cookie(request, pid, count=1):
-    return request_set_cookies_and_render(request, f'WL_{request.user.username}',
-                                          f'{pid}.{count};')
+def Set_WishList_Cookie(request, pid, count):
+    previous_url = request.META.get('HTTP_REFERER')
+    response = redirect(previous_url)
+    return response
