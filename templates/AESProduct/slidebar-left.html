@@ -137,7 +137,14 @@
                                             <a href="{% url 'product.details.product' pk=product.id %}"
                                                class="product-name">{{ product.title|truncatechars:35 }}</a>
                                             <div class="action-wrap">
+                                            
+                                                {% if product.off %}
+                                                <span class="product-price">{{ product.price|discount:product.off }}</span>
+                                                	
+                                                    {% else %}
                                                 <span class="product-price">{{ product.price|tdc }}</span>
+                                                    
+                                                {% endif %} 
                                                 {% if product.stock > 0 %}
                                                 <a href="{% url 'Order.Set.Cookie' pid=product.id count=1 %}" class="addto-cart"><i
                                                         class="fal fa-shopping-cart"></i> افزودن به سبد خرید</a>

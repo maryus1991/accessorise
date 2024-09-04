@@ -1424,7 +1424,12 @@ function sizerField(size) {
 
 function AddToCart(pid) {
     let count = $('#counter').val()
+
     let sizer = $('#sizer').text().replace(/\s/g, '')
+    if (sizer === ''){
+        sizer = 0
+    }
+    console.log(sizer)
     $.ajax('/order/set-order-cookie-size/'+pid+'/'+count+'/'+sizer+'/').then(
                    location.reload()
     )

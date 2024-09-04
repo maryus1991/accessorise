@@ -1,11 +1,12 @@
 {% extends 'Layouts/Base.html' %}
+{% load Ptags %}
 
 {% block title %}
-	محصولات مورد علاقه
+    محصولات مورد علاقه
 {% endblock %}
 
 {% block content %}
-	
+
     <!--================= Header Section Start Here =================-->
 
     <!--================= Header Section End Here =================-->
@@ -15,77 +16,71 @@
         <div class="container">
             <table class="table table-bordered table-hover">
                 <tbody>
-                    <tr class="heading">
-                        <th></th>
-                        <th>Product Name</th>
-                        <th>Unit Price</th>
-                        <th>Stock Status</th>
-                        <th></th>
-                    </tr>
+                <tr class="heading">
+                    <th></th>
+                    <th>نام محصول</th>
+                    <th>قیمت</th>
+                    <th>موجودی</th>
+                    <th></th>
+                </tr>
                 </tbody>
                 <tbody>
+                {% for detail in wishlist_detail %}
                     <tr>
-                        <td class="first-td"><button class="remove-btn"><i class="fal fa-times"></i></button></td>
-                        <td class="first-child"><a href="../templates/AESProduct/product-details.html"><img
-                                src="../../static/images/products/inner/cart/1.jpg" alt=""></a>
-                            <a href="../templates/AESProduct/product-details.html" class="pretitle">Travel Large Trifold Wallet</a>
+                        <td class="first-td">
+                            <button  class="remove-btn">
+                                <a href="{% url 'User.remove.wishlist.details' detail.id %}">
+                                <i class="fal fa-times"></i></a></button>
                         </td>
+                        <td class="first-child">
+                            <a href="{% url 'product.details.product' pk=detail.product.id %}">
+                                <img src="{{ detail.product.image.url }}" width="120px" height="136px" alt="">
+                            </a>
+                            <a href="{% url 'product.details.product' pk=detail.product.id %}" class="pretitle">
+                                {{ detail.product.title|truncatechars:55 }}
+                            </a>
                         </td>
-                        <td><span class="product-price">$99.00</span></td>
-                        <td class="stock">In Stock</td>
-                        </td>
-                        <td class="last-td"><button class="cart-btn"><i class="rt-basket-shopping"></i> Add To
-                                Cart</button></td>
+                        {% if detail.product.stock >= 1 %}
+                            <td>
+                                {% if detail.product.off %}
+                                    <span class="product-price">{{ detail.product.price|discount:detail.product.off }}</span>
+                                {% else %}
+                                    <span class="product-price">{{ detail.product.price|tdc }}</span>
+                                {% endif %}
+                            </td>
+                            <td class="stock">موجد</td>
+                            <td class="last-td">
+                                <button class="cart-btn">
+                                    <a href="{% url 'Order.Set.Cookie' detail.product.id 1 %}">
+                                        <i class="rt-basket-shopping"></i>
+                                        اضافه کردن به سبد خرید
+                                    </a>
+                                </button>
+                            </td>
+                        {% else %}
+                            <td>
+                                {% if detail.product.off %}
+                                    <span class="product-price">{{ detail.product.price|discount:detail.product.off }}</span>
+                                {% else %}
+                                    <span class="product-price">{{ detail.product.price|tdc }}</span>
+                                {% endif %}
+                            </td>
+                            <td class="stock1">ناموجود</td>
+                            <td class="last-td">
+                                <button class="cart-btn1">
+                                    <i class="rt-basket-shopping"></i>
+                                    اضافه کردن به سبد خرید
+                                </button>
+                            </td>
+                        {% endif %}
+
                     </tr>
-                    <tr>
-                        <td class="first-td"><button class="remove-btn"><i class="fal fa-times"></i></button></td>
-                        <td class="first-child"><a href="../templates/AESProduct/product-details.html"><img
-                                src="../../static/images/products/inner/cart/2.jpg" alt=""></a>
-                            <a href="../templates/AESProduct/product-details.html" class="pretitle">Travel Large Trifold Wallet</a>
-                        </td>
-                        <td><span class="product-price">$99.00</span></td>
-                        <td class="stock">In Stock</td>
-                        <td class="last-td"><button class="cart-btn"><i class="rt-basket-shopping"></i> Add To
-                                Cart</button></td>
-                    </tr>
-                    <tr>
-                        <td class="first-td"><button class="remove-btn"><i class="fal fa-times"></i></button></td>
-                        <td class="first-child"><a href="../templates/AESProduct/product-details.html"><img
-                                src="../../static/images/products/inner/cart/3.jpg" alt=""></a>
-                            <a href="../templates/AESProduct/product-details.html" class="pretitle">Travel Large Trifold Wallet</a>
-                        </td>
-                        <td><span class="product-price">$99.00</span></td>
-                        <td class="stock1">Out Of Stock</td>
-                        <td class="last-td"><button class="cart-btn1"><i class="rt-basket-shopping"></i> Add to
-                                Cart</button></td>
-                    </tr>
-                    <tr>
-                        <td class="first-td"><button class="remove-btn"><i class="fal fa-times"></i></button></td>
-                        <td class="first-child"><a href="../templates/AESProduct/product-details.html"><img
-                                src="../../static/images/products/inner/cart/4.jpg" alt=""></a>
-                            <a href="../templates/AESProduct/product-details.html" class="pretitle">Travel Large Trifold Wallet</a>
-                        </td>
-                        <td><span class="product-price">$99.00</span></td>
-                        <td class="stock">In Stock</td>
-                        <td class="last-td"><button class="cart-btn"><i class="rt-basket-shopping"></i> Add To
-                                Cart</button></td>
-                    </tr>
+                {% endfor %}
+
+
                 </tbody>
             </table>
-            <div class="wishlist-social">
-                <div class="text">
-                    <a href="#">Share Now</a>
-                </div>
-                <div class="icon">
-                    <ul>
-                        <li><a href="#"><i class="fab fa-facebook-f"></i></a></li>
-                        <li><a href="#"><i class="fab fa-linkedin-in"></i></a></li>
-                        <li><a href="#"><i class="fab fa-twitter"></i></a></li>
-                        <li><a href="#"><i class="fab fa-behance"></i></a></li>
-                        <li><a href="#"><i class="fab fa-youtube"></i></a></li>
-                    </ul>
-                </div>
-            </div>
+           
         </div>
     </div>
 

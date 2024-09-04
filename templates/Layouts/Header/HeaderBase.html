@@ -64,10 +64,10 @@
                            class="account"><i class="rt-user-2"></i></a>
                         <div class="cart action-item">
                             <div class="cart-nav">
-                                <div class="cart-icon icon"><a href="#0">
+                                <div class="cart-icon icon"><a href="{% url 'User.basket.details' %}">
                                     <i aria-hidden="true" class="fas fa-shopping-basket"></i></a>
                                     <span class="wishlist-dot icon-dot">
-                                        {{ OrderListCookie }}
+                                        {{ OrderList.count }}
                                     </span>
                                 </div>
                             </div>
@@ -75,10 +75,10 @@
 
                         <div class="cart action-item">
                             <div class="cart-nav">
-                                <div class="cart-icon icon"><a href="#0">
+                                <div class="cart-icon icon"><a href="{% url 'User.wishlist.details' %}">
                                     <i aria-hidden="true" class="fas fa-heart"></i></a>
                                     <span class="wishlist-dot icon-dot">
-                                        {{ WishListCookie }}
+                                        {{ WishList.count }}
                                     </span>
                                 </div>
                             </div>
@@ -354,7 +354,7 @@
     <!--================= Banner Section Start Here =================-->
 
     <!--================= Banner Section End Here =================-->
-</header>
+{#</header>#}
 {#    <header id="rtsHeader">#}
 {#        <div class="header-topbar header-topbar1">#}
 {#            <div class="container">#}
