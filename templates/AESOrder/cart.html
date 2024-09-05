@@ -17,6 +17,11 @@
                             <thead class="thead-dark">
                             </thead>
                             <tbody>
+                            {% if not order_detail %}
+                                <div class="alert alert-info">
+                                    هنوز محصولی را اضافه نکردید
+                                </div>
+                            {% endif %}
                             {% for detail in order_detail %}
                                 <tr>
                                     <td>
@@ -82,6 +87,25 @@
                                             <button class="remove-btn btn btn-outline-danger">حدف</button>
                                         </form>
                                     </td>
+                                    {% if detail.product.has_size %}
+                                        {% if detail.size %}
+                                            <td class="last-td">
+                                                <a href="{% url 'product.details.product' pk=detail.product.id %}">
+                                                    <button class="remove-btn btn btn-info">
+                                                        سایز : {{ detail.size }}
+                                                    </button>
+                                                </a>
+                                            </td>
+                                        {% else %}
+                                            <td class="last-td">
+                                                <a href="{% url 'product.details.product' pk=detail.product.id %}">
+                                                    <button class="remove-btn btn btn-warning">لطقا یک سایز انتخاب
+                                                        کنید
+                                                    </button>
+                                                </a>
+                                            </td>
+                                        {% endif %}
+                                    {% endif %}
                                 </tr>
 
                             {% endfor %}
@@ -96,32 +120,34 @@
                         <div class="checkout-box-inner">
                             <div class="subtotal-area">
                                 <span class="title">قیمت نهایی</span>
-                                <span class="subtotal-price">{{ order.get_final_price|tdc }}T</span>
+                                <span class="subtotal-price">T {{ order.get_final_price|tdc }}  </span>
                             </div>
                             <div class="shipping-check">
-{#                                <span class="title">Shipping</span>#}
+                                {#                                <span class="title">Shipping</span>#}
                                 <div class="check-options">
-{#                                    <form>#}
-{#                                        <div class="form-group">#}
-{#                                            <input type="checkbox" id="fltrt">#}
-{#                                            <label class="check-title" for="fltrt">Flat rate</label>#}
-{#                                        </div>#}
-{#                                        <div class="form-group">#}
-{#                                            <input type="checkbox" id="frsh">#}
-{#                                            <label class="check-title" for="frsh">Free shipping</label>#}
-{#                                        </div>#}
-{#                                    </form>#}
-                                    {% if order.send_price is not None %}
-                                    	
+                                    {#                                    <form>#}
+                                    {#                                        <div class="form-group">#}
+                                    {#                                            <input type="checkbox" id="fltrt">#}
+                                    {#                                            <label class="check-title" for="fltrt">Flat rate</label>#}
+                                    {#                                        </div>#}
+                                    {#                                        <div class="form-group">#}
+                                    {#                                            <input type="checkbox" id="frsh">#}
+                                    {#                                            <label class="check-title" for="frsh">Free shipping</label>#}
+                                    {#                                        </div>#}
+                                    {#                                    </form>#}
+                                    {% if order.send_price > 0 %}
+
                                         <div class="alert alert-info">
-                                            {{ order.send_price }} هزینه ارسال : 
+                                            <p>
+                                                هزینه ارسال : {{ order.send_price|tdc }} تومان
+                                            </p>
                                         </div>
-                                        
-                                        {% else %}
-                                    <div class="alert alert-success">
-                                        بارسال رایگان
-                                    </div>
-                                    {% endif %} 
+
+                                    {% else %}
+                                        <div class="alert alert-success">
+                                            بارسال رایگان
+                                        </div>
+                                    {% endif %}
                                 </div>
                             </div>
                             <div class="shipping-location">
@@ -136,24 +162,26 @@
                             </div>
                             <div class="total-area">
                                 <span class="title">قیمت نهایی</span>
-                                <span class="total-price">{{ order.total_price|tdc }}T</span>
+                                <span class="total-price">T {{ order.total_price|Sum:order.send_price }}</span>
                             </div>
 
                         </div>
-{#                        <div class="coupon-apply">#}
-{#                            <form method="post" action="{% url 'User.coupon.basket.details' %}">#}
-{#                                {% csrf_token %}#}
-{#                                <span class="coupon-text">کد تخفیف:</span>#}
-{#                                <div class="apply-input">#}
-{#                                    <input type="text" name="coupon_code" placeholder="کد را وارد کنید">#}
-{#                                    <button type="submit" class="apply-btn">فعال سازی</button>#}
-{#                                </div>#}
-{#                            </form>#}
-{#                        </div>#}
+                        {#                        <div class="coupon-apply">#}
+                        {#                            <form method="post" action="{% url 'User.coupon.basket.details' %}">#}
+                        {#                                {% csrf_token %}#}
+                        {#                                <span class="coupon-text">کد تخفیف:</span>#}
+                        {#                                <div class="apply-input">#}
+                        {#                                    <input type="text" name="coupon_code" placeholder="کد را وارد کنید">#}
+                        {#                                    <button type="submit" class="apply-btn">فعال سازی</button>#}
+                        {#                                </div>#}
+                        {#                            </form>#}
+                        {#                        </div>#}
+                    
                         <a href="{% url 'User.complete.order' %}" class="procced-btn">
                             نهایی کردن
                         </a>
-                        <a href="{% url 'product.list.product' %}" class="continue-shopping"><i class="fal fa-long-arrow-left"></i>
+                        <a href="{% url 'product.list.product' %}" class="continue-shopping"><i
+                                class="fal fa-long-arrow-left"></i>
                             ادامه خرید
                         </a>
                     </div>

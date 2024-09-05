@@ -16,6 +16,8 @@
         <div class="container">
             <table class="table table-bordered table-hover">
                 <tbody>
+                {% if wishlist_detail %}
+                	
                 <tr class="heading">
                     <th></th>
                     <th>نام محصول</th>
@@ -23,14 +25,21 @@
                     <th>موجودی</th>
                     <th></th>
                 </tr>
+                {% endif %} 
+                
                 </tbody>
                 <tbody>
+                {% if not wishlist_detail %}
+                    <div class="alert alert-info">
+                        هنوز محصولی را اضافه نکردید
+                    </div>
+                {% endif %}
                 {% for detail in wishlist_detail %}
                     <tr>
                         <td class="first-td">
-                            <button  class="remove-btn">
+                            <button class="remove-btn">
                                 <a href="{% url 'User.remove.wishlist.details' detail.id %}">
-                                <i class="fal fa-times"></i></a></button>
+                                    <i class="fal fa-times"></i></a></button>
                         </td>
                         <td class="first-child">
                             <a href="{% url 'product.details.product' pk=detail.product.id %}">
@@ -80,7 +89,7 @@
 
                 </tbody>
             </table>
-           
+
         </div>
     </div>
 

@@ -1,9 +1,11 @@
 from django.contrib.auth import login, logout
 from django.contrib.auth.decorators import login_required
 from django.db.models import Q
+from django.http import Http404
 from django.shortcuts import render, redirect, reverse
 from django.utils.crypto import get_random_string
 
+from AESOrder.models import OrderDetail, Order
 from .forms import UserLoginForm, UserRegisterForm, EditAddrForm, UserEditProfile
 from .models import User
 
@@ -15,7 +17,7 @@ def Dashboard(request):
                                email__iexact=request.user.email,
                                username__iexact=request.user.username
                                ).first()
-
+    order: Order = Order.active.get_or_create(user=user)[0]
     if request.method == 'POST':
         form = EditAddrForm(request.POST)
         if form.is_valid():
@@ -42,7 +44,9 @@ def Dashboard(request):
                    'post': user.post
                }),
                'status_red': status_red,
-               'UserEditProfile': UserEditProfile(instance=user)
+               'UserEditProfile': UserEditProfile(instance=user),
+               'order_c': order,
+               'order_last': Order.objects.filter(is_active=True, is_paid=True, user=request.user).order_by('-id').all(),
                }
     return render(request, 'AESAccount/account.html', context)
 
@@ -136,3 +140,17 @@ def Authentication_register(request):
     else:
         status = '?status=مشکلی پیش امده است&code=0'
     return redirect(reverse('Authentication.account') + status)
+
+
+@login_required
+def UserDetailOrder_show(request, oid):
+    order: Order = Order.objects.prefetch_related('details').filter(user=request.user ,id=int(oid), is_active=True).first()
+    if order is None:
+        return Http404()
+    # print(order.details.all())
+    context = {
+        # 'orders': OrderDetail.objects.filter(order__id=int(oid), order__user=request.user, is_active=True, order__is_active=True).all(),
+        'orders': order.details.all(),
+    }
+    print(context)
+    return render(request, 'AESAccount/order-details.html', context)

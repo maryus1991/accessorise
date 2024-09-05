@@ -98,6 +98,7 @@ class Product(models.Model):
 class Products_Sizes(models.Model):
     size = models.CharField(max_length=100, verbose_name='سایز')
     product = models.ForeignKey(Product, on_delete=models.CASCADE, verbose_name='محصول')
+    count = models.IntegerField(verbose_name='تعداد', default=0)
     is_active = models.BooleanField(default=True, verbose_name='فعال')
     is_delete = models.BooleanField(default=False, verbose_name='حذف')
     active = ProductManager()

@@ -16,6 +16,11 @@
                             {{ err }}
                         </div>
                     {% endif %}
+                    {% if request.GET.code == '121' %}
+                    	<div class="alert alert-warning">
+                            {{ request.GET.status }}
+                        </div>
+                    {% endif %} 
                     <div class="product-area details-product-area mb--70 justify-content-center">
                         <div class="product-thumb-area">
                             <div class="cursor"></div>
@@ -89,16 +94,22 @@
                                 <div class="action-item3">
                                     <div class="action-top">
                                         <span class="action-title">سایز : <strong id="sizer">
-                                            {{ product.products_sizes_set.last.size }}
+                                            {{ product.products_sizes_set.first.size }}
                                         </strong></span>
                                     </div>
                                     {% for size in product.products_sizes_set.all %}
-                                        <div class="color-item2">
-                                            <div class="size" onclick="sizerField({{ size.size }})"
-                                                 data-bs-toggle="tooltip" data-bs-placement="top"
-                                                 title="XXL">{{ size.size }}
+                                        {% if size.count > 0 %}
+                                            <div class="color-item2">
+                                                <div class="size" onclick="sizerField({{ size.size }})"
+                                                     data-bs-toggle="tooltip" data-bs-placement="top"
+                                                     title="XXL">
+                                                    {{ size.size }}
+                                                </div>
+                                                موجودی از این سایز: {{ size.count }}
                                             </div>
-                                        </div>
+                                            <br>
+                                        {% endif %}
+
                                     {% endfor %}
                                 </div>
                             {% endif %}

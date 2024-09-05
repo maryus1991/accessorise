@@ -1,0 +1,58 @@
+{% extends 'Layouts/Base.html' %}
+{% load Ptags %}
+{% load jalali_tags %}
+{% block title %}
+    سبد خرید
+{% endblock %}
+
+{% block content %}
+
+    <div class="container">
+
+        <div class="col-md-12">
+
+            {% if orders %}
+                <table class="table">
+
+                    <thead>
+                    <tr class="top-tr">
+                        <th>محصول</th>
+                        <th>نام محصول</th>
+                        <th> تایخ ثبت</th>
+                        <th>تعداد</th>
+                        <th>قیمت نهایی</th>
+                        <th>سایز</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% for order in orders %}
+                        <tr>
+                            <td>
+                                <a href="{% url 'product.details.product' order.product.id %}"
+                                   class="btn btn-success"
+                                >نمایش محصول</a>
+                            </td>
+                            <td><a href="{% url 'product.details.product' order.product.id %}">
+                                {{ order.product.title|truncatechars:25 }}
+                            </a>
+                            </td>
+                            <td>{{ order.created|to_jalali }}</td>
+                            <td>{{ order.count }}</td>
+                            <td>{{ order.FinalPrice|tdc }} T</td>
+                            <td>{{ order.size }}</td>
+                        </tr>
+
+                    {% endfor %}
+                                        </tbody>
+                        </table>
+            {% else %}
+                <div     class="alert alert-info">
+                    سبد خریدی موجد نمی باشد
+                </div>
+            {% endif %}
+
+
+        </div>
+
+    </div>
+{% endblock %}

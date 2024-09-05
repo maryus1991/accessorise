@@ -1,5 +1,6 @@
 {% extends 'Layouts/Base.html' %}
 {% load jalali_tags %}
+{% load Ptags %}
 
 {% block title %}
     حساب کاربری
@@ -12,21 +13,24 @@
             <div class="account-inner">
                 <div class="account-side-navigation">
                     <button class="filter-btn active" data-show=".dashboard"><i class="fal fa-chart-bar"></i>
-                        Dashboard
+                        پروفایل
                     </button>
-                    <button class="filter-btn" data-show=".orders"><i class="fal fa-shopping-cart"></i> Orders</button>
+                    <button class="filter-btn" data-show=".orders"><i class="fal fa-shopping-cart"></i>
+                        سبد های خرید
+                    </button>
                     <button class="filter-btn" data-show=".address"><i class="fal fa-map-marker-alt"></i>
-                        Address
+                        ادرس ها
                     </button>
-                    <button class="filter-btn" data-show=".accountdtls"><i class="fal fa-user"></i> Account
-                        Details
+                    <button class="filter-btn" data-show=".accountdtls"><i class="fal fa-user"></i>
+                        ویرایش اطلاعات
                     </button>
                     <a href="{% url 'Wishlist.order' %}" class="filter-btn" data-show=".dashboard"><i
                             class="fal fa-shopping-basket"></i>
-                        Wishlist</a>
+                    محصولات مورد علاقه
+                    </a>
                     <a href="{% url 'Authentication.logout.account' %}" class="filter-btn" data-show=".dashboard"><i
                             class="fal fa-long-arrow-left"></i>
-                        Logout</a>
+                        خروج از حساب کاربری</a>
                 </div>
                 <div class="account-main-area">
                     <div class="account-main dashboard filterd-items">
@@ -50,6 +54,11 @@
                         {#                            addresses, and edit your password and account details.</p>#}
                         {% if request.GET.code == '200' %}
                             <div class="alert alert-success">
+                                {{ request.GET.status }}
+                            </div>
+                        {% endif %}
+                        {% if request.GET.code == '121' %}
+                            <div class="alert alert-warning">
                                 {{ request.GET.status }}
                             </div>
                         {% endif %}
@@ -99,7 +108,9 @@
 
                                 <button class="filter-btn" data-show=".orders">
                                     <div class="icon"><i class="fas fa-box-check"></i></div>
-                                    <span class="title">Orders</span>
+                                    <span class="title">
+                                        سفارسات
+                                    </span>
 
                                 </button>
 
@@ -109,14 +120,16 @@
                             <div class="activity-item">
                                 <button class="filter-btn" data-show=".address">
                                     <div class="icon"><i class="fas fa-map-marker-alt"></i></div>
-                                    <span class="title">Address</span>
+                                    <span class="title">ادرس ها</span>
                                 </button>
                             </div>
 
                             <div class="activity-item">
                                 <button class="filter-btn" data-show=".accountdtls">
                                     <div class="icon"><i class="fas fa-user"></i></div>
-                                    <span class="title">Account Details</span>
+                                    <span class="title">
+                                        اطلاعات حساب
+                                    </span>
                                 </button>
 
 
@@ -124,51 +137,52 @@
                             <div class="activity-item">
                                 <a href="{% url 'Wishlist.order' %}" class="filter-btn" data-show=".dashboard">
                                     <div class="icon"><i class="fas fa-heart"></i></div>
-                                    <span class="title">Wishlist</span>
-                                    Wishlist</a>
+                                    <span class="title">محصولات مورد علاقه</span>
+                                    </a>
 
 
                             </div>
                             <a href="{% url 'Authentication.logout.account' %}" class="activity-item">
                                 <div class="icon"><i class="fas fa-sign-out-alt"></i></div>
-                                <span class="title">Logout</span>
+                                <span class="title">خروج</span>
                             </a>
                         </div>
                     </div>
                     <div class="account-main orders filterd-items hide">
-                        <h2 class="mb--30">My Orders</h2>
+                        <h2 class="mb--30">سفارشات من</h2>
                         <table class="table">
                             <thead>
                             <tr class="top-tr">
-                                <th>Order</th>
-                                <th>Date</th>
-                                <th>Status</th>
-                                <th>Total</th>
-                                <th>Actions</th>
+                                <th></th>
+                                <th> تایخ ثبت</th>
+                                <th>وضعیت</th>
+                                <th>قیمت نهایی</th>
+                                <th></th>
                             </tr>
                             </thead>
                             <tbody>
+                            {% with order_c as order %}
+
+
                             <tr>
-                                <td>#1357</td>
-                                <td>March 45, 2020</td>
-                                <td>Processing</td>
-                                <td>$125.00 for 2 item</td>
-                                <td><a href="#" class="btn-small d-block">View</a></td>
+                                <td>#{{ order.id }}</td>
+                                <td>{{ order.created|to_jalali }}</td>
+                                <td>درحال پرداش</td>
+                                <td>{{ order.get_final_price|tdc }} T</td>
+                                <td><a href="{% url 'UserDetailOrder.account' oid=order.id %}" class="btn-small d-block">جزییات  ({{ order.details.count }})</a></td>
                             </tr>
+                            {% endwith %}
+                            {% for order in order_last %}
                             <tr>
-                                <td>#2468</td>
-                                <td>June 29, 2020</td>
-                                <td>Completed</td>
-                                <td>$364.00 for 5 item</td>
-                                <td><a href="#" class="btn-small d-block">View</a></td>
+                                <td>#{{ order.id }}</td>
+                                <td>{{ order.created|to_jalali }}</td>
+                                <td>موفق</td>
+                                <td>{{ order.get_final_price|tdc }} T</td>
+                                <td><a href="{% url 'UserDetailOrder.account' oid=order.id %}" class="btn-small d-block">
+                                    جزییات  ({{ order.details.count }})
+                                </a></td>
                             </tr>
-                            <tr>
-                                <td>#2366</td>
-                                <td>August 02, 2020</td>
-                                <td>Completed</td>
-                                <td>$280.00 for 3 item</td>
-                                <td><a href="#" class="btn-small d-block">View</a></td>
-                            </tr>
+                            {% endfor %}
                             </tbody>
                         </table>
                     </div>

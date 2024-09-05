@@ -16,3 +16,7 @@ def discount(price: int, discount: int):
 @register.filter
 def RFS(num: int):
     return range(num)
+
+@register.filter
+def Sum(a, b):
+    return '{:,}'.format(a + b)

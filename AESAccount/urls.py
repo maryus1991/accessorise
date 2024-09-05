@@ -11,4 +11,5 @@ urlpatterns = [
     path('authentication/register', views.Authentication_register, name='Authentication.register.account'),
     path('authentication/logout', views.Authentication_logout, name='Authentication.logout.account'),
     path('UserEditProfile/', views.UserEditProfile_from, name='UserEditProfile_from.account'),
+    path('UserDetailOrder-show/<int:oid>', views.UserDetailOrder_show, name='UserDetailOrder.account'),
 ]

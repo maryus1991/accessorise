@@ -6,7 +6,8 @@ from .views import  (Set_Order,
                      remove_item_from_basket,
                      change_details_count,
                      coupon,
-                     complete_order
+                     complete_order,
+                    thanks_for_shopping
                      )
 
 urlpatterns = [
@@ -21,4 +22,5 @@ urlpatterns = [
     path('User-basket-details-count/', change_details_count, name='User.change.count.basket.details'),
     path('User-basket-details-coupon/', coupon, name='User.coupon.basket.details'),
     path('User-complete-order/', complete_order, name='User.complete.order'),
+    path('thanks-for-shopping/', thanks_for_shopping, name='User.complete.thsnaks.order'),
 ]

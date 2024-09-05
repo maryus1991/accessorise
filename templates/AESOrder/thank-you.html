@@ -12,14 +12,13 @@
                     <i class="fal fa-check"></i>
                 </div>
                 <div class="section-title">
-                    <h2 class="sub-title">Thanks For your Order</h2>
-                    <h3 class="sect-title">Sorry, we couldn't find the page you where looking for. We suggest that <br> you return to homepage.</h3>
+                    <h2 class="sub-title">با تشکر</h2>
                 </div>
                 <div class="section-button">
-                    <a class="btn-1" href="index.html"><i class="fal fa-long-arrow-left"></i> Go To Homepage</a>
+                    <a class="btn-1" href="{% url 'Dashboard.account' %}"><i class="fal fa-long-arrow-left"></i>داشبورد</a>
                     <h3>
-                        Let's track your order or
-                        <a class="btn-2" href="../AESHome/contact.html"> Contact Us</a>
+
+                        <a class="btn-2" href="{% url 'contact-us.home' %}"> تماس با ما</a>
                     </h3>
                 </div>
             </div>

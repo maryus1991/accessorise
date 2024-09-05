@@ -18,9 +18,16 @@ def change_details_count(request):
         did = int(request.POST.get('did'))
         if count > 0 and did > 0:
             orderDetail: OrderDetail = OrderDetail.active.filter(id=did).first()
+            product = orderDetail.product
             if orderDetail is not None:
                 product_stock = orderDetail.product.stock
                 if product_stock >= count:
+                    if product.has_size:
+                        size = product.products_sizes_set.filter(size=orderDetail.size).first()
+                        if size.count > count:
+                            count = count
+                        else:
+                            count = size.count
                     orderDetail.count = count
                     orderDetail.save()
 
@@ -32,6 +39,7 @@ def change_details_count(request):
 
 @login_required
 def Set_Order(request, pid, count=1, size=None):
+    size_url = size
     previous_url = request.META.get('HTTP_REFERER')
     response = redirect(previous_url)
     user = request.user
@@ -51,29 +59,52 @@ def Set_Order(request, pid, count=1, size=None):
         return Http404()
     if orderDetail is None:
         if product.off is not None or int(product.off if product.off is not None else 0) > 0:
-            FinalPrice = int(product.price * (100 - int(product.off))) * int(count)
+            FinalPrice = int(product.price * (1 - int(product.off) / 100)) * int(count)
         else:
             FinalPrice = int(product.price) * int(count)
+
+        if size_url is not None and product.has_size:
+            size = product.products_sizes_set.filter(size=size_url).first()
+
+            if size.count >= count:
+                size = size.size
+            else:
+                count = size.count
+                size = size.size
+        else:
+            size = None
+
         order.details.create(
             product=product,
             count=int(count),
             size=size,
             FinalPrice=FinalPrice,
         ).save()
+
     elif orderDetail is not None:
         if product.stock >= int(count) + int(orderDetail.count):
             orderDetail.count = int(count) + int(orderDetail.count)
         elif product.stock < int(count) + int(orderDetail.count):
             orderDetail.count = product.stock
 
+        if size_url is not None and product.has_size:
+            size = product.products_sizes_set.filter(size=size_url).first()
+            if size.count >= count:
+                size = size.size
+            else:
+                count = size.count
+                size = size.size
+        else:
+            size = None
+
         if product.off is not None or int(product.off if product.off is not None else 0) > 0:
-            FinalPrice = int(product.price * (100 - int(product.off))) * int(count)
+            FinalPrice = int(product.price * (1 - int(product.off) / 100)) * int(count)
         else:
             FinalPrice = int(product.price) * int(count)
 
+        orderDetail.count = count
         orderDetail.FinalPrice = FinalPrice
-        if size != 0 and size is not None:
-            orderDetail.size = size
+        orderDetail.size = size
         orderDetail.save()
 
     final_price: Order = Order.active.filter(user=request.user).first()
@@ -178,10 +209,40 @@ def remove_item_from_basket(request):
 @login_required
 def complete_order(request):
     user = request.user
+    if user.addr is None or user.post is None:
+        return redirect(reverse('Dashboard.account') + '?code=121&status=لطفا ادرس و کد پستی خود را ثبت کنید')
     order: Order = Order.active.filter(user=user).first()
-    order.is_complete = True
-    order.save()
-    return redirect(reverse('Dashboard.account'))
+    if order is not None:
+        for detail in order.details.all():
+            count = detail.count
+            if count <= detail.product.stock:
+
+                if detail.product.has_size:
+                    if detail.size is None:
+                        return redirect(reverse('product.details.product', kwargs={'pk':detail.product.id}) +
+                                        '?status=لطفا سایز را انتخاب کنید&code=121')
+                    size = detail.product.products_sizes_set.filter(size=detail.size).first()
+                    if size.count <= 0:
+                        return redirect(reverse('product.details.product', kwargs={'pk':detail.product.id}) +
+                                        '?status=سایز مورد نظر تموم شده است&code=121')
+                    if size.count >= count:
+                        size.count -= count
+                        size.save()
+
+                detail.product.stock -= int(count)
+                detail.product.save()
+
+        order.total_price = int(order.total_price) + int(order.send_price)
+        order.is_paid = True
+        order.save()
+        return redirect(reverse('User.complete.thsnaks.order'))
+    else:
+        return redirect(reverse('product.list.product'))
+
+
+@login_required
+def thanks_for_shopping(request):
+    return render(request, 'AESOrder/thank-you.html')
 
 
 def coupon(request):

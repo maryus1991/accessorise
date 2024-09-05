@@ -8,7 +8,7 @@ from AESProduct.models import Product
 
 class OrderManager(models.Manager):
     def get_queryset(self):
-        return super().get_queryset().filter(is_active=True, is_paid=False, is_complete=False)
+        return super().get_queryset().filter(is_active=True, is_paid=False)
 
 
 class Order(models.Model):
@@ -20,10 +20,11 @@ class Order(models.Model):
     payment_date = models.DateField(null=True, blank=True, verbose_name='تاریخ پرداخت')
     total_price = models.BigIntegerField(default=0, verbose_name='قیمت نهایی کل')
 
-    send_price = models.BigIntegerField(null=True, blank=True, verbose_name='قیمت ارسال')
+    send_price = models.BigIntegerField(default=0, verbose_name='قیمت ارسال')
     is_complete = models.BooleanField(default=False, verbose_name='تکمیل توسط کاربر') # for send to admin
 
     active = OrderManager()
+    objects = models.Manager()
 
     def __str__(self):
         return f'{self.pk} {self.user.username}'
@@ -63,6 +64,7 @@ class OrderDetail(models.Model):
     is_active = models.BooleanField(default=True, verbose_name='فعال بودن')
     created = models.DateTimeField(auto_now_add=True, verbose_name='زمان ساختن')
 
+    objects = models.Manager()
     active = OrderDetailManager()
 
     def __str__(self):
