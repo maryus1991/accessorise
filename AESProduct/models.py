@@ -70,7 +70,7 @@ class Product(models.Model):
     title = models.CharField(max_length=100, verbose_name='عنوان محصول')
     description = models.TextField(verbose_name='توضیحات')
     short_description = models.TextField(verbose_name='توضیحات کوتاه')
-    price = models.IntegerField(verbose_name='قیمت')
+    price = models.IntegerField(verbose_name='قیمت (تومان)')
     stock = models.IntegerField(verbose_name='موجودی')
     image = models.ImageField(upload_to='products/', verbose_name='عکس')
     rating = models.IntegerField(null=True, blank=True, default=0,
@@ -133,7 +133,9 @@ class Product_comment(models.Model):
     full_name = models.CharField(max_length=100, verbose_name='نام')
     email = models.EmailField(max_length=150, verbose_name='ایمیل')
     comment = models.TextField(verbose_name='کامنت')
-    rate = models.IntegerField(validators=[MinValueValidator(0), MaxValueValidator(5)], verbose_name='ریت')
+    rate = models.IntegerField(validators=[MinValueValidator(0), MaxValueValidator(5)], verbose_name='ریت'
+                               ,blank=True, null=True
+                               )
     product = models.ForeignKey(Product, on_delete=models.CASCADE, verbose_name='محصول'
                                 ,related_name='comments'
                                 )

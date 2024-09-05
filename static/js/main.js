@@ -1422,17 +1422,21 @@ function sizerField(size) {
 
 }
 
-function AddToCart(pid) {
+function AddToCart(pid, stock) {
     let count = $('#counter').val()
-
+    if (count > stock){
+        document.getElementById('countAlert').removeAttribute('hidden')
+    }
     let sizer = $('#sizer').text().replace(/\s/g, '')
     if (sizer === ''){
         sizer = 0
     }
-    console.log(sizer)
+    if (count <= stock){
     $.ajax('/order/set-order-cookie-size/'+pid+'/'+count+'/'+sizer+'/').then(
                    location.reload()
     )
+
+    }
 
 }
 
@@ -1445,4 +1449,15 @@ function star_rate(num) {
     $('#star_rate').val(num)
     document.getElementById('star_rate').value = num;
 
+}
+
+function counterMines(){
+    let val = document.getElementById('counterCarPage').value
+    console.log(val)
+    $('#countsendser').val(val)
+}
+function counterPlus(){
+    let val = document.getElementById('counterCarPage').value
+    console.log(val)
+    $('#countsendser').val(val)
 }

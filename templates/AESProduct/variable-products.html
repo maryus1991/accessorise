@@ -106,18 +106,35 @@
 
                                 <div class="cart-edit">
                                     <div class="quantity-edit action-item">
-                                        <button class="button"><i class="fal fa-minus minus"></i></button>
+                                        <button onclick="counterMines()" class="button"><i
+                                                class="fal fa-minus minus"></i></button>
                                         <input type="text" id="counter" class="input" value="1"/>
-                                        <button class="button plus">+<i class="fal fa-plus plus"></i></button>
+                                        <button onclick="counterPlus()" class="button plus">+<i
+                                                class="fal fa-plus plus"></i></button>
                                     </div>
                                 </div>
-                                <a onclick="AddToCart({{ product.id }})" class="addto-cart-btn action-item"><i
-                                        class="rt-basket-shopping"></i> افزودن به سبد خرید</a>
+                                {% if product.stock > 0 %}
 
-                                <a href="{% url 'Wishlist.Set.Cookie' product.id 1 %}" class="wishlist-btn action-item"><i
-                                        class="rt-heart"></i>
+                                    <a onclick="AddToCart({{ product.id }}, {{ product.stock }})"
+                                       class="addto-cart-btn action-item "><i
+                                            class="rt-basket-shopping"></i> افزودن به سبد خرید</a>
+                                {% else %}
+
+                                    <a class="addto-cart-btn action-item ">
+                                        <i class="rt-basket-shopping"></i>
+                                        این محصول به زودی موجود می شود
+                                    </a>
+                                {% endif %}
+
+                                <a href="{% url 'Wishlist.Set.Cookie' product.id 1 %}" class="wishlist-btn action-item">
+                                    <i class="rt-heart"></i>
                                 </a>
 
+                            </div>
+                            <div hidden id="countAlert" class="alert alert-warning">
+                                <p>
+                                    موجودی محصول مورد نظر : {{ product.stock }}
+                                </p>
                             </div>
                             <div class="product-uniques">
                                 <span class="catagorys product-unipue"><span>دسته بندی: </span>
@@ -134,6 +151,9 @@
                                         </span>
                                     </a>
                                     {% endfor %}
+                                </span>
+                                <span class="tags product-unipue"><span>موجودی: </span>
+                                        {{ product.stock }}
                                 </span>
                             </div>
 
@@ -309,12 +329,16 @@
                                                 </a>
 
                                             </button>
-                                            <button class=" border-btn ">
-                                                {% for rate in comment.rate|RFS %}
-                                                    <i class="fal  fa-star"></i>
-                                                {% endfor %}
+                                            {% if comment.rate %}
+                                                <button class=" border-btn ">
 
-                                            </button>
+                                                    {% for rate in comment.rate|RFS %}
+                                                        <i class="fal  fa-star"></i>
+                                                    {% endfor %}
+                                                </button>
+
+                                            {% endif %}
+
                                             {% if request.user.is_superuser %}
 
                                                 <form action="" method="post">
@@ -348,22 +372,24 @@
                                                         {{ ch.email }}
                                                     </a>
                                                 </button>
-
-                                                <button class=" border-btn ">
-                                                    {% for rate in ch.rate|RFS %}
-                                                        <i class="fal  fa-star"></i>
-                                                    {% endfor %}
-                                                </button>
-                                            {% if request.user.is_superuser %}
-
-                                                <form action="" method="post">
-                                                    <input type="hidden" name="cid" value="{{ ch.id }}">
-                                                    {% csrf_token %}
-                                                    <button type="submit" class=" border-btn ">
-                                                        حذف
+                                                {% if ch.rate %}
+                                                    <button class=" border-btn ">
+                                                        {% for rate in ch.rate|RFS %}
+                                                            <i class="fal  fa-star"></i>
+                                                        {% endfor %}
                                                     </button>
-                                                </form>
-                                            {% endif %}
+                                                {% endif %}
+
+                                                {% if request.user.is_superuser %}
+
+                                                    <form action="" method="post">
+                                                        <input type="hidden" name="cid" value="{{ ch.id }}">
+                                                        {% csrf_token %}
+                                                        <button type="submit" class=" border-btn ">
+                                                            حذف
+                                                        </button>
+                                                    </form>
+                                                {% endif %}
 
                                             </h1>
                                         </div>
@@ -399,12 +425,16 @@
                                                 </a>
 
                                             </button>
-                                            <button class=" border-btn ">
-                                                {% for rate in comment.rate|RFS %}
-                                                    <i class="fal  fa-star"></i>
-                                                {% endfor %}
+                                            {% if comment.rate %}
+                                                <button class=" border-btn ">
 
-                                            </button>
+                                                    {% for rate in comment.rate|RFS %}
+                                                        <i class="fal  fa-star"></i>
+                                                    {% endfor %}
+
+                                                </button>
+                                            {% endif %}
+
                                             {% if request.user.is_superuser %}
 
                                                 <form action="" method="post">
@@ -481,10 +511,13 @@
                                             <a href="{% url 'Wishlist.Set.Cookie' rproduct.id 1 %}"><i
                                                     class="far fa-heart"></i></a>
                                         </div>
-                                        <div class="cta-single cta-addtocart">
-                                            <a href="{% url 'Order.Set.Cookie' pid=rproduct.id count=1 %}"><i
-                                                    class="rt-basket-shopping"></i></a>
-                                        </div>
+                                        {% if rproduct.stock > 0 %}
+                                            <div class="cta-single cta-addtocart">
+                                                <a href="{% url 'Order.Set.Cookie' pid=rproduct.id count=1 %}"><i
+                                                        class="rt-basket-shopping"></i></a>
+                                            </div>
+                                        {% endif %}
+
                                     </div>
                                 </div>
                             </div>

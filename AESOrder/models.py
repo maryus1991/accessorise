@@ -8,7 +8,7 @@ from AESProduct.models import Product
 
 class OrderManager(models.Manager):
     def get_queryset(self):
-        return super().get_queryset().filter(is_active=True, is_paid=False)
+        return super().get_queryset().filter(is_active=True, is_paid=False, is_complete=False)
 
 
 class Order(models.Model):
@@ -18,6 +18,10 @@ class Order(models.Model):
     is_paid = models.BooleanField(default=False, verbose_name='پرداخت شده')
     payment_code = models.CharField(max_length=100, verbose_name='کد پرداخت', null=True, blank=True, )
     payment_date = models.DateField(null=True, blank=True, verbose_name='تاریخ پرداخت')
+    total_price = models.BigIntegerField(default=0, verbose_name='قیمت نهایی کل')
+
+    send_price = models.BigIntegerField(null=True, blank=True, verbose_name='قیمت ارسال')
+    is_complete = models.BooleanField(default=False, verbose_name='تکمیل توسط کاربر') # for send to admin
 
     active = OrderManager()
 
@@ -26,18 +30,18 @@ class Order(models.Model):
 
     def get_final_price(self):
         total_price = 0
+        # count = self.details.count()
+        # if count > 0:
         if self.is_paid:
             for detail in self.details.all():
-                if detail.off is not None or detail.off > 0:
-                    total_price += (detail.FinalPrice * (100 - detail.off )) * detail.count
-                else:
-                    total_price += detail.FinalPrice * detail.count
+                total_price += detail.FinalPrice * detail.count
         else:
             for detail in self.details.all():
-                if detail.off is not None or detail.off > 0:
-                    total_price += (detail.product.price * (100 - detail.off )) * detail.count
+                if detail.product.off is not None or int(detail.product.off if detail.product.off is not None else 0) > 0:
+                    total_price += (detail.product.price * (1 - (detail.product.off/100) )) * detail.count
                 else:
                     total_price += detail.product.price * detail.count
+
         return total_price
 
     class Meta:
@@ -118,7 +122,7 @@ class CouponManager(models.Manager):
 
 
 class Coupon(models.Model):
-    slug = models.SlugField(verbose_name='نام در لینک حتما باید انگلیسی باشد')
+    slug = models.SlugField(verbose_name='نام در لینک حتما باید انگلیسی باشد', unique=True)
     title = models.CharField(max_length=100, verbose_name='عنوان')
     off_percent = models.FloatField(validators=[
         MaxValueValidator(100),
@@ -130,12 +134,22 @@ class Coupon(models.Model):
         , null=True, blank=True)
 
     number = models.IntegerField(verbose_name='دفعات استفاده')
+    number_by_user = models.IntegerField(verbose_name='دفعات استفاده برای هر کاربر', default=1)
     is_active = models.BooleanField(default=True, verbose_name='فعال بودن')
     is_delete = models.BooleanField(default=False, verbose_name='حذف کردن')
+    # user = models.ForeignKey(User, on_delete=models.CASCADE, )
     active = CouponManager()
 
     def __str__(self):
         return f'{self.title} {self.number}'
+
+    # def save(self):
+    #     if self.off_percent == 0:
+    #         self.off_percent = None
+    #     if self.off_tomman == 0:
+    #         self.off_tomman = None
+    #     return self
+
 
     class Meta:
         verbose_name_plural = 'کد های تخفیف'

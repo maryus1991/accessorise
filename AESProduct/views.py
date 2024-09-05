@@ -64,8 +64,10 @@ class Product_Detail(DetailView):
         star_rate = request.POST.get('star_rate')
         comment_parent = request.POST.get('comment_parent')
         product = self.get_object()
+        if star_rate == '':
+            star_rate = None
 
-        if star_rate == '' or Message == '' or name == '' or pid == '' or email == '' or product.id != int(pid) :
+        if Message == '' or name == '' or pid == '' or email == '' or product.id != int(pid) :
             context['err'] = 'لطفا اطلاعات را کامل وارد کنید و سپس نظرات را ارسال کنید'
 
             return self.render_to_response(context)

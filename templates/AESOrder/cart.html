@@ -1,15 +1,15 @@
 {% extends 'Layouts/Base.html' %}
-
+{% load Ptags %}
 {% block title %}
-	سبد خرید
+    سبد خرید
 {% endblock %}
 
 {% block content %}
-	
+
     <!--================= Cart Section Start Here =================-->
     <div class="rts-cart-section">
         <div class="container">
-            <h4 class="section-title">Product List</h4>
+            <h4 class="section-title">سبد خرید</h4>
             <div class="row justify-content-between">
                 <div class="col-xl-7">
                     <div class="cart-table-area">
@@ -17,130 +17,145 @@
                             <thead class="thead-dark">
                             </thead>
                             <tbody>
+                            {% for detail in order_detail %}
                                 <tr>
-                                    <td><div class="product-thumb"><img src="../../static/images/products/inner/cart/1.jpg" alt="product-thumb"></div></td>
                                     <td>
-                                        <div class="product-title-area">
-                                            <span class="pretitle">Nighty</span>
-                                            <h4 class="product-title">Shimmer Sheer Tights</h4>
-                                        </div>
-                                    </td>
-                                    <td><span class="product-price">$69.00</span></td>
-                                    <td>
-                                        <div class="cart-edit">
-                                            <div class="quantity-edit">
-                                                <button class="button"><i class="fal fa-minus minus"></i></button>
-                                                <input type="text" class="input" value="3" />
-                                                <button class="button plus">+<i class="fal fa-plus plus"></i></button>
+                                        <a href="{% url 'product.details.product' pk=detail.product.id %}">
+
+                                            <div class="product-thumb">
+                                                <img src="{{ detail.product.image.url }}"
+                                                     alt="product-thumb" height="136px" width="120px">
                                             </div>
-                                        </div>
+                                        </a>
+
                                     </td>
-                                    <td class="last-td"><button class="remove-btn">Remove</button></td>
-                                </tr>
-                                <tr>
-                                    <td><div class="product-thumb"><img src="../../static/images/products/inner/cart/2.jpg" alt="product-thumb"></div></td>
                                     <td>
-                                        <div class="product-title-area">
-                                            <span class="pretitle">Nighty</span>
-                                            <h4 class="product-title">Shimmer Sheer Tights</h4>
-                                        </div>
-                                    </td>
-                                    <td><span class="product-price">$69.00</span></td>
-                                    <td>
-                                        <div class="cart-edit">
-                                            <div class="quantity-edit">
-                                                <button class="button"><i class="fal fa-minus minus"></i></button>
-                                                <input type="text" class="input" value="3" />
-                                                <button class="button plus">+<i class="fal fa-plus plus"></i></button>
+                                        <a href="{% url 'product.details.product' pk=detail.product.id %}">
+
+                                            <div class="product-title-area">
+                                                <span class="pretitle">{{ detail.product.title|truncatechars:20 }}</span>
+                                                {#                                            <h4 class="product-title">Shimmer Sheer Tights</h4>#}
                                             </div>
-                                        </div>
+                                        </a>
+
                                     </td>
-                                    <td class="last-td"><button class="remove-btn">Remove</button></td>
-                                </tr>
-                                <tr>
-                                    <td><div class="product-thumb"><img src="../../static/images/products/inner/cart/3.jpg" alt="product-thumb"></div></td>
                                     <td>
-                                        <div class="product-title-area">
-                                            <span class="pretitle">Nighty</span>
-                                            <h4 class="product-title">Shimmer Sheer Tights</h4>
-                                        </div>
+                                        {% if detail.product.off %}
+
+                                            <span class="product-price">{{ detail.product.price|discount:detail.product.off }}</span>
+                                        {% else %}
+                                            <span class="product-price">{{ detail.product.price|tdc }}</span>
+
+                                        {% endif %}
+
                                     </td>
-                                    <td><span class="product-price">$69.00</span></td>
                                     <td>
-                                        <div class="cart-edit">
-                                            <div class="quantity-edit">
-                                                <button class="button"><i class="fal fa-minus minus"></i></button>
-                                                <input type="text" class="input" value="3" />
-                                                <button class="button plus">+<i class="fal fa-plus plus"></i></button>
+                                        <form action="{% url 'User.change.count.basket.details' %}" method="post">
+                                            <div class="cart-edit">
+                                                <div class="quantity-edit">
+                                                    <button type="button" onclick="" class="button"><i
+                                                            class="fal fa-minus minus"></i></button>
+                                                    <input type="text" id="counterCarPage" class="input"
+                                                           value="{{ detail.count }}" name="count"/>
+                                                    <button type="button" onclick="" class="button plus">+<i
+                                                            class="fal fa-plus plus"></i></button>
+
+                                                </div>
                                             </div>
-                                        </div>
                                     </td>
-                                    <td class="last-td"><button class="remove-btn">Remove</button></td>
-                                </tr>
-                                <tr>
-                                    <td><div class="product-thumb"><img src="../../static/images/products/inner/cart/4.jpg" alt="product-thumb"></div></td>
                                     <td>
-                                        <div class="product-title-area">
-                                            <span class="pretitle">Nighty</span>
-                                            <h4 class="product-title">Shimmer Sheer Tights</h4>
-                                        </div>
+
+                                        {% csrf_token %}
+                                        <input type="hidden" name="did" value="{{ detail.id }}">
+                                        {#                                            <input type="hidden" id="countsendser" name="count" value="{{ detail.count }}">#}
+                                        <button type="submit" onclick="" class="btn btn-outline-success">ویرایش تعداد
+                                        </button>
+
+                                        </form>
+
                                     </td>
-                                    <td><span class="product-price">$69.00</span></td>
-                                    <td>
-                                        <div class="cart-edit">
-                                            <div class="quantity-edit">
-                                                <button class="button"><i class="fal fa-minus minus"></i></button>
-                                                <input type="text" class="input" value="3" />
-                                                <button class="button plus">+<i class="fal fa-plus plus"></i></button>
-                                            </div>
-                                        </div>
+                                    <td class="last-td">
+
+                                        <form action="{% url 'User.remove.basket.details' %}" method="post">
+                                            {% csrf_token %}
+                                            <input type="hidden" name="did" value="{{ detail.id }}">
+                                            <button class="remove-btn btn btn-outline-danger">حدف</button>
+                                        </form>
                                     </td>
-                                    <td class="last-td"><button class="remove-btn">Remove</button></td>
                                 </tr>
+
+                            {% endfor %}
+
                             </tbody>
                         </table>
-                        <div class="coupon-apply">
-                            <span class="coupon-text">Coupon Code:</span>
-                            <div class="apply-input">
-                                <input type="text" placeholder="Apply coupon here">
-                                <button type="submit" class="apply-btn">Apply </i></button>
-                            </div>
-                        </div>
+
                     </div>
                 </div>
                 <div class="col-xl-4">
                     <div class="checkout-box">
                         <div class="checkout-box-inner">
                             <div class="subtotal-area">
-                                <span class="title">Subtotal</span>
-                                <span class="subtotal-price">$364.00</span>
+                                <span class="title">قیمت نهایی</span>
+                                <span class="subtotal-price">{{ order.get_final_price|tdc }}T</span>
                             </div>
                             <div class="shipping-check">
-                                <span class="title">Shipping</span>
+{#                                <span class="title">Shipping</span>#}
                                 <div class="check-options">
-                                    <form>
-                                          <div class="form-group">
-                                            <input type="checkbox" id="fltrt">
-                                            <label class="check-title" for="fltrt">Flat rate</label>
-                                          </div>
-                                          <div class="form-group">
-                                            <input type="checkbox" id="frsh">
-                                            <label class="check-title" for="frsh">Free shipping</label>
-                                          </div>
-                                    </form>
+{#                                    <form>#}
+{#                                        <div class="form-group">#}
+{#                                            <input type="checkbox" id="fltrt">#}
+{#                                            <label class="check-title" for="fltrt">Flat rate</label>#}
+{#                                        </div>#}
+{#                                        <div class="form-group">#}
+{#                                            <input type="checkbox" id="frsh">#}
+{#                                            <label class="check-title" for="frsh">Free shipping</label>#}
+{#                                        </div>#}
+{#                                    </form>#}
+                                    {% if order.send_price is not None %}
+                                    	
+                                        <div class="alert alert-info">
+                                            {{ order.send_price }} هزینه ارسال : 
+                                        </div>
+                                        
+                                        {% else %}
+                                    <div class="alert alert-success">
+                                        بارسال رایگان
+                                    </div>
+                                    {% endif %} 
                                 </div>
                             </div>
                             <div class="shipping-location">
-                                <span class="shipping-to">Shipping to <span>NY.</span></span>
-                                <span class="change-address"><i class="fal fa-map-marker-alt mr--5"></i>Change address</span>
+                                <span class="shipping-to">ارسال به : <span>{{ request.user.addr }}</span></span>
+                                <span class="change-address"><i
+                                        class="fal fa-map-marker-alt mr--5"></i>
+                                <a href="{% url 'Dashboard.account' %}">
+                                    تغییر ادرس
+                                </a>
+                                    
+                                </span>
                             </div>
                             <div class="total-area">
-                                <span class="title">Total</span>
-                                <span class="total-price">$364.00</span>
+                                <span class="title">قیمت نهایی</span>
+                                <span class="total-price">{{ order.total_price|tdc }}T</span>
                             </div>
+
                         </div>
-                        <a href="../../accessories_tmp/checkout.html" class="procced-btn">Procced To Checkout</a>
-                        <a href="shop.html" class="continue-shopping"><i class="fal fa-long-arrow-left"></i> Continue Shopping</a>
+{#                        <div class="coupon-apply">#}
+{#                            <form method="post" action="{% url 'User.coupon.basket.details' %}">#}
+{#                                {% csrf_token %}#}
+{#                                <span class="coupon-text">کد تخفیف:</span>#}
+{#                                <div class="apply-input">#}
+{#                                    <input type="text" name="coupon_code" placeholder="کد را وارد کنید">#}
+{#                                    <button type="submit" class="apply-btn">فعال سازی</button>#}
+{#                                </div>#}
+{#                            </form>#}
+{#                        </div>#}
+                        <a href="{% url 'User.complete.order' %}" class="procced-btn">
+                            نهایی کردن
+                        </a>
+                        <a href="{% url 'product.list.product' %}" class="continue-shopping"><i class="fal fa-long-arrow-left"></i>
+                            ادامه خرید
+                        </a>
                     </div>
                 </div>
             </div>

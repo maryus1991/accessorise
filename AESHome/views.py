@@ -54,11 +54,14 @@ def Header(request):
     try:
         order:Order = Order.active.filter(user=request.user).first()
         OrderList = order.details
+    except :
+        OrderList = None
+
+    try:
         WishList_ = WishListDetail.active.filter(wishlist__user=request.user, wishlist__is_active=True
                                                  ,wishlist__is_delete=False)
     except:
-        OrderList = 0
-        WishList_ = 0
+        WishList_ = None
     context = {
         'SiteSetting': SiteSetting.active.first(),
         'OrderList': OrderList,
