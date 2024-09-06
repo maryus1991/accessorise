@@ -10,10 +10,14 @@ def SendMail(to, subject, context, template_name):
     try:
         html_message = render_to_string(template_name, context)
         plain_message = strip_tags(html_message)
-        send_mail(subject, plain_message, settings.EMAIL_HOST_USER, [to], html_message=html_message)
+        from_email = settings.EMAIL_HOST_USER
+        send_mail(subject, plain_message, from_email, [to], html_message=html_message)
         return True
     except:
         return False
 
 
-send_mail('test', 'test', settings.EMAIL_HOST_USER, ['maryus19915123@gmail.com'])
+send_mail('subject',
+          'content',
+          settings.EMAIL_HOST_USER,
+          ['maryus19915123@gmail.com'])
