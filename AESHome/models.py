@@ -188,3 +188,19 @@ class FAQS(models.Model):
     class Meta:
         verbose_name = 'سوال پر تکرار'
         verbose_name_plural = 'سوالات پر تکرار'
+
+
+class RedLine(models.Model):
+    title = models.CharField(max_length=200, verbose_name='عنوان')
+    link_title = models.CharField(max_length=200, verbose_name='نام لینک')
+    link = models.URLField(verbose_name='لینک')
+    is_active = models.BooleanField(default=True, verbose_name='فعال')
+    is_delete = models.BooleanField(default=False, verbose_name='حذف')
+    active = ProductManager()
+
+    def __str__(self):
+        return self.title
+
+    class Meta:
+        verbose_name = 'لینک بالا صفحه(خط قرمز قرمز)'
+        verbose_name_plural = 'لینک های بالا صفحه(خط قرمز قرمز)'

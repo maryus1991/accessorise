@@ -1,231 +1,324 @@
 {% load static %}
+{% load Ptags %}
 
 <header id="rtsHeader">
+    {% if redline %}
+        <div class="header-topbar header-topbar1">
+            <div class="container">
+                <div class="header-top-area">
+                    <div class="slider-div">
+                        <div class="swiper rts-topSlide1">
+                            <div class="swiper-wrapper">
+                                {% for line in redline %}
+                                    <div class="swiper-slide">
+                                        <h3 class="welcome-text">
+                                            {{ line.title }}
+                                            <a href="{{ line.link }}">{{ line.link_title }}</a>
+                                        </h3>
+                                    </div>
+                                {% endfor %}
 
-    <div class="navbar-sticky navbar-sticky7">
+                            </div>
+                            <div class="slider-navigation2">
+                                <div class="swiper-button-prev slider-btn prev"><i
+                                        class="rt rt-arrow-left-long"></i></div>
+                                <div class="swiper-button-next slider-btn next"><i
+                                        class="rt rt-arrow-right-long"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    {% endif %}
+
+    <div class="header-topbar-menu-area">
         <div class="container">
-            <div class="navbar-part navbar-part1 navbar-part5">
+            <div class="menu-area1">
+                <div class="menu-item">
+                    <nav class="nav navbar">
+                        <div class="navbar-menu">
+                            <ul>
+                                <li><a href="{% url 'about-us.home' %}">درباره ما</a></li>
+                                <li><a href="{% url 'Dashboard.account' %}">داشبورد</a></li>
+                                <li><a href="{% url 'User.wishlist.details' %}">لیست محصولات مورد علاقه</a></li>
+                                <li><a href="{% url 'User.basket.details' %}">سبد خرید</a></li>
+                            </ul>
+                        </div>
+                    </nav>
+                </div>
+                <div class="menu-area-right-side">
+                    <div class="pull-left">
+                        نیاز به کمک دارید ؟
+
+                        با ما تماس حاصب فرمایید:
+                        <i aria-hidden="true" class="fas fa-phone"></i>
+                        <strong>
+                            <a href="callito:{{ SiteSetting.number }}">{{ SiteSetting.number }}</a>
+                        </strong>
+
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+    </div>
+    <div class="navbar-sticky">
+        <div class="container">
+            <div class="navbar-part navbar-part1">
                 <div class="navbar-inner">
                     <div class="left-side">
-                        <a href="{% url 'index.home' %}" class="logo"><img src="{{ SiteSetting.logo.url }}"
-                                                                           alt="weiboo-logo"></a>
+                        <div class="hamburger-1">
+                            <a class="nav-menu-link">
+                                <span class="dot1"></span>
+                                <span class="dot2"></span>
+                                <span class="dot3"></span>
+                                <span class="dot4"></span>
+                                <span class="dot5"></span>
+                                <span class="dot6"></span>
+                                <span class="dot7"></span>
+                                <span class="dot8"></span>
+                                <span class="dot9"></span>
+                            </a>
+                        </div>
+                        <a href="{% url 'index.home' %}" class="logo">
+                            <img src="{{ SiteSetting.logo.url }}" width="212px" height="33px" alt="umart-logo">
+                        </a>
                     </div>
                     <div class="rts-menu">
                         <nav class="menus menu-toggle">
                             <ul class="nav__menu">
-                                <li class=""><a class="menu-item active1" href="{% url 'index.home' %}">Home</a>
+                                <li class="has-dropdown">
+                                    <a class="menu-item" href="{% url 'index.home' %}">صفحه اصلی <i class="rt-plus"></i>
+                                    </a>
 
                                 </li>
-                                <li class="has-dropdown"><a class="menu-item" href="{% url 'product.list.product' %}">Shop </a>
+                                <li class="has-dropdown"><a class="menu-item" href="{% url 'product.list.product' %}">محصولات
+                                    <i class="rt-plus"></i></a>
+
                                 </li>
-                                <li class="has-dropdown"><a class="menu-item"
-                                                            href="../AESOrder/cart.html">Cart</a>
+                                <li class="has-dropdown"><a class="menu-item " href="{% url 'faq.home' %}">سوالات
+                                    پر تکرار <i class="rt-plus"></i></a>
+
                                 </li>
+                                <li class="has-dropdown"><a class="menu-item" href="{% url 'User.basket.details' %}">
+                                    سبد خرید
+                                    <i class="rt-plus"></i></a>
+
                                 </li>
-                                <li class="has-dropdown"><a class="menu-item" href="{% url 'about-us.home' %}">About</a>
-                                </li>
-                                <li class="has-dropdown"><a class="menu-item" href="{% url 'faq.home' %}">FAQ's</a>
-                                </li>
-                                <li><a class="menu-item" href="{% url 'contact-us.home' %}">Contact</a></li>
+                                <li><a class="menu-item" href="{% url 'contact-us.home' %}">تماس با ما</a></li>
                             </ul>
                         </nav>
                     </div>
-                    <div class="header-action-items header-action-items1">
-                        <div class="responsive-hamburger">
-                            <div class="hamburger-1">
-                                <a href="#" class="nav-menu-link">
-                                    <span class="dot1"></span>
-                                    <span class="dot2"></span>
-                                    <span class="dot3"></span>
-                                    <span class="dot4"></span>
-                                    <span class="dot5"></span>
-                                    <span class="dot6"></span>
-                                    <span class="dot7"></span>
-                                    <span class="dot8"></span>
-                                    <span class="dot9"></span>
-                                </a>
-                            </div>
+                    <div class="responsive-hamburger">
+                        <div class="hamburger-1">
+                            <a href="#" class="nav-menu-link">
+                                <span class="dot1"></span>
+                                <span class="dot2"></span>
+                                <span class="dot3"></span>
+                                <span class="dot4"></span>
+                                <span class="dot5"></span>
+                                <span class="dot6"></span>
+                                <span class="dot7"></span>
+                                <span class="dot8"></span>
+                                <span class="dot9"></span>
+                            </a>
                         </div>
+                    </div>
+                    <div class="header-action-items header-action-items1">
                         <div class="search-part">
                             <div class="search-icon action-item icon"><i class="rt-search"></i></div>
                             <div class="search-input-area">
                                 <div class="container">
                                     <div class="search-input-inner">
                                         <div class="input-div">
-                                            <input id="searchInput1" class="search-input" type="text"
-                                                   placeholder="Search by keyword or #">
+                                            <form action="{% url 'search.product.list.product' %}" method="get">
+                                                {% csrf_token %}
+                                                <input id="searchInput1" class="search-input" type="text"
+                                                       name="search" placeholder="محصول مرد نظرت را پیدا کن">
+                                                <input type="submit" class="btn-light btn" value="پیدا کردن">
+                                            </form>
                                         </div>
                                         <div class="search-close-icon"><i class="rt-xmark"></i></div>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                        <a href="{% if request.user.is_authenticated %} {% url 'Dashboard.account' %} {% else %} {% url 'Authentication.account' %} {% endif %}"
-                           class="account"><i class="rt-user-2"></i></a>
+                        <a href="{% url 'Dashboard.account' %}" class="account"><i class="rt-user-2"></i></a>
                         <div class="cart action-item">
                             <div class="cart-nav">
-                                <div class="cart-icon icon"><a href="{% url 'User.basket.details' %}">
-                                    <i aria-hidden="true" class="fas fa-shopping-basket"></i></a>
-                                    <span class="wishlist-dot icon-dot">
-                                        {% if OrderList %}
-                                            {{ OrderList.count }}
-                                        {% else %}
-                                            0
-                                        {% endif %}
-                                    </span>
+                                <div class="cart-icon icon">
+                                    <a>
+                                        <i aria-hidden="true" class="fas fa-shopping-basket"></i>
+                                    </a>
+                                    {% if OrderList %}
+                                        <span class="wishlist-dot icon-dot">{{ OrderList.count }}</span>
+                                    {% else %}
+                                        <span class="wishlist-dot icon-dot">0</span>
+                                    {% endif %}
                                 </div>
                             </div>
                         </div>
 
                         <div class="cart action-item">
                             <div class="cart-nav">
-                                <div class="cart-icon icon"><a href="{% url 'User.wishlist.details' %}">
-                                    <i aria-hidden="true" class="fas fa-heart"></i></a>
-                                    <span class="wishlist-dot icon-dot">
-                                                                                {% if WishList %}
-                                                                                    {{ WishList.count }}
-                                                                                {% else %}
-                                                                                    0
-                                                                                {% endif %}
-                                    </span>
+                                <div class="cart-icon icon">
+                                    <a href="{% url 'Wishlist.order' %}" class="account">
+                                        <i class="fa fa-heart">
+                                        </i></a>
+
+                                    {% if OrderList %}
+                                        <span class="wishlist-dot icon-dot">{{ WishList.count }}</span>
+
+                                    {% else %}
+                                        <span class="wishlist-dot icon-dot">0</span>
+                                    {% endif %}
                                 </div>
                             </div>
                         </div>
+
                     </div>
                 </div>
             </div>
         </div>
     </div>
+
     <div class="cart-bar">
         <div class="cart-header">
-            <h3 class="cart-heading">MY CART (3 ITEMS)</h3>
+            {% if OrderList %}
+
+            <h3 class="cart-heading">سبد خرید ({{ OrderList.count }})</h3>
+                {% else %}
+            <h3 class="cart-heading">سبد خرید (0)</h3>
+            {% endif %}
             <div class="close-cart"><i class="fal fa-times"></i></div>
         </div>
         <div class="product-area">
-            <div class="product-item">
-                <div class="product-detail">
-                    <div class="product-thumb"><img src="../../static/images/slider/image1.jpg" alt="product-thumb">
-                    </div>
-                    <div class="item-wrapper">
-                        <span class="product-name">Parachute Jacket</span>
-                        <div class="item-wrapper">
-                                <span class="product-variation"><span class="color">Green /</span>
-                                    <span class="size">XL</span></span>
+            {% if OrderList.all %}
+
+
+                {% for order in OrderList.all %}
+                    <div class="product-item last-child">
+                        <div class="product-detail">
+                            <div class="product-thumb">
+                                <img src="{{ order.product.image.url }}" height="75px" width="75px" alt="product-thumb">
+                            </div>
+                            <div class="item-wrapper">
+                                <span class="product-name">{{ order.product.title|truncatechars:20 }}</span>
+                                {% if order.product.has_size %}
+
+                                    {% if order.size %}
+
+                                        <div class="item-wrapper">
+                                            سایز:<span class="size">{{ order.size }}</span>
+                                        </div>
+                                    {% else %}
+                                        <a href="{% url 'product.details.product' order.product.id %}">
+                                            <div class="item-wrapper">
+                                                <div class="alert-warning">
+                                                    <p>
+                                                        لطفا یک سایز انتخاب کنید
+                                                    </p>
+                                                </div>
+                                            </div>
+                                        </a>
+                                    {% endif %}
+                                {% endif %}
+                                <div class="item-wrapper">
+                                    <span class="product-qnty">{{ order.count }} ×</span>
+                                    {% if order.product.off > 0 %}
+                                        <span class="product-price">{{ order.product.price|discount:order.product.off }}</span>
+
+                                    {% else %}
+                                        <span class="product-price">{{ order.product.price|tdc }}</span>
+                                    {% endif %}
+                                </div>
+                            </div>
                         </div>
-                        <div class="item-wrapper">
-                            <span class="product-qnty">3 ×</span>
-                            <span class="product-price">$198.00</span>
-                        </div>
-                    </div>
-                </div>
-                <div class="cart-edit">
-                    <div class="quantity-edit">
-                        <button class="button"><i class="fal fa-minus minus"></i></button>
-                        <input type="text" class="input" value="3"/>
-                        <button class="button plus">+<i class="fal fa-plus plus"></i></button>
-                    </div>
-                    <div class="item-wrapper d-flex mr--5 align-items-center">
-                        <a href="#" class="product-edit"><i class="fal fa-edit"></i></a>
-                        <a href="#" class="delete-cart"><i class="fal fa-times"></i></a>
-                    </div>
-                </div>
-            </div>
-            <div class="product-item">
-                <div class="product-detail">
-                    <div class="product-thumb"><img src="../../static/images/slider/image2.jpg" alt="product-thumb">
-                    </div>
-                    <div class="item-wrapper">
-                        <span class="product-name">Narrow Trouser</span>
-                        <div class="item-wrapper">
-                                <span class="product-variation"><span class="color">Green /</span>
-                                    <span class="size">XL</span></span>
-                        </div>
-                        <div class="item-wrapper">
-                            <span class="product-qnty">2 ×</span>
-                            <span class="product-price">$88.00</span>
-                        </div>
-                    </div>
-                </div>
-                <div class="cart-edit">
-                    <div class="quantity-edit">
-                        <button class="button"><i class="fal fa-minus minus"></i></button>
-                        <input type="text" class="input" value="2"/>
-                        <button class="button plus">+<i class="fal fa-plus plus"></i></button>
-                    </div>
-                    <div class="item-wrapper d-flex mr--5 align-items-center">
-                        <a href="#" class="product-edit"><i class="fal fa-edit"></i></a>
-                        <a href="#" class="delete-cart"><i class="fal fa-times"></i></a>
-                    </div>
-                </div>
-            </div>
-            <div class="product-item last-child">
-                <div class="product-detail">
-                    <div class="product-thumb"><img src="../../static/images/slider/image5.jpg" alt="product-thumb">
-                    </div>
-                    <div class="item-wrapper">
-                        <span class="product-name">Bellyless Hoodie</span>
-                        <div class="item-wrapper">
-                                <span class="product-variation"><span class="color">Green /</span>
-                                    <span class="size">XL</span></span>
-                        </div>
-                        <div class="item-wrapper">
-                            <span class="product-qnty">1 ×</span>
-                            <span class="product-price">$289.00</span>
+                        <div class="cart-edit">
+                            <div class="quantity-edit">
+                                <input type="text" class="input" value="{{ order.count }}"/>
+                            </div>
+                            <div class="item-wrapper d-flex mr--5 align-items-center">
+                                <form action="{% url 'User.remove.basket.details' %}" method="post">
+                                    {% csrf_token %}
+                                    <input type="hidden" name="did" value="{{ order.id }}">
+                                    <button type="submit" class="delete-cart"><i class="fal fa-times"></i></button>
+                                </form>
+                            </div>
                         </div>
                     </div>
+
+                {% endfor %}
+            {% else %}
+                <div class="alert alert-info ">
+                    هیج محصولی اضافه نکردید
                 </div>
-                <div class="cart-edit">
-                    <div class="quantity-edit">
-                        <button class="button"><i class="fal fa-minus minus"></i></button>
-                        <input type="text" class="input" value="2"/>
-                        <button class="button plus">+<i class="fal fa-plus plus"></i></button>
-                    </div>
-                    <div class="item-wrapper d-flex mr--5 align-items-center">
-                        <a href="#" class="product-edit"><i class="fal fa-edit"></i></a>
-                        <a href="#" class="delete-cart"><i class="fal fa-times"></i></a>
-                    </div>
-                </div>
-            </div>
+            {% endif %}
+
         </div>
         <div class="cart-bottom-area">
-                <span class="spend-shipping"><i class="fal fa-truck"></i> SPENT <span class="amount">$199.00</span> MORE
-                    FOR FREE SHIPPING</span>
-            <span class="total-price">TOTAL: <span class="price">$556</span></span>
-            <a href="../../accessories_tmp/checkout.html" class="checkout-btn cart-btn">PROCEED TO CHECKOUT</a>
-            <a href="../AESOrder/cart.html" class="view-btn cart-btn">VIEW CART</a>
+            {% if order %}
+            <span class="total-price">قیمت کل: <span class="price">{{ order.get_final_price|tdc }} T</span></span>
+
+                {% else  %}
+            <span class="total-price">قیمت کل: <span class="price">0 T</span></span>
+
+            {% endif %}
+            <a href="{% url 'User.basket.details' %}" class="view-btn cart-btn">سبد خرید</a>
         </div>
     </div>
+
+
     <!-- slide-bar start -->
     <aside class="slide-bar">
         <div class="offset-sidebar">
-            <a class="hamburger-1 mobile-hamburger-1 mobile-hamburger-2 ml--30" href="#"><span><i class="rt-xmark"></i></span></a>
+            <a class="hamburger-1 mobile-hamburger-1 ml--30" href="#"><span><i class="rt-xmark"></i></span></a>
         </div>
         <!-- offset-sidebar start -->
         <div class="offset-sidebar-main">
             <div class="offset-widget mb-40">
                 <div class="info-widget">
-                    <img src="../../static/images/logo1.svg" alt="">
+                    <img src="{{ SiteSetting.logo.url }}" height="33px" width="212px" alt="">
                     <p class="mb-30">
-                        We must explain to you how all seds this mistakens idea denouncing pleasures and praising
-                        account.
+                        {{ SiteSetting.short_desc }}
                     </p>
                 </div>
                 <div class="info-widget info-widget2">
-                    <h4 class="offset-title mb-20">Get In Touch </h4>
+                    <h4 class="offset-title mb-20">با ما اشنا شوید </h4>
                     <ul>
-                        <li class="info phone"><a href="tel:78090790890208806803">780 907 908 90, 208 806 803</a></li>
-                        <li class="info email"><a href="email:info@webmail.com">info@webmail.com</a></li>
+                        <li class="info phone"><a href="callito:{{ SiteSetting.number }}">{{ SiteSetting.number }}</a>
                         </li>
-                        <li class="info location">13/A, New Pro State, NYC</li>
+                        <li class="info email"><a href="mail:{{ SiteSetting.email }}">{{ SiteSetting.email }}</a></li>
+
+
+                        <li class="info location">{{ SiteSetting.addr }}</li>
                     </ul>
                     <div class="offset-social-link">
-                        <h4 class="offset-title mb-20">Follow Us </h4>
+                        <h4 class="offset-title mb-20">با ما در ارتباط باشید </h4>
                         <ul class="social-icon">
-                            <li><a href="#"><i class="fab fa-facebook-f"></i></a></li>
-                            <li><a href="#"><i class="fab fa-twitter"></i></a></li>
-                            <li><a href="#"><i class="fab fa-youtube"></i></a></li>
-                            <li><a href="#"><i class="fab fa-linkedin"></i></a></li>
-                            <li><a href="#"><i class="fab fa-behance"></i></a></li>
+                            {% if SiteSetting.whatsapp_link %}
+
+                                <li><a href="{{ SiteSetting.whatsapp_link }}"><i class="fab fa-whatsapp"></i></a></li>
+                            {% endif %}
+                            {% if SiteSetting.insta_link %}
+
+                                <li><a href="{{ SiteSetting.insta_link }}"><i class="fab fa-instagram"></i></a></li>
+                            {% endif %}
+                            {% if SiteSetting.twitter_link %}
+
+                                <li><a href="{{ SiteSetting.twitter_link }}"><i class="fab fa-twitter"></i></a></li>
+                            {% endif %}
+                            {% if SiteSetting.linkin_link %}
+
+                                <li><a href="{{ SiteSetting.linkin_link }}"><i class="fab fa-linkedin"></i></a></li>
+                            {% endif %}
+                            {% if SiteSetting.telegram_url %}
+
+                                <li><a href="{{ SiteSetting.telegram_url }}"><i class="fab fa-telegram"></i></a></li>
+                            {% endif %}
                         </ul>
                     </div>
                 </div>
@@ -233,649 +326,60 @@
         </div>
         <!-- offset-sidebar end -->
         <!-- side-mobile-menu start -->
-        <nav class="side-mobile-menu side-mobile-menu1 side-mobile-menu2">
+        <nav class="side-mobile-menu side-mobile-menu1">
             <ul id="mobile-menu-active">
-                <li class="has-dropdown firstlvl">
-                    <a class="mm-link" href="index.html">Home <i class="rt-angle-down"></i></a>
-                    <ul class="sub-menu">
-                        <li><a href="index.html">Main Home</a></li>
-                    </ul>
+                <li class=" firstlvl"><a href="{% url 'index.home' %}">
+                    <a class="mm-link" href="{% url 'index.home' %}">صفحه اصلی </a></a>
                 </li>
-                <li class="has-dropdown firstlvl">
-                    <a class="mm-link" href="../../accessories_tmp/shop.html">Shop <i class="rt-angle-down"></i></a>
-                    <ul class="sub-menu mega-dropdown-mobile">
-                        <li class="mega-dropdown-li">
-                            <ul class="mega-dropdown-ul mm-show">
-                                <li class="dropdown-li"><a class="dropdown-link" href="../../accessories_tmp/shop.html">Shop</a>
-                                </li>
-                                <li class="dropdown-li"><a class="dropdown-link"
-                                                           href="../AESProduct/slidebar-left.html">Left Sidebar
-                                    Shop</a>
-                                </li>
-                                <li class="dropdown-li"><a class="dropdown-link"
-                                                           href="../../accessories_tmp/slidebar-right.html">Right
-                                    Sidebar
-                                    Shop</a>
-                                </li>
-                                <li class="dropdown-li"><a class="dropdown-link"
-                                                           href="../../accessories_tmp/full-width-shop.html">Full
-                                    Width Shop</a>
-                                </li>
-                            </ul>
-                        </li>
-                        <li class="mega-dropdown-li">
-                            <ul class="mega-dropdown-ul mm-show">
-                                <li class="dropdown-li"><a class="dropdown-link"
-                                                           href="../AESProduct/product-details.html">Single Product
-                                    Layout
-                                    One</a>
-                                </li>
-                                <li class="dropdown-li"><a class="dropdown-link"
-                                                           href="../../accessories_tmp/product-details2.html">Single
-                                    Product Layout
-                                    Two</a>
-                                </li>
-                                <li class="dropdown-li"><a class="dropdown-link"
-                                                           href="../AESProduct/variable-products.html">Variable
-                                    Product</a>
-                                </li>
-                                <li class="dropdown-li"><a class="dropdown-link"
-                                                           href="../../accessories_tmp/grouped-products.html">Grouped
-                                    Product</a>
-                                </li>
-                            </ul>
-                        </li>
-                        <li class="mega-dropdown-li">
-                            <ul class="mega-dropdown-ul mm-show">
-                                <li class="dropdown-li"><a class="dropdown-link" href="../AESOrder/cart.html">Cart
-                                </a>
-                                </li>
-                                <li class="dropdown-li"><a class="dropdown-link"
-                                                           href="../../accessories_tmp/checkout.html">Checkout</a>
-                                </li>
-                                <li class="dropdown-li"><a class="dropdown-link"
-                                                           href="../AESAccount/account.html">My
-                                    Account</a>
-                                </li>
-                            </ul>
-                        </li>
-                    </ul>
+                <li class=" firstlvl">
+                    <a class="mm-link" href="{% url 'Dashboard.account' %}">حساب کاربری </a></a>
                 </li>
-                <li class="has-dropdown firstlvl">
-                    <a class="mm-link" href="index.html">Pages <i class="rt-angle-down"></i></a>
-                    <ul class="sub-menu">
-                        <li><a href="about.html">About</a></li>
-                        <li><a href="faq.html">FAQ's</a></li>
-                        <li><a href="../Layouts/error.html">Error 404</a></li>
-                    </ul>
+                <li class=" firstlvl">
+                    <a href="{% url 'product.list.product' %}">محصولات </a>
                 </li>
-                <li class="has-dropdown firstlvl">
-                    <a class="mm-link" href="../AESBlog/news.html">Blog <i class="rt-angle-down"></i></a>
-                    <ul class="sub-menu">
-                        <li><a href="../AESBlog/news.html">Blog</a></li>
-                        <li><a href="../AESBlog/news-grid.html">Blog Grid</a></li>
-                        <li><a href="../AESBlog/news-details.html">Blog Details</a></li>
-                    </ul>
+                <li class=" firstlvl">
+                    {% if OrderList.count %}
+
+                        <a class="mm-link" href="{% url 'User.basket.details' %}">سبد خرید ({{ OrderList.count }})</a>
+                    {% else %}
+                        <a class="mm-link" href="{% url 'User.basket.details' %}">سبد خرید (0)</a>
+
+                    {% endif %}
+
+
                 </li>
-                <li><a class="mm-link" href="contact.html">Contact</a></li>
+                <li class=" firstlvl">
+                    {% if WishList.count %}
+
+                        <a class="mm-link" href="{% url 'Wishlist.order' %}"> محصولات مورد
+                            علاقه ({{ WishList.count }}) </a>
+                    {% else %}
+                        <a class="mm-link" href="{% url 'Wishlist.order' %}"> محصولات مورد
+                            علاقه (0) </a>
+
+                    {% endif %}
+
+
+                </li>
+                <li class=" firstlvl">
+                    <a class="mm-link" href="{% url 'faq.home' %}">سوالات پر تکرار </a>
+
+                </li>
+                <li class=" firstlvl">
+                    <a class="mm-link" href="{% url 'about-us.home' %}">درباره ما</a>
+
+                </li>
+                <li><a class="mm-link" href="{% url 'contact-us.home' %}">تماس با ما</a></li>
             </ul>
         </nav>
-        <div class="header-action-items header-action-items1 header-action-items-side">
-            <div class="search-part">
-                <div class="search-icon action-item icon"><i class="rt-search"></i></div>
-                <div class="search-input-area">
-                    <div class="container">
-                        <div class="search-input-inner">
-                            <select id="custom-select">
-                                <option value="hide">All Catagory</option>
-                                <option value="all">All</option>
-                                <option value="men">Men</option>
-                                <option value="women">Women</option>
-                                <option value="shoes">Shoes</option>
-                                <option value="shoes">Glasses</option>
-                                <option value="shoes">Bags</option>
-                                <option value="shoes">Assesories</option>
-                            </select>
-                            <div class="input-div">
-                                <div class="search-input-icon"><i class="rt-search mr--10"></i></div>
-                                <input class="search-input" type="text" placeholder="Search by keyword or #">
-                            </div>
-                            <div class="search-close-icon"><i class="rt-xmark"></i></div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="cart action-item">
-                <div class="cart-nav">
-                    <div class="cart-icon icon"><i class="rt-cart"></i><span class="wishlist-dot icon-dot">3</span>
-                    </div>
-                </div>
-            </div>
-            <div class="wishlist action-item">
-                <div class="favourite-icon icon"><i class="rt-heart"></i><span class="cart-dot icon-dot">0</span>
-                </div>
-            </div>
-            <a href="../AESAccount/login.html" class="account"><i class="rt-user-2"></i></a>
-        </div>
+
         <!-- side-mobile-menu end -->
     </aside>
-    <!--================= Banner Section Start Here =================-->
-
-    <!--================= Banner Section End Here =================-->
-    {#</header>#}
-    {#    <header id="rtsHeader">#}
-    {#        <div class="header-topbar header-topbar1">#}
-    {#            <div class="container">#}
-    {#                <div class="header-top-area">#}
-    {#                    <div class="slider-div">#}
-    {#                        <div class="swiper rts-topSlide1">#}
-    {#                            <div class="swiper-wrapper">#}
-    {#                                <div class="swiper-slide">#}
-    {#                                    <h3 class="welcome-text"> Open Door To A worlds Of Fashion<a href="#">Discover Now</a></h3>#}
-    {#                                </div>#}
-    {#                                <div class="swiper-slide">#}
-    {#                                    <h3 class="welcome-text"> Open Door To A worlds Of Fashion<a href="#">Discover Now</a></h3>#}
-    {#                                </div>#}
-    {#                                <div class="swiper-slide">#}
-    {#                                    <h3 class="welcome-text"> Open Door To A worlds Of Fashion<a href="#">Discover Now</a></h3>#}
-    {#                                </div>#}
-    {#                                <div class="swiper-slide">#}
-    {#                                    <h3 class="welcome-text"> Open Door To A worlds Of Fashion<a href="#">Discover Now</a></h3>#}
-    {#                                </div>#}
-    {#                            </div>#}
-    {#                            <div class="slider-navigation2">#}
-    {#                                <div class="swiper-button-prev slider-btn prev"><i#}
-    {#                                        class="rt rt-arrow-left-long"></i></div>#}
-    {#                                <div class="swiper-button-next slider-btn next"><i#}
-    {#                                        class="rt rt-arrow-right-long"></i>#}
-    {#                                </div>#}
-    {#                            </div>#}
-    {#                        </div>#}
-    {#                    </div>#}
-    {#                </div>#}
-    {#            </div>#}
-    {#        </div>#}
-    {#        <div class="header-topbar-menu-area">#}
-    {#            <div class="container">#}
-    {#                <div class="menu-area1">#}
-    {#                    <div class="menu-item">#}
-    {#                        <nav class="nav navbar">#}
-    {#                            <div class="navbar-menu">#}
-    {#                                <ul>#}
-    {#                                    <li><a href="#">About Us</a></li>#}
-    {#                                    <li><a href="#">My Account</a></li>#}
-    {#                                    <li><a href="#">Whishlist</a></li>#}
-    {#                                    <li><a href="#">Order Tracking</a></li>#}
-    {#                                </ul>#}
-    {#                            </div>#}
-    {#                        </nav>#}
-    {#                    </div>#}
-    {#                    <div class="menu-area-right-side">#}
-    {#                        <div class="contact"><i aria-hidden="true" class="fas fa-phone"></i>Need help? <strong>Call us:#}
-    {#                                <a href="call:0020500">+ 0020 500</a></strong></div>#}
-    {#                        <div class="topbar-select-area">#}
-    {#                            <select class="topbar-select custom-select">#}
-    {#                                <option value="eng">English</option>#}
-    {#                                <option value="esp">Español</option>#}
-    {#                                <option value="ban">Bangla</option>#}
-    {#                            </select>#}
-    {#                            <select class="topbar-select custom-select2">#}
-    {#                                <option value="usd">USD</option>#}
-    {#                                <option value="eur">Euro</option>#}
-    {#                                <option value="tk">Taka</option>#}
-    {#                            </select>#}
-    {#                        </div>#}
-    {#                    </div>#}
-    {#                </div>#}
-    {#            </div>#}
-    {#        </div>#}
-    {#        <div class="navbar-sticky">#}
-    {#            <div class="container">#}
-    {#                <div class="navbar-part navbar-part1">#}
-    {#                    <div class="navbar-inner">#}
-    {#                        <div class="left-side">#}
-    {#                            <div class="hamburger-1">#}
-    {#                                <a href="#" class="nav-menu-link">#}
-    {#                                    <span class="dot1"></span>#}
-    {#                                    <span class="dot2"></span>#}
-    {#                                    <span class="dot3"></span>#}
-    {#                                    <span class="dot4"></span>#}
-    {#                                    <span class="dot5"></span>#}
-    {#                                    <span class="dot6"></span>#}
-    {#                                    <span class="dot7"></span>#}
-    {#                                    <span class="dot8"></span>#}
-    {#                                    <span class="dot9"></span>#}
-    {#                                </a>#}
-    {#                            </div>#}
-    {#                            <a href="index.html" class="logo"><img src="../../static/images/logo1.svg" alt="umart-logo"></a>#}
-    {#                        </div>#}
-    {#                        <div class="rts-menu">#}
-    {#                            <nav class="menus menu-toggle">#}
-    {#                                <ul class="nav__menu">#}
-    {#                                    <li class="has-dropdown"><a class="menu-item" href="#">Home <i#}
-    {#                                        class="rt-plus"></i></a>#}
-    {#                                        <ul class="dropdown-ul">#}
-    {#                                            <li class="dropdown-li"><a class="dropdown-link active" href="index.html">Main#}
-    {#                                                Home</a>#}
-    {#                                            </li>#}
-    {#                                            <li class="dropdown-li"><a class="dropdown-link"#}
-    {#                                                    href="index-two.html">Fashion#}
-    {#                                                    Home</a>#}
-    {#                                            </li>#}
-    {#                                            <li class="dropdown-li"><a class="dropdown-link"#}
-    {#                                                    href="index-three.html">Furniture#}
-    {#                                                    Home</a>#}
-    {#                                            </li>#}
-    {#                                            <li class="dropdown-li"><a class="dropdown-link"#}
-    {#                                                    href="index-four.html">Decor#}
-    {#                                                    Home</a>#}
-    {#                                            </li>#}
-    {#                                            <li class="dropdown-li"><a class="dropdown-link"#}
-    {#                                                    href="index-five.html">Electronics#}
-    {#                                                    Home</a>#}
-    {#                                            </li>#}
-    {#                                            <li class="dropdown-li"><a class="dropdown-link"#}
-    {#                                                    href="index-six.html">Grocery#}
-    {#                                                    Home</a>#}
-    {#                                            </li>#}
-    {#                                            <li class="dropdown-li"><a class="dropdown-link"#}
-    {#                                                    href="../AESHome/index.html">Footwear#}
-    {#                                                    Home</a>#}
-    {#                                            </li>#}
-    {#                                            <li class="dropdown-li"><a class="dropdown-link"#}
-    {#                                                href="index-eight.html">Gaming#}
-    {#                                                Home</a>#}
-    {#                                            </li>#}
-    {#                                        </ul>#}
-    {#                                    </li>#}
-    {#                                    <li class="has-dropdown"><a class="menu-item" href="#">Shop <i#}
-    {#                                        class="rt-plus"></i></a>#}
-    {#                                        <ul class="dropdown-ul mega-dropdown">#}
-    {#                                            <li class="mega-dropdown-li">#}
-    {#                                                <ul class="mega-dropdown-ul">#}
-    {#                                                    <li class="dropdown-li"><a class="dropdown-link2"#}
-    {#                                                            href="shop.html">Shop</a>#}
-    {#                                                    </li>#}
-    {#                                                    <li class="dropdown-li"><a class="dropdown-link2"#}
-    {#                                                            href="../AESProduct/slidebar-left.html">Left Sidebar Shop</a>#}
-    {#                                                    </li>#}
-    {#                                                    <li class="dropdown-li"><a class="dropdown-link2"#}
-    {#                                                            href="slidebar-right.html">Right Sidebar Shop</a>#}
-    {#                                                    </li>#}
-    {#                                                    <li class="dropdown-li"><a class="dropdown-link2"#}
-    {#                                                            href="full-width-shop.html">Full Width Shop</a>#}
-    {#                                                    </li>#}
-    {#                                                </ul>#}
-    {#                                            </li>#}
-    {#                                            <li class="mega-dropdown-li">#}
-    {#                                                <ul class="mega-dropdown-ul">#}
-    {#                                                    <li class="dropdown-li"><a class="dropdown-link2"#}
-    {#                                                            href="../templates/AESProduct/product-details.html">Single Product Layout One</a>#}
-    {#                                                    </li>#}
-    {#                                                    <li class="dropdown-li"><a class="dropdown-link2"#}
-    {#                                                            href="product-details2.html">Single Product Layout Two</a>#}
-    {#                                                    </li>#}
-    {#                                                    <li class="dropdown-li"><a class="dropdown-link2"#}
-    {#                                                            href="../AESProduct/variable-products.html">Variable#}
-    {#                                                            Product</a>#}
-    {#                                                    </li>#}
-    {#                                                    <li class="dropdown-li"><a class="dropdown-link2"#}
-    {#                                                            href="grouped-products.html">Grouped#}
-    {#                                                            Product</a>#}
-    {#                                                    </li>#}
-    {#                                                </ul>#}
-    {#                                            </li>#}
-    {#                                            <li class="mega-dropdown-li last-child">#}
-    {#                                                <ul class="mega-dropdown-ul">#}
-    {#                                                    <li class="dropdown-li"><a class="dropdown-link2"#}
-    {#                                                            href="cart.html">Cart</a>#}
-    {#                                                    </li>#}
-    {##}
-    {#                                                    <li class="dropdown-li"><a class="dropdown-link2"#}
-    {#                                                            href="checkout.html">Checkout</a>#}
-    {#                                                    </li>#}
-    {#                                                    <li class="dropdown-li"><a class="dropdown-link2"#}
-    {#                                                            href="../AESAccount/account.html">My Account</a>#}
-    {#                                                    </li>#}
-    {#                                                </ul>#}
-    {#                                            </li>#}
-    {#                                        </ul>#}
-    {#                                    </li>#}
-    {#                                    <li class="has-dropdown"><a class="menu-item active1" href="#">Pages <i#}
-    {#                                        class="rt-plus"></i></a>#}
-    {#                                        <ul class="dropdown-ul">#}
-    {#                                            <li class="dropdown-li"><a class="dropdown-link" href="../AESHome/about.html">About</a>#}
-    {#                                            </li>#}
-    {#                                            <li class="dropdown-li"><a class="dropdown-link" href="../AESHome/faq.html">FAQ's</a>#}
-    {#                                            </li>#}
-    {#                                            <li class="dropdown-li"><a class="dropdown-link" href="../Layouts/error.html">Error#}
-    {#                                                    404</a>#}
-    {#                                            </li>#}
-    {#                                        </ul>#}
-    {#                                    </li>#}
-    {#                                    <li class="has-dropdown"><a class="menu-item" href="#">Blog <i#}
-    {#                                        class="rt-plus"></i></a>#}
-    {#                                        <ul class="dropdown-ul">#}
-    {#                                            <li class="dropdown-li"><a class="dropdown-link" href="../AESBlog/news.html">Blog</a>#}
-    {#                                            </li>#}
-    {#                                            <li class="dropdown-li"><a class="dropdown-link"#}
-    {#                                                    href="../AESBlog/news-grid.html">Blog Grid</a></li>#}
-    {#                                            <li class="dropdown-li"><a class="dropdown-link"#}
-    {#                                                    href="../AESBlog/news-details.html">Blog Details</a></li>#}
-    {#                                        </ul>#}
-    {#                                    </li>#}
-    {#                                    <li><a class="menu-item" href="../AESHome/contact.html">Contact</a></li>#}
-    {#                                </ul>#}
-    {#                            </nav>#}
-    {#                        </div>#}
-    {#                        <div class="responsive-hamburger">#}
-    {#                            <div class="hamburger-1">#}
-    {#                                <a href="#" class="nav-menu-link">#}
-    {#                                    <span class="dot1"></span>#}
-    {#                                    <span class="dot2"></span>#}
-    {#                                    <span class="dot3"></span>#}
-    {#                                    <span class="dot4"></span>#}
-    {#                                    <span class="dot5"></span>#}
-    {#                                    <span class="dot6"></span>#}
-    {#                                    <span class="dot7"></span>#}
-    {#                                    <span class="dot8"></span>#}
-    {#                                    <span class="dot9"></span>#}
-    {#                                </a>#}
-    {#                            </div>#}
-    {#                        </div>#}
-    {#                        <div class="header-action-items header-action-items1">#}
-    {#                            <div class="search-part">#}
-    {#                                <div class="search-icon action-item icon"><i class="rt-search"></i></div>#}
-    {#                                <div class="search-input-area">#}
-    {#                                    <div class="container">#}
-    {#                                        <div class="search-input-inner">#}
-    {#                                            <div class="input-div">#}
-    {#                                                <input id="searchInput1" class="search-input" type="text"#}
-    {#                                                    placeholder="Search by keyword or #">#}
-    {#                                            </div>#}
-    {#                                            <div class="search-close-icon"><i class="rt-xmark"></i></div>#}
-    {#                                        </div>#}
-    {#                                    </div>#}
-    {#                                </div>#}
-    {#                            </div>#}
-    {#                            <a href="../AESAccount/login.html" class="account"><i class="rt-user-2"></i></a>#}
-    {#                            <div class="cart action-item">#}
-    {#                                <div class="cart-nav">#}
-    {#                                    <div class="cart-icon icon"><a href="#0"><i aria-hidden="true"#}
-    {#                                                class="fas fa-shopping-basket"></i></a><span#}
-    {#                                            class="wishlist-dot icon-dot">3</span></div>#}
-    {#                                </div>#}
-    {#                            </div>#}
-    {#                        </div>#}
-    {#                    </div>#}
-    {#                </div>#}
-    {#            </div>#}
-    {#        </div>#}
-    {#        <div class="cart-bar">#}
-    {#            <div class="cart-header">#}
-    {#                <h3 class="cart-heading">MY CART (3 ITEMS)</h3>#}
-    {#                <div class="close-cart"><i class="fal fa-times"></i></div>#}
-    {#            </div>#}
-    {#            <div class="product-area">#}
-    {#                <div class="product-item">#}
-    {#                    <div class="product-detail">#}
-    {#                        <div class="product-thumb"><img src="../../static/images/slider/image1.jpg" alt="product-thumb"></div>#}
-    {#                        <div class="item-wrapper">#}
-    {#                            <span class="product-name">Parachute Jacket</span>#}
-    {#                            <div class="item-wrapper">#}
-    {#                                <span class="product-variation"><span class="color">Green /</span>#}
-    {#                                    <span class="size">XL</span></span>#}
-    {#                            </div>#}
-    {#                            <div class="item-wrapper">#}
-    {#                                <span class="product-qnty">3 ×</span>#}
-    {#                                <span class="product-price">$198.00</span>#}
-    {#                            </div>#}
-    {#                        </div>#}
-    {#                    </div>#}
-    {#                    <div class="cart-edit">#}
-    {#                        <div class="quantity-edit">#}
-    {#                            <button class="button"><i class="fal fa-minus minus"></i></button>#}
-    {#                            <input type="text" class="input" value="3" />#}
-    {#                            <button class="button plus">+<i class="fal fa-plus plus"></i></button>#}
-    {#                        </div>#}
-    {#                        <div class="item-wrapper d-flex mr--5 align-items-center">#}
-    {#                            <a href="#" class="product-edit"><i class="fal fa-edit"></i></a>#}
-    {#                            <a href="#" class="delete-cart"><i class="fal fa-times"></i></a>#}
-    {#                        </div>#}
-    {#                    </div>#}
-    {#                </div>#}
-    {#                <div class="product-item">#}
-    {#                    <div class="product-detail">#}
-    {#                        <div class="product-thumb"><img src="../../static/images/slider/image2.jpg" alt="product-thumb"></div>#}
-    {#                        <div class="item-wrapper">#}
-    {#                            <span class="product-name">Narrow Trouser</span>#}
-    {#                            <div class="item-wrapper">#}
-    {#                                <span class="product-variation"><span class="color">Green /</span>#}
-    {#                                    <span class="size">XL</span></span>#}
-    {#                            </div>#}
-    {#                            <div class="item-wrapper">#}
-    {#                                <span class="product-qnty">2 ×</span>#}
-    {#                                <span class="product-price">$88.00</span>#}
-    {#                            </div>#}
-    {#                        </div>#}
-    {#                    </div>#}
-    {#                    <div class="cart-edit">#}
-    {#                        <div class="quantity-edit">#}
-    {#                            <button class="button"><i class="fal fa-minus minus"></i></button>#}
-    {#                            <input type="text" class="input" value="2" />#}
-    {#                            <button class="button plus">+<i class="fal fa-plus plus"></i></button>#}
-    {#                        </div>#}
-    {#                        <div class="item-wrapper d-flex mr--5 align-items-center">#}
-    {#                            <a href="#" class="product-edit"><i class="fal fa-edit"></i></a>#}
-    {#                            <a href="#" class="delete-cart"><i class="fal fa-times"></i></a>#}
-    {#                        </div>#}
-    {#                    </div>#}
-    {#                </div>#}
-    {#                <div class="product-item last-child">#}
-    {#                    <div class="product-detail">#}
-    {#                        <div class="product-thumb"><img src="../../static/images/slider/image5.jpg" alt="product-thumb"></div>#}
-    {#                        <div class="item-wrapper">#}
-    {#                            <span class="product-name">Bellyless Hoodie</span>#}
-    {#                            <div class="item-wrapper">#}
-    {#                                <span class="product-variation"><span class="color">Green /</span>#}
-    {#                                    <span class="size">XL</span></span>#}
-    {#                            </div>#}
-    {#                            <div class="item-wrapper">#}
-    {#                                <span class="product-qnty">1 ×</span>#}
-    {#                                <span class="product-price">$289.00</span>#}
-    {#                            </div>#}
-    {#                        </div>#}
-    {#                    </div>#}
-    {#                    <div class="cart-edit">#}
-    {#                        <div class="quantity-edit">#}
-    {#                            <button class="button"><i class="fal fa-minus minus"></i></button>#}
-    {#                            <input type="text" class="input" value="2" />#}
-    {#                            <button class="button plus">+<i class="fal fa-plus plus"></i></button>#}
-    {#                        </div>#}
-    {#                        <div class="item-wrapper d-flex mr--5 align-items-center">#}
-    {#                            <a href="#" class="product-edit"><i class="fal fa-edit"></i></a>#}
-    {#                            <a href="#" class="delete-cart"><i class="fal fa-times"></i></a>#}
-    {#                        </div>#}
-    {#                    </div>#}
-    {#                </div>#}
-    {#            </div>#}
-    {#            <div class="cart-bottom-area">#}
-    {#                <span class="spend-shipping"><i class="fal fa-truck"></i> SPENT <span class="amount">$199.00</span> MORE#}
-    {#                    FOR FREE SHIPPING</span>#}
-    {#                <span class="total-price">TOTAL: <span class="price">$556</span></span>#}
-    {#                <a href="checkout.html" class="checkout-btn cart-btn">PROCEED TO CHECKOUT</a>#}
-    {#                <a href="cart.html" class="view-btn cart-btn">VIEW CART</a>#}
-    {#            </div>#}
-    {#        </div>#}
-    {#        <!-- slide-bar start -->#}
-    {#        <aside class="slide-bar">#}
-    {#            <div class="offset-sidebar">#}
-    {#                <a class="hamburger-1 mobile-hamburger-1 ml--30" href="#"><span><i class="rt-xmark"></i></span></a>#}
-    {#            </div>#}
-    {#            <!-- offset-sidebar start -->#}
-    {#            <div class="offset-sidebar-main">#}
-    {#                <div class="offset-widget mb-40">#}
-    {#                    <div class="info-widget">#}
-    {#                        <img src="../../static/images/logo1.svg" alt="">#}
-    {#                        <p class="mb-30">#}
-    {#                            We must explain to you how all seds this mistakens idea denouncing pleasures and praising account.#}
-    {#                        </p>#}
-    {#                    </div>#}
-    {#                    <div class="info-widget info-widget2">#}
-    {#                        <h4 class="offset-title mb-20">Get In Touch </h4>#}
-    {#                        <ul>#}
-    {#                            <li class="info phone"><a href="tel:78090790890208806803">780 907 908 90, 208 806 803</a></li>#}
-    {#                            <li class="info email"><a href="email:info@webmail.com">info@webmail.com</a></li>#}
-    {#                            <li class="info web"><a href="../accessories_tmp/www.webexample.html">www.webexample.com</a></li>#}
-    {#                            <li class="info location">13/A, New Pro State, NYC</li>#}
-    {#                        </ul>#}
-    {#                        <div class="offset-social-link">#}
-    {#                            <h4 class="offset-title mb-20">Follow Us </h4>#}
-    {#                            <ul class="social-icon">#}
-    {#                                <li><a href="#"><i class="fab fa-facebook-f"></i></a></li>#}
-    {#                                <li><a href="#"><i class="fab fa-twitter"></i></a></li>#}
-    {#                                <li><a href="#"><i class="fab fa-youtube"></i></a></li>#}
-    {#                                <li><a href="#"><i class="fab fa-linkedin"></i></a></li>#}
-    {#                                <li><a href="#"><i class="fab fa-behance"></i></a></li>#}
-    {#                            </ul>#}
-    {#                        </div>#}
-    {#                    </div>#}
-    {#                </div>#}
-    {#            </div>#}
-    {#		    <!-- offset-sidebar end -->#}
-    {#            <!-- side-mobile-menu start -->#}
-    {#            <nav class="side-mobile-menu side-mobile-menu1">#}
-    {#                <ul id="mobile-menu-active">#}
-    {#                    <li class="has-dropdown firstlvl">#}
-    {#                        <a class="mm-link" href="index.html">Home <i class="rt-angle-down"></i></a>#}
-    {#                        <ul class="sub-menu">#}
-    {#                            <li><a href="index.html">Main Home</a></li>#}
-    {#                            <li><a href="index-two.html">Fashion Home</a></li>#}
-    {#                            <li><a href="index-three.html">Furniture Home</a></li>#}
-    {#                            <li><a href="index-four.html">Decor Home</a></li>#}
-    {#                            <li><a href="index-five.html">Electronics Home</a></li>#}
-    {#                            <li><a href="index-six.html">Grocery Home</a></li>#}
-    {#                            <li><a href="../AESHome/index.html">Footwear Home</a></li>#}
-    {#                            <li><a href="index-eight.html">Gaming Home</a></li>#}
-    {#                        </ul>#}
-    {#                    </li>#}
-    {#                    <li class="has-dropdown firstlvl">#}
-    {#                        <a class="mm-link" href="shop.html">Shop <i class="rt-angle-down"></i></a>#}
-    {#                        <ul class="sub-menu mega-dropdown-mobile">#}
-    {#                            <li class="mega-dropdown-li">#}
-    {#                                <ul class="mega-dropdown-ul mm-show">#}
-    {#                                    <li class="dropdown-li"><a class="dropdown-link" href="shop.html">Shop</a>#}
-    {#                                    </li>#}
-    {#                                    <li class="dropdown-li"><a class="dropdown-link" href="../AESProduct/slidebar-left.html">Left Sidebar#}
-    {#                                            Shop</a>#}
-    {#                                    </li>#}
-    {#                                    <li class="dropdown-li"><a class="dropdown-link" href="slidebar-right.html">Right Sidebar#}
-    {#                                            Shop</a>#}
-    {#                                    </li>#}
-    {#                                    <li class="dropdown-li"><a class="dropdown-link" href="full-width-shop.html">Full#}
-    {#                                            Width Shop</a>#}
-    {#                                    </li>#}
-    {#                                </ul>#}
-    {#                            </li>#}
-    {#                            <li class="mega-dropdown-li">#}
-    {#                                <ul class="mega-dropdown-ul mm-show">#}
-    {#                                    <li class="dropdown-li"><a class="dropdown-link" href="../templates/AESProduct/product-details.html">Single Product#}
-    {#                                            Layout#}
-    {#                                            One</a>#}
-    {#                                    </li>#}
-    {#                                    <li class="dropdown-li"><a class="dropdown-link"#}
-    {#                                            href="product-details2.html">Single Product Layout#}
-    {#                                            Two</a>#}
-    {#                                    </li>#}
-    {#                                    <li class="dropdown-li"><a class="dropdown-link" href="../AESProduct/variable-products.html">Variable Product</a>#}
-    {#                                    </li>#}
-    {#                                    <li class="dropdown-li"><a class="dropdown-link" href="grouped-products.html">Grouped Product</a>#}
-    {#                                    </li>#}
-    {#                                </ul>#}
-    {#                            </li>#}
-    {#                            <li class="mega-dropdown-li">#}
-    {#                                <ul class="mega-dropdown-ul mm-show">#}
-    {#                                    <li class="dropdown-li"><a class="dropdown-link" href="cart.html">Cart#}
-    {#                                            </a>#}
-    {#                                    </li>#}
-    {#                                    <li class="dropdown-li"><a class="dropdown-link"#}
-    {#                                            href="checkout.html">Checkout</a>#}
-    {#                                    </li>#}
-    {#                                    <li class="dropdown-li"><a class="dropdown-link"#}
-    {#                                            href="../AESAccount/account.html">My#}
-    {#                                            Account</a>#}
-    {#                                    </li>#}
-    {#                                </ul>#}
-    {#                            </li>#}
-    {#                        </ul>#}
-    {#                    </li>#}
-    {#                    <li class="has-dropdown firstlvl">#}
-    {#                        <a class="mm-link" href="index.html">Pages <i class="rt-angle-down"></i></a>#}
-    {#                        <ul class="sub-menu">#}
-    {#                            <li><a href="../AESHome/about.html">About</a></li>#}
-    {#                            <li><a href="../AESHome/faq.html">FAQ's</a></li>#}
-    {#                            <li><a href="../Layouts/error.html">Error 404</a></li>#}
-    {#                        </ul>#}
-    {#                    </li>#}
-    {#                    <li class="has-dropdown firstlvl">#}
-    {#                        <a class="mm-link" href="../AESBlog/news.html">Blog <i class="rt-angle-down"></i></a>#}
-    {#                        <ul class="sub-menu">#}
-    {#                            <li><a href="../AESBlog/news.html">Blog</a></li>#}
-    {#                            <li><a href="../AESBlog/news-grid.html">Blog Grid</a></li>#}
-    {#                            <li><a href="../AESBlog/news-details.html">Blog Details</a></li>#}
-    {#                        </ul>#}
-    {#                    </li>#}
-    {#                    <li><a class="mm-link" href="../AESHome/contact.html">Contact</a></li>#}
-    {#                </ul>#}
-    {#            </nav>#}
-    {#            <div class="header-action-items header-action-items1 header-action-items-side">#}
-    {#                <div class="search-part">#}
-    {#                    <div class="search-icon action-item icon"><i class="rt-search"></i></div>#}
-    {#                    <div class="search-input-area">#}
-    {#                        <div class="container">#}
-    {#                            <div class="search-input-inner">#}
-    {#                                <select id="custom-select">#}
-    {#                                    <option value="hide">All Catagory</option>#}
-    {#                                    <option value="all">All</option>#}
-    {#                                    <option value="men">Men</option>#}
-    {#                                    <option value="women">Women</option>#}
-    {#                                    <option value="shoes">Shoes</option>#}
-    {#                                    <option value="shoes">Glasses</option>#}
-    {#                                    <option value="shoes">Bags</option>#}
-    {#                                    <option value="shoes">Assesories</option>#}
-    {#                                </select>#}
-    {#                                <div class="input-div">#}
-    {#                                    <div class="search-input-icon"><i class="rt-search mr--10"></i></div>#}
-    {#                                    <input class="search-input" type="text" placeholder="Search by keyword or #">#}
-    {#                                </div>#}
-    {#                                <div class="search-close-icon"><i class="rt-xmark"></i></div>#}
-    {#                            </div>#}
-    {#                        </div>#}
-    {#                    </div>#}
-    {#                </div>#}
-    {#                <div class="cart action-item">#}
-    {#                    <div class="cart-nav">#}
-    {#                        <div class="cart-icon icon"><i class="rt-cart"></i><span class="wishlist-dot icon-dot">3</span>#}
-    {#                        </div>#}
-    {#                    </div>#}
-    {#                </div>#}
-    {#                <div class="wishlist action-item">#}
-    {#                    <div class="favourite-icon icon"><i class="rt-heart"></i><span class="cart-dot icon-dot">0</span>#}
-    {#                    </div>#}
-    {#                </div>#}
-    {#                <a href="../AESAccount/login.html" class="account"><i class="rt-user-2"></i></a>#}
-    {#            </div>#}
-    {#            <!-- side-mobile-menu end -->#}
-    {#        </aside>#}
-    {#        <div class="page-path">#}
-    {#            <div class="container">#}
-    {#                <div class="breadcrumbs-inner">#}
-    {#                    <h1 class="path-title">Wishlist</h1>#}
-    {#                    <ul>#}
-    {#                        <li><a class="home-page-link" href="index.html">Home <i class="fal fa-angle-right"></i></a></li>#}
-    {#                        <li><a class="current-page" href="#">Wishlist</a></li>#}
-    {#                    </ul>#}
-    {#                </div>#}
-    {#            </div>#}
-    {#        </div>#}
-{#    </header>#}
+    <div class="page-path">
+        <div class="container">
+            <div class="breadcrumbs-inner">
+                <h1 class="path-title">{{ SiteSetting.title }}</h1>
+            </div>
+        </div>
+    </div>
+</header>

@@ -2,10 +2,14 @@ from django.shortcuts import render
 from django.urls import reverse
 from django.views.generic import CreateView
 
+from AESOrder.models import Order, WishListDetail
 from AESUtils.lists_maker import lists_maker
 from .forms import ContactUsForm
-from .models import SiteSetting, Footer_Link_my_account, Footer_Link_info, InstaFeed, FooterFeatures, FAQS, About_us
-from AESOrder.models import Order, WishList, WishListDetail
+from .models import (
+    SiteSetting, Footer_Link_my_account, Footer_Link_info, InstaFeed, FooterFeatures, FAQS, About_us,
+    RedLine
+)
+
 
 def index(request):
     return render(request, 'AESHome/index.html')
@@ -52,19 +56,25 @@ def Footer(request):
 
 def Header(request):
     try:
-        order:Order = Order.active.filter(user=request.user).first()
+        order: Order = Order.active.get_or_create(user=request.user)[0]
+    except:
+        order = None
+    try:
         OrderList = order.details
-    except :
+    except:
         OrderList = None
 
     try:
         WishList_ = WishListDetail.active.filter(wishlist__user=request.user, wishlist__is_active=True
-                                                 ,wishlist__is_delete=False)
+                                                 , wishlist__is_delete=False)
     except:
         WishList_ = None
     context = {
         'SiteSetting': SiteSetting.active.first(),
         'OrderList': OrderList,
-        'WishList': WishList_
+        'WishList': WishList_,
+        'order': order,
+        'redline': RedLine.active.order_by('-id').all()
     }
+
     return render(request, 'Layouts/Header/HeaderBase.html', context)

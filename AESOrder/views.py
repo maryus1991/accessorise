@@ -156,7 +156,7 @@ def remove_item_from_wishlist(request, wdid):
 @login_required
 def User_basket_details(request):
     user = request.user
-    order = Order.active.get_or_create(user=user)[0]
+    order = Order.active.get_or_create(user=user, is_complete=False, is_paid=False)[0]
     order_detail = OrderDetail.active.filter(order=order).prefetch_related('product').all()
     context = {
         'order_detail': order_detail,
@@ -183,11 +183,11 @@ def remove_item_from_basket(request):
         user = request.user
         did = request.POST.get('did')
         if did is not None:
-            order_detail = OrderDetail.active.filter(id=int(did)).first()
+            order_detail:OrderDetail = OrderDetail.active.filter(id=int(did), order__user=user).first()
             if order_detail is None:
-                return Http404()
-            order_detail.is_active = False
-            order_detail.save()
+                raise Http404()
+            order_detail.delete()
+
 
             final_price: Order = Order.active.filter(user=request.user).first()
             final_price.total_price = final_price.get_final_price()

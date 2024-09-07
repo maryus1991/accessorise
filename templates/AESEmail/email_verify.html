@@ -1,7 +1,8 @@
 {% extends 'Layouts/Base.html' %}
+{% load static %}
     <!--thanks-area start-->
 {% block title %}
-	Thanks You
+	{{ title }}
 {% endblock %}
 
 {% block content %}
@@ -12,11 +13,19 @@
                     <i class="fal fa-check"></i>
                 </div>
                 <div class="section-title">
-                    <h2 class="sub-title">تشکر</h2>
-                    <h3 class="sect-title">تشکر ثبت نام در سایت</h3>
+                    <h2 class="sub-title">{{ title }}</h2>
                 </div>
                 <div class="section-button">
-                    <a class="btn-1" href="{{ request.get_host }}"><i class="fal fa-long-arrow-left"></i>فعال کردن حساب</a>
+                    <a class="btn btn-success" href="https://{{ link }}"><i class="fal fa-long-arrow-left"></i>{{ link_name }}</a>
+                </div>
+                <br>
+                <p>
+                    اگر دکمه بالا کار نکرد لطفا لینک زیر را در مرورگر خود وارد کنید 
+                </p>
+                <div class="section-button">
+                    https://{{ link }}
+                    <br>
+                   {{ link }}
                 </div>                
 
             </div>

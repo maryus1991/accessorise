@@ -17,14 +17,27 @@ class Product_List(ListView):
         category = self.kwargs.get('category')
         tag = self.kwargs.get('tag')
 
+
+        find = self.request.GET.get('search')
+
+        if find is not None:
+            query = Product.active.filter(
+                Q(description__contains=find) | Q(title__contains=find)|
+                Q(short_description__contains=find) | Q(more_details__contains=find)|
+                Q(slug__contains=find)
+            ).all()
+            return query
+
         if brand is not None:
             query = Product.active.filter(brands__slug__iexact=brand,
                                           brands__is_active=True,
                                           brands__is_delete=False).all()
+            return query
         if category is not None:
             query = Product.active.filter(categories__slug__iexact=category,
                                           categories__is_active=True,
                                           categories__is_delete=False).all()
+            return query
 
         if tag is not None:
             query = Product.active.filter(tags__slug__iexact=tag,

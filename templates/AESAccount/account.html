@@ -26,7 +26,7 @@
                     </button>
                     <a href="{% url 'Wishlist.order' %}" class="filter-btn" data-show=".dashboard"><i
                             class="fal fa-shopping-basket"></i>
-                    محصولات مورد علاقه
+                        محصولات مورد علاقه
                     </a>
                     <a href="{% url 'Authentication.logout.account' %}" class="filter-btn" data-show=".dashboard"><i
                             class="fal fa-long-arrow-left"></i>
@@ -76,7 +76,11 @@
                                 </p>
                             </div>
                         {% endif %}
-
+                        {% if UserChangePasswordForm.has_error %}
+                            <div class="alert alert-danger">
+                                {{ UserChangePasswordForm.errors }}
+                            </div>
+                        {% endif %}
                         {% if status_red is not None and status_red != 200 %}
                             <div class="alert alert-danger">
                                 <p>
@@ -90,18 +94,18 @@
                                 </p>
                             </div>
                         {% endif %}
-                    {% if UserEditProfile.has_error %}
-                    	
-                        {% for field in UserEditProfile %}
-                            {% for error in field.errors %}
-                                <div class="alert alert-danger">
-                                    <p>
-                                        {{ error }}
-                                    </p>
-                                </div>
+                        {% if UserEditProfile.has_error %}
+
+                            {% for field in UserEditProfile %}
+                                {% for error in field.errors %}
+                                    <div class="alert alert-danger">
+                                        <p>
+                                            {{ error }}
+                                        </p>
+                                    </div>
+                                {% endfor %}
                             {% endfor %}
-                        {% endfor %}
-                    {% endif %} 
+                        {% endif %}
 
                         <div class="activity-box">
                             <div class="activity-item">
@@ -138,7 +142,7 @@
                                 <a href="{% url 'Wishlist.order' %}" class="filter-btn" data-show=".dashboard">
                                     <div class="icon"><i class="fas fa-heart"></i></div>
                                     <span class="title">محصولات مورد علاقه</span>
-                                    </a>
+                                </a>
 
 
                             </div>
@@ -164,24 +168,26 @@
                             {% with order_c as order %}
 
 
-                            <tr>
-                                <td>#{{ order.id }}</td>
-                                <td>{{ order.created|to_jalali }}</td>
-                                <td>درحال پرداش</td>
-                                <td>{{ order.get_final_price|tdc }} T</td>
-                                <td><a href="{% url 'UserDetailOrder.account' oid=order.id %}" class="btn-small d-block">جزییات  ({{ order.details.count }})</a></td>
-                            </tr>
+                                <tr>
+                                    <td>#{{ order.id }}</td>
+                                    <td>{{ order.created|to_jalali }}</td>
+                                    <td>درحال پرداش</td>
+                                    <td>{{ order.get_final_price|tdc }} T</td>
+                                    <td><a href="{% url 'UserDetailOrder.account' oid=order.id %}"
+                                           class="btn-small d-block">جزییات ({{ order.details.count }})</a></td>
+                                </tr>
                             {% endwith %}
                             {% for order in order_last %}
-                            <tr>
-                                <td>#{{ order.id }}</td>
-                                <td>{{ order.created|to_jalali }}</td>
-                                <td>موفق</td>
-                                <td>{{ order.get_final_price|tdc }} T</td>
-                                <td><a href="{% url 'UserDetailOrder.account' oid=order.id %}" class="btn-small d-block">
-                                    جزییات  ({{ order.details.count }})
-                                </a></td>
-                            </tr>
+                                <tr>
+                                    <td>#{{ order.id }}</td>
+                                    <td>{{ order.created|to_jalali }}</td>
+                                    <td>موفق</td>
+                                    <td>{{ order.get_final_price|tdc }} T</td>
+                                    <td><a href="{% url 'UserDetailOrder.account' oid=order.id %}"
+                                           class="btn-small d-block">
+                                        جزییات ({{ order.details.count }})
+                                    </a></td>
+                                </tr>
                             {% endfor %}
                             </tbody>
                         </table>
@@ -192,7 +198,7 @@
                                 <div class="billing-address">
                                     <h2 class="mb--30">ادرس کاربر</h2>
                                     <address>
-                                        {{ user.addr }} ادرس:
+                                           ادرس :{{ user.addr }}
                                     </address>
                                     <p class="mb--10">
                                         کد پستی : {{ user.post }}
@@ -223,6 +229,7 @@
                         </div>
                     </div>
                     <div class="account-main accountdtls filterd-items hide">
+                        <h3 class="title">ویرایش اطلاعات</h3>
                         <form action="{% url 'UserEditProfile_from.account' %}" method="post"
                               enctype="multipart/form-data">
                             {% csrf_token %}
@@ -237,6 +244,26 @@
                             {{ UserEditProfile.avatar }}
                             <br>
                             {{ UserEditProfile.phone }}
+
+                            <button class="btn btn-light btn-close-white btn-xs" type="submit">
+                                ویرایش
+                            </button>
+
+                        </form>
+                        <br>
+                        <br>
+                        <br>
+                        <h3 class="title">
+                            تغییر رمز
+                        </h3>
+                        <form action="{% url 'user-change-pass' %}" method="post">
+                            {% csrf_token %}
+                            {{ UserChangePasswordForm.password }}
+                            <br>
+                            {{ UserChangePasswordForm.new_password }}
+                            <br>
+
+                            {{ UserChangePasswordForm.conform_password }}
 
                             <button class="btn btn-light btn-close-white btn-xs" type="submit">
                                 ویرایش

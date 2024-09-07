@@ -1,4 +1,5 @@
 from django import forms
+from django.core.exceptions import ValidationError
 from django.core.validators import RegexValidator
 
 from .models import User
@@ -120,3 +121,50 @@ class UserRegisterForm(forms.ModelForm):
 
             ),
         }
+
+
+class UserChangePasswordForm(forms.Form):
+    password = forms.CharField(widget=forms.PasswordInput(
+        attrs={'class': 'form-control',
+               'placeholder': 'رمز فعلی خود را وارد کنید ...'
+               }
+    ))
+    new_password = forms.CharField(widget=forms.PasswordInput(
+        attrs={'class': 'form-control',
+               'placeholder': 'رمز جدید خود را وارد کنید ...'
+               }
+    ))
+    conform_password = forms.CharField(widget=forms.PasswordInput(
+        attrs={'class': 'form-control',
+               'placeholder': 'دوباره رمز جدید خود را وارد کنید ...'
+               }
+    ))
+
+    def clean_conform_password(self):
+        password = self.cleaned_data.get('new_password')
+        conform_password = self.cleaned_data.get('conform_password')
+        if password == conform_password:
+            return conform_password
+        else:
+            raise ValidationError('کلمه عبور و تکرار ان غیر هم سان هستند')
+
+
+class UserChangePasswordResetForm(forms.Form):
+    new_password = forms.CharField(widget=forms.PasswordInput(
+        attrs={'class': 'form-control alert shadow',
+               'placeholder': 'رمز جدید خود را وارد کنید ...'
+               }
+    ))
+    conform_password = forms.CharField(widget=forms.PasswordInput(
+        attrs={'class': 'form-control alert shadow',
+               'placeholder': 'دوباره رمز جدید خود را وارد کنید ...'
+               }
+    ))
+
+    def clean_conform_password(self):
+        password = self.cleaned_data.get('new_password')
+        conform_password = self.cleaned_data.get('conform_password')
+        if password == conform_password:
+            return conform_password
+        else:
+            raise ValidationError('کلمه عبور و تکرار ان غیر هم سان هستند')

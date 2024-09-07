@@ -23,6 +23,11 @@
                         <div class="alert alert-info">
                             {{ request.GET.status }}
                         </div>
+                    {% endif %}                    
+                    {% if request.GET.code == '20' %}
+                        <div class="alert alert-success">
+                            {{ request.GET.status }}
+                        </div>
                     {% endif %}
                 </div>
                 <div class="col-lg-6 col-md-12 mr-10">
@@ -48,7 +53,7 @@
                                     <div class="form">
                                         <button type="submit" class="btn">ورود</button>
                                     </div>
-                                    <a class="forgot-password" href="#">رمزم را فراموش کردم </a>
+                                    <a class="forgot-password" href="{% url 'send.email.account' %}">رمزم را فراموش کردم </a>
                                 </form>
                             </div>
                         </div>

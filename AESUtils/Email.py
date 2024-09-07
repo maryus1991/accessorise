@@ -3,8 +3,6 @@ from django.core.mail import send_mail
 from django.template.loader import render_to_string
 from django.utils.html import strip_tags
 
-settings.configure()
-
 
 def SendMail(to, subject, context, template_name):
     try:
@@ -13,11 +11,5 @@ def SendMail(to, subject, context, template_name):
         from_email = settings.EMAIL_HOST_USER
         send_mail(subject, plain_message, from_email, [to], html_message=html_message)
         return True
-    except:
+    except :
         return False
-
-
-send_mail('subject',
-          'content',
-          settings.EMAIL_HOST_USER,
-          ['maryus19915123@gmail.com'])
