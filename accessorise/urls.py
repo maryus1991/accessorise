@@ -19,11 +19,12 @@ from django.urls import path, include
 from . import settings
 from django.conf.urls.static import static
 
-
 urlpatterns = [
-    path('admin/', admin.site.urls),
-    path('', include('AESHome.urls')),
-    path('user/', include('AESAccount.urls')),
-    path('product/', include('AESProduct.urls')),
-    path('order/', include('AESOrder.urls')),
-] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+                  path('admin/', admin.site.urls),
+                  path('', include('AESHome.urls')),
+                  path('user/', include('AESAccount.urls')),
+                  path('product/', include('AESProduct.urls')),
+                  path('order/', include('AESOrder.urls')),
+              ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+
+handler404 = 'AESHome.views.handler404'

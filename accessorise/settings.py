@@ -23,9 +23,9 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-fmi5+=ms%whng1d8knth29ygm$up_)&iy24pc^7#$xz&(hpo-6'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['aes.mebrahimy.ir', '*']
 
 
 os.environ.setdefault("DJANGO_SETTINGS_MODULE", "accessorise.settings")

@@ -3,17 +3,20 @@ from django.urls import reverse
 from django.views.generic import CreateView
 
 from AESOrder.models import Order, WishListDetail
+from AESProduct.models import Product
 from AESUtils.lists_maker import lists_maker
 from .forms import ContactUsForm
 from .models import (
     SiteSetting, Footer_Link_my_account, Footer_Link_info, InstaFeed, FooterFeatures, FAQS, About_us,
-    RedLine,BlackBelt ,HomeIndex
+    RedLine, BlackBelt, HomeIndex
 )
-from AESProduct.models import Product
+
+
+def handler404(request, *args, **kwargs):
+    return render(request, '404.html', status=404)
 
 
 def index(request):
-
     context = {
         'BlackBelt': BlackBelt.active.all(),
         'HomeIndex': HomeIndex.active.order_by('-id').first(),
