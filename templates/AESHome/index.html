@@ -1,13 +1,13 @@
 {% extends 'Layouts/Base.html' %}
 {% load static %}
-
+{% load Ptags %}
 
 {% block title %}
-	فروشگاه
+    فروشگاه
 {% endblock %}
 
 {% block content %}
-<!--================= Preloader Section Start Here =================-->
+    <!--================= Preloader Section Start Here =================-->
     <div class="banner banner-2 banner-7 bg-image">
         <div class="container">
             <div class="banner-inner">
@@ -16,22 +16,22 @@
                         <div class="rts-heading">
                             <div class="title-inner">
                                 <div class="sub-title">
-                                    <h2>2022</h2>
+                                    <h2>{{ HomeIndex.created.year }}</h2>
                                 </div>
                                 <h2 class="title">
                                         <span class="watermark">
-                                            New Arrivals
+                                            {{ HomeIndex.title }}
                                         </span>
                                 </h2>
                             </div>
-                            <p class="description">Sale up to 30% off
+                            <p class="description">{{ HomeIndex.sub_title }}
                             </p>
                             <div class="section-btn">
                                 <div class="rts-btn">
-                                    <a href="#">Veiw Collections</a>
+                                    <a href="{{ HomeIndex.link }}">{{ HomeIndex.link_name }}</a>
                                 </div>
                                 <div class="rts-video">
-                                    <a href="https://www.youtube.com/watch?v=S05bHj0LBE4"
+                                    <a href="{{ HomeIndex.first_video }}"
                                        class="popup-videos">
                                         <i class="far fa-play"></i>
                                     </a>
@@ -41,8 +41,9 @@
                     </div>
                     <div class="col-xl-4 col-lg-4 col-md-12 col-sm-12">
                         <div class="product-item2 element-item2">
-                            <a href="../AESProduct/product-details.html" class="product-image2 image-slider-variations">
-                                <img src="../../static/images/banner/banner-img.webp" alt="">
+                            <a href="{% url 'product.details.product' HomeIndex.product.id %}"
+                               class="product-image2 image-slider-variations">
+                                <img src="{{ HomeIndex.product.image.url }}" width="446px" height="521px" alt="">
                             </a>
                         </div>
                     </div>
@@ -51,29 +52,21 @@
                             <div class="col-xl-2"></div>
                             <div class="col-xl-10 col-lg-12 col-12">
                                 <div class="product-item element-item2">
-                                    <a href="../AESProduct/product-details.html"
+                                    <a href="{% url 'product.details.product' HomeIndex.product.id %}"
                                        class="product-image image-slider-variations">
-                                        <div class="hot">HOT</div>
+                                        <div class="hot">جدید</div>
                                         <div class="swiper productSlide">
                                             <div class="swiper-wrapper">
-                                                <div class="swiper-slide">
-                                                    <div class="image-vari1 image-vari"><img
-                                                            src="../../static/images/banner/foot-7-338x450.webp"
-                                                            alt="product-image">
+                                                {% for img in HomeIndex.product.gallery.all %}
+
+                                                    <div class="swiper-slide">
+                                                        <div class="image-vari1 image-vari"><img
+                                                                src="{{ img.image.url }}"
+                                                                alt="product-image" height="505px" width="380px">
+                                                        </div>
                                                     </div>
-                                                </div>
-                                                <div class="swiper-slide">
-                                                    <div class="image-vari2 image-vari"><img
-                                                            src="../../static/images/hand-picked/slider-img8_2.jpg"
-                                                            alt="product-image">
-                                                    </div>
-                                                </div>
-                                                <div class="swiper-slide">
-                                                    <div class="image-vari2 image-vari"><img
-                                                            src="../../static/images/hand-picked/slider-img8_3.jpg"
-                                                            alt="product-image">
-                                                    </div>
-                                                </div>
+                                                {% endfor %}
+
                                             </div>
                                         </div>
                                         <div class="slider-buttons">
@@ -85,10 +78,19 @@
                                     </a>
                                     <div class="bottom-content">
 
-                                        <a href="../AESProduct/product-details.html" class="product-name">Apex Men's
-                                            Shoe</a>
+                                        <a href="{% url 'product.details.product' HomeIndex.product.id %}"
+                                           class="product-name">
+                                            {{ HomeIndex.product.title|truncatechars:35 }}
+                                        </a>
                                         <div class="action-wrap">
-                                            <span class="price">$44.00 - $233.00</span>
+                                            <span class="price">
+                                                {% if HomeIndex.product.off %}
+                                                    {{ HomeIndex.product.price|discount:HomeIndex.product.off }}
+                                                {% else %}
+                                                    {{ HomeIndex.product.price|tdc }}
+                                                {% endif %}
+
+                                            </span>
                                         </div>
                                     </div>
                                     <div class="quick-action-button">
@@ -96,14 +98,18 @@
                                             <a href="#"><i class="rt-plus"></i></a>
                                         </div>
                                         <div class="cta-single cta-quickview">
-                                            <button class="product-details-popup-btn"><i class="far fa-eye"></i>
-                                            </button>
+                                            <a href="{% url 'product.details.product' HomeIndex.product.id %}">
+                                                <button class="product-details-popup-btn"><i class="far fa-eye"></i>
+                                                </button>
+                                            </a>
                                         </div>
                                         <div class="cta-single cta-wishlist">
-                                            <a href="../AESOrder/wishlist.html"><i class="far fa-heart"></i></a>
+                                            <a href="{% url 'Wishlist.Set.Cookie' HomeIndex.product.id 1 %}"><i
+                                                    class="far fa-heart"></i></a>
                                         </div>
                                         <div class="cta-single cta-addtocart">
-                                            <a href="../AESOrder/cart.html"><i class="rt-basket-shopping"></i></a>
+                                            <a href="{% url 'Order.Set.Cookie' HomeIndex.product.id 1 %}"><i
+                                                    class="rt-basket-shopping"></i></a>
                                         </div>
                                     </div>
                                 </div>
@@ -115,461 +121,212 @@
         </div>
     </div>
     <div id="weiboo-load">
-    <div class="preloader-new">
-        <svg class="cart_preloader" role="img" aria-label="Shopping cart_preloader line animation"
-             viewBox="0 0 128 128" width="128px" height="128px"
-             xmlns="http://www.w3.org/2000/svg">
-            <g fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-width="8">
-                <g class="cart__track" stroke="hsla(0,10%,10%,0.1)">
-                    <polyline points="4,4 21,4 26,22 124,22 112,64 35,64 39,80 106,80"></polyline>
-                    <circle cx="43" cy="111" r="13"></circle>
-                    <circle cx="102" cy="111" r="13"></circle>
-                </g>
-                <g class="cart__lines" stroke="currentColor">
-                    <polyline class="cart__top" points="4,4 21,4 26,22 124,22 112,64 35,64 39,80 106,80"
-                              stroke-dasharray="338 338" stroke-dashoffset="-338"></polyline>
-                    <g class="cart__wheel1" transform="rotate(-90,43,111)">
-                        <circle class="cart__wheel-stroke" cx="43" cy="111" r="13" stroke-dasharray="81.68 81.68"
-                                stroke-dashoffset="81.68"></circle>
+        <div class="preloader-new">
+            <svg class="cart_preloader" role="img" aria-label="Shopping cart_preloader line animation"
+                 viewBox="0 0 128 128" width="128px" height="128px"
+                 xmlns="http://www.w3.org/2000/svg">
+                <g fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-width="8">
+                    <g class="cart__track" stroke="hsla(0,10%,10%,0.1)">
+                        <polyline points="4,4 21,4 26,22 124,22 112,64 35,64 39,80 106,80"></polyline>
+                        <circle cx="43" cy="111" r="13"></circle>
+                        <circle cx="102" cy="111" r="13"></circle>
                     </g>
-                    <g class="cart__wheel2" transform="rotate(90,102,111)">
-                        <circle class="cart__wheel-stroke" cx="102" cy="111" r="13" stroke-dasharray="81.68 81.68"
-                                stroke-dashoffset="81.68"></circle>
+                    <g class="cart__lines" stroke="currentColor">
+                        <polyline class="cart__top" points="4,4 21,4 26,22 124,22 112,64 35,64 39,80 106,80"
+                                  stroke-dasharray="338 338" stroke-dashoffset="-338"></polyline>
+                        <g class="cart__wheel1" transform="rotate(-90,43,111)">
+                            <circle class="cart__wheel-stroke" cx="43" cy="111" r="13" stroke-dasharray="81.68 81.68"
+                                    stroke-dashoffset="81.68"></circle>
+                        </g>
+                        <g class="cart__wheel2" transform="rotate(90,102,111)">
+                            <circle class="cart__wheel-stroke" cx="102" cy="111" r="13" stroke-dasharray="81.68 81.68"
+                                    stroke-dashoffset="81.68"></circle>
+                        </g>
                     </g>
                 </g>
-            </g>
-        </svg>
-    </div>
-</div>
-<!--================= Preloader End Here =================-->
-
-<div class="anywere anywere-home"></div>
-
-<!--================= Header Section Start Here =================-->
-<!--================= Header Section End Here =================-->
-
-
-<!--================= Discount Section Start Here =================-->
-<div class="rts-discount-section">
-    <div class="rt-marquee">
-        <div class="marquee-tag">
-            <h3>Summer Sale Discount <span>off 60%</span></h3>
-        </div>
-        <div class="marquee-tag">
-            <h3>Summer Sale Discount <span>off 60%</span></h3>
-        </div>
-        <div class="marquee-tag">
-            <h3>Summer Sale Discount <span>off 60%</span></h3>
-        </div>
-        <div class="marquee-tag">
-            <h3>Summer Sale Discount <span>off 60%</span></h3>
-        </div>
-        <div class="marquee-tag">
-            <h3>Summer Sale Discount <span>off 60%</span></h3>
-        </div>
-        <div class="marquee-tag">
-            <h3>Summer Sale Discount <span>off 60%</span></h3>
-        </div>
-        <div class="marquee-tag">
-            <h3>Summer Sale Discount <span>off 60%</span></h3>
-        </div>
-        <div class="marquee-tag">
-            <h3>Summer Sale Discount <span>off 60%</span></h3>
-        </div>
-        <div class="marquee-tag">
-            <h3>Summer Sale Discount <span>off 60%</span></h3>
-        </div>
-        <div class="marquee-tag">
-            <h3>Summer Sale Discount <span>off 60%</span></h3>
+            </svg>
         </div>
     </div>
-</div>
-<!--================= Discount Section End Here =================-->
+    <!--================= Preloader End Here =================-->
 
 
-<!--================= Offer Section Start Here =================-->
-<div class="rts-offer-section">
-    <div class="container">
-        <div class="section-inner">
-            <div class="row">
-                <div class="col-xl-4 col-lg-4 col-md-6">
-                    <div class="product-item7">
-                        <div class="product-image">
-                            <img src="../../static/images/products/home7/collec-1.webp" alt="">
+
+    <!--================= Header Section Start Here =================-->
+    <!--================= Header Section End Here =================-->
+
+
+    <!--================= Discount Section Start Here =================-->
+    {% if  HomeIndex.active_BlackBelt %}
+        <div class="rts-discount-section">
+            <div class="rt-marquee">
+                {% for belts in BlackBelt %}
+                    {% for belt in belts.repeat|RFS %}
+                        <div class="marquee-tag">
+                            <h3><span>{{ belts.title_part_1 }}</span> {{ belts.title_part_2 }} </h3>
                         </div>
-                        <div class="bottom-text">
-                            <h4 class="sub-title">New Collections</h4>
-                            <h3 class="title">Splash Into Summer</h3>
-                            <a href="../../accessories_tmp/shop.html" class="btn-text">SHOP NOW</a>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-xl-4 col-lg-4 col-md-6">
-                    <div class="product-item7">
-                        <div class="product-image">
-                            <img src="../../static/images/products/home7/collec-2.webp" alt="">
-                        </div>
-                        <div class="bottom-text">
-                            <h4 class="sub-title">New Collections</h4>
-                            <h3 class="title">20% Off For You</h3>
-                            <a href="../../accessories_tmp/shop.html" class="btn-text">SHOP NOW</a>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-xl-4 col-lg-4 col-md-6">
-                    <div class="product-item7">
-                        <div class="product-image">
-                            <img src="../../static/images/products/home7/collec-3.webp" alt="">
-                        </div>
-                        <div class="bottom-text">
-                            <h4 class="sub-title">New Collections</h4>
-                            <h3 class="title">Special Edition Shoes</h3>
-                            <a href="../../accessories_tmp/shop.html" class="btn-text">SHOP NOW</a>
-                        </div>
-                    </div>
-                </div>
+                    {% endfor %}
+                {% endfor %}
             </div>
         </div>
-    </div>
-</div>
-<!--================= Offer Section End Here =================-->
+    {% endif %}
+
+    <!--================= Discount Section End Here =================-->
 
 
-<!--================= Featured Product Section Start Here =================-->
-<div class="rts-featured-product-section1 featured-product7">
-    <div class="container">
-        <div class="rts-featured-product-section-inner">
-            <div class="section-header section-header3 text-center">
-                <div class="wrapper">
-                    <div class="sub-content">
-                        <img class="line-1" src="../../static/images/icons/icon-title.webp" alt="">
-                        <span class="sub-text">Featured</span>
-                        <img class="line-2" src="../../static/images/icons/icon-title.webp" alt="">
-                    </div>
-                    <h2 class="title">محصولات جدید ما را چک کنید</h2>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-xl-3 col-md-4 col-sm-6 col-12">
-                    <div class="product-item element-item1">
-                        <a href="../AESProduct/product-details.html" class="product-image image-hover-variations">
-                            <div class="image-vari1 image-vari"><img
-                                    src="../../static/images/products/home7/footwear-1-410x410.webp"
-                                    alt="product-image">
-                            </div>
-                            <div class="image-vari2 image-vari"><img
-                                    src="../../static/images/products/home7/foot-2-410x410.webp" alt="product-image">
-                            </div>
-                        </a>
-                        <div class="bottom-content">
-                            <a href="../AESProduct/product-details.html" class="product-name">Lather Men's Canvas</a>
-                            <div class="action-wrap">
-                                <span class="price">$39.00</span>
-                                <a href="../AESOrder/cart.html" class="addto-cart"><i class="fal fa-shopping-cart"></i>
-                                    Add to Cart</a>
-                            </div>
-                        </div>
-                        <div class="quick-action-button">
-                            <div class="cta-single cta-quickview">
-                                <button class="product-details-popup-btn"><i class="far fa-eye"></i></button>
-                            </div>
-                            <div class="cta-single cta-wishlist">
-                                <a href="../AESOrder/wishlist.html"><i class="far fa-heart"></i></a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-xl-3 col-md-4 col-sm-6 col-12">
-                    <div class="product-item element-item2">
-                        <a href="../AESProduct/product-details.html" class="product-image image-slider-variations">
-                            <div class="swiper productSlide">
-                                <div class="swiper-wrapper">
-                                    <div class="swiper-slide">
-                                        <div class="image-vari1 image-vari"><img
-                                                src="../../static/images/products/home7/foot-10-410x410.webp"
-                                                alt="product-image">
-                                        </div>
+    <!--================= Offer Section Start Here =================-->
+    <div class="rts-offer-section">
+        <div class="container">
+            <div class="section-inner">
+                <div class="row">
+                    {% for Collections in HomeIndex.HomeIndexNewCollections.all %}
+                        {% if forloop.counter <= 3 %}
+                            <div class="col-xl-4 col-lg-4 col-md-6">
+                                <div class="product-item7">
+                                    <div class="product-image">
+                                        <img src="{{ Collections.image.url }}" width="447px" height="350px" alt="">
                                     </div>
-                                    <div class="swiper-slide">
-                                        <div class="image-vari2 image-vari"><img
-                                                src="../../static/images/products/home7/foot-12-410x410.webp"
-                                                alt="product-image">
-                                        </div>
+                                    <div class="bottom-text">
+                                        <h4 class="sub-title">{{ Collections.title }}</h4>
+                                        <h3 class="title">{{ Collections.sub_title }}</h3>
+                                        <a href="{{ Collections.link }}"
+                                           class="btn-text btn btn-light">{{ Collections.link_name }}</a>
                                     </div>
                                 </div>
                             </div>
-                            <div class="slider-buttons">
-                                <div class="button-prev slider-btn"><i class="rt-arrow-left-long"></i></div>
-                                <div class="button-next slider-btn"><i class="rt-arrow-right-long"></i></div>
-                            </div>
-                        </a>
-                        <div class="bottom-content">
-                            <a href="../AESProduct/product-details.html" class="product-name">Shot Men's Canvas</a>
-                            <div class="action-wrap">
-                                <span class="price">$119.00</span>
-                                <a href="../AESOrder/cart.html" class="addto-cart"><i class="fal fa-shopping-cart"></i>
-                                    Add to Cart</a>
-                            </div>
+                        {% endif %}
+                    {% endfor %}
+
+
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--================= Offer Section End Here =================-->
+
+
+    <!--================= Featured Product Section Start Here =================-->
+    <div class="rts-featured-product-section1 featured-product7">
+        <div class="container">
+            <div class="rts-featured-product-section-inner">
+                <div class="section-header section-header3 text-center">
+                    <div class="wrapper">
+                        <div class="sub-content">
+                            <img class="line-1" src="../../static/images/icons/icon-title.webp" alt="">
+                            <span class="sub-text">Featured</span>
+                            <img class="line-2" src="../../static/images/icons/icon-title.webp" alt="">
                         </div>
-                        <div class="quick-action-button">
-                            <div class="cta-single cta-quickview">
-                                <button class="product-details-popup-btn"><i class="far fa-eye"></i></button>
-                            </div>
-                            <div class="cta-single cta-wishlist">
-                                <a href="../AESOrder/wishlist.html"><i class="far fa-heart"></i></a>
-                            </div>
-                        </div>
+                        <h2 class="title">محصولات جدید ما را چک کنید</h2>
                     </div>
                 </div>
-                <div class="col-xl-3 col-md-4 col-sm-6 col-12">
-                    <div class="product-item element-item1">
-                        <a href="../AESProduct/product-details.html" class="product-image image-hover-variations">
-                            <div class="image-vari1 image-vari"><img
-                                    src="../../static/images/products/home7/foot-6-410x410.webp" alt="product-image">
-                            </div>
-                            <div class="image-vari2 image-vari"><img
-                                    src="../../static/images/products/home7/foot-9-410x410.webp" alt="product-image">
-                            </div>
-                        </a>
-                        <div class="bottom-content">
-                            <a href="../AESProduct/product-details.html" class="product-name">Lather Men's Shoe Bra</a>
-                            <div class="action-wrap">
-                                <span class="price">$220.00</span>
-                                <a href="../AESOrder/cart.html" class="addto-cart"><i class="fal fa-shopping-cart"></i>
-                                    Add to Cart</a>
-                            </div>
-                        </div>
-                        <div class="quick-action-button">
-                            <div class="cta-single cta-quickview">
-                                <button class="product-details-popup-btn"><i class="far fa-eye"></i></button>
-                            </div>
-                            <div class="cta-single cta-wishlist">
-                                <a href="../AESOrder/wishlist.html"><i class="far fa-heart"></i></a>
-                            </div>
-                        </div>
-                        <div class="product-features">
-                            <div class="discount-tag product-tag tag-2">-38%</div>
-                            <div class="new-tag product-tag tag-2">HOT</div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-xl-3 col-md-4 col-sm-6 col-12">
-                    <div class="product-item element-item1">
-                        <a href="../AESProduct/product-details.html" class="product-image image-hover-variations">
-                            <div class="image-vari1 image-vari"><img
-                                    src="../../static/images/products/home7/foot-8-410x410.webp" alt="product-image">
-                            </div>
-                            <div class="image-vari2 image-vari"><img
-                                    src="../../static/images/products/home7/foot-11-410x410.webp" alt="product-image">
-                            </div>
-                        </a>
-                        <div class="bottom-content">
-                            <a href="../AESProduct/product-details.html" class="product-name">Women's Canvas</a>
-                            <div class="action-wrap">
-                                <span class="price">$220.00</span>
-                                <a href="../AESOrder/cart.html" class="addto-cart"><i class="fal fa-shopping-cart"></i>
-                                    Add to Cart</a>
-                            </div>
-                        </div>
-                        <div class="quick-action-button">
-                            <div class="cta-single cta-quickview">
-                                <button class="product-details-popup-btn"><i class="far fa-eye"></i></button>
-                            </div>
-                            <div class="cta-single cta-wishlist">
-                                <a href="../AESOrder/wishlist.html"><i class="far fa-heart"></i></a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-xl-3 col-md-4 col-sm-6 col-12">
-                    <div class="product-item element-item1">
-                        <a href="../AESProduct/product-details.html" class="product-image image-hover-variations">
-                            <div class="image-vari1 image-vari"><img
-                                    src="../../static/images/products/home7/foot-3-410x410.webp" alt="product-image">
-                            </div>
-                            <div class="image-vari2 image-vari"><img
-                                    src="../../static/images/products/home7/foot-9-410x410.webp" alt="product-image">
-                            </div>
-                        </a>
-                        <div class="bottom-content">
-                            <a href="../AESProduct/product-details.html" class="product-name">Legacy Lather Sneaker</a>
-                            <div class="action-wrap">
-                                <span class="price">$250.00</span>
-                                <a href="../AESOrder/cart.html" class="addto-cart"><i class="fal fa-shopping-cart"></i>
-                                    Add to Cart</a>
-                            </div>
-                        </div>
-                        <div class="quick-action-button">
-                            <div class="cta-single cta-quickview">
-                                <button class="product-details-popup-btn"><i class="far fa-eye"></i></button>
-                            </div>
-                            <div class="cta-single cta-wishlist">
-                                <a href="../AESOrder/wishlist.html"><i class="far fa-heart"></i></a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-xl-3 col-md-4 col-sm-6 col-12">
-                    <div class="product-item element-item2">
-                        <a href="../AESProduct/product-details.html" class="product-image image-slider-variations">
-                            <div class="swiper productSlide2">
-                                <div class="swiper-wrapper">
-                                    <div class="swiper-slide">
-                                        <div class="image-vari1 image-vari"><img
-                                                src="../../static/images/products/home7/foot-5-410x410.webp"
-                                                alt="product-image">
-                                        </div>
-                                    </div>
-                                    <div class="swiper-slide">
-                                        <div class="image-vari2 image-vari"><img
-                                                src="../../static/images/products/home7/foot-12-410x410.webp"
-                                                alt="product-image">
-                                        </div>
+                <div class="row">
+                    {% for product in Products %}
+                        <div class="col-xl-3 col-md-3 col-sm-12">
+                            <div class="product-item product-item2 element-item3 sidebar-left">
+                                <a href="{% url 'product.details.product' pk=product.id %}"
+                                   class="product-image">
+                                    <img src="{{ product.image.url }}"
+                                         alt="product-image" width="327px" height="327px">
+                                </a>
+                                <div class="bottom-content">
+                                    <a href="{% url 'product.details.product' pk=product.id %}"
+                                       class="product-name">{{ product.title|truncatechars:35 }}</a>
+                                    <div class="action-wrap">
+
+                                        {% if product.off %}
+                                            <span class="product-price">{{ product.price|discount:product.off }}</span>
+
+                                        {% else %}
+                                            <span class="product-price">{{ product.price|tdc }}</span>
+
+                                        {% endif %}
+                                        {% if product.stock > 0 %}
+                                            <a href="{% url 'Order.Set.Cookie' pid=product.id count=1 %}"
+                                               class="addto-cart"><i
+                                                    class="fal fa-shopping-cart"></i> افزودن به سبد خرید</a>
+                                        {% endif %}
+
                                     </div>
                                 </div>
-                            </div>
-                            <div class="slider-navigation">
-                                <div class="button-prev2 slider-btn"><i class="rt-arrow-left-long"></i></div>
-                                <div class="button-next2 slider-btn"><i class="rt-arrow-right-long"></i></div>
-                            </div>
-                        </a>
-                        <div class="bottom-content">
-                            <a href="../AESProduct/product-details.html" class="product-name">Lather Men's Canvas</a>
-                            <div class="action-wrap">
-                                <span class="price">$44.00 - $233.00</span>
-                                <a href="../AESOrder/cart.html" class="addto-cart"><i class="fal fa-shopping-cart"></i>
-                                    Add to Cart</a>
-                            </div>
-                        </div>
-                        <div class="quick-action-button">
-                            <div class="cta-single cta-quickview">
-                                <button class="product-details-popup-btn"><i class="far fa-eye"></i></button>
-                            </div>
-                            <div class="cta-single cta-wishlist">
-                                <a href="../AESOrder/wishlist.html"><i class="far fa-heart"></i></a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-xl-3 col-md-4 col-sm-6 col-12">
-                    <div class="product-item element-item1">
-                        <a href="../AESProduct/product-details.html" class="product-image image-hover-variations">
-                            <div class="image-vari1 image-vari"><img
-                                    src="../../static/images/products/home7/foot-11-410x410.webp" alt="product-image">
-                            </div>
-                            <div class="image-vari2 image-vari"><img
-                                    src="../../static/images/products/home7/foot-8-410x410.webp" alt="product-image">
-                            </div>
-                        </a>
-                        <div class="bottom-content">
-                            <a href="../AESProduct/product-details.html" class="product-name">Lather Men's Lofer</a>
-                            <div class="action-wrap">
-                                <span class="price">$100.00</span>
-                                <a href="../AESOrder/cart.html" class="addto-cart"><i class="fal fa-shopping-cart"></i>
-                                    Add to Cart</a>
-                            </div>
-                        </div>
-                        <div class="quick-action-button">
-                            <div class="cta-single cta-quickview">
-                                <button class="product-details-popup-btn"><i class="far fa-eye"></i></button>
-                            </div>
-                            <div class="cta-single cta-wishlist">
-                                <a href="../AESOrder/wishlist.html"><i class="far fa-heart"></i></a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-xl-3 col-md-4 col-sm-6 col-12">
-                    <div class="product-item element-item1">
-                        <a href="../AESProduct/product-details.html" class="product-image image-hover-variations">
-                            <div class="image-vari1 image-vari"><img
-                                    src="../../static/images/products/home7/foot-2-410x410.webp" alt="product-image">
-                            </div>
-                            <div class="image-vari2 image-vari"><img
-                                    src="../../static/images/products/home7/footwear-1-410x410.webp"
-                                    alt="product-image">
-                            </div>
-                        </a>
-                        <div class="bottom-content">
-                            <a href="../AESProduct/product-details.html" class="product-name">Sprint Men's Canvas</a>
-                            <div class="action-wrap">
-                                <span class="price">$220.00</span>
-                                <a href="../AESOrder/cart.html" class="addto-cart"><i class="fal fa-shopping-cart"></i>
-                                    Add to Cart</a>
-                            </div>
-                        </div>
-                        <div class="quick-action-button">
-                            <div class="cta-single cta-quickview">
-                                <button class="product-details-popup-btn"><i class="far fa-eye"></i></button>
-                            </div>
-                            <div class="cta-single cta-wishlist">
-                                <a href="../AESOrder/wishlist.html"><i class="far fa-heart"></i></a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-<!--================= Featured Product Section End Here =================-->
-
-
-<!--================= Video Section Start Here =================-->
-<div class="rts-video-section">
-    <div class="container">
-        <div class="video-section-inner">
-            <div class="rts-video">
-                <div class="about-video-wrapper">
-                    <a href="https://www.youtube.com/watch?v=S05bHj0LBE4"
-                       class="popup-videos">
-                        <i class="rt-play"></i>
-                    </a>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-<!--================= Video Section End Here =================-->
-
-
-
-
-<!--================= Deal Section Start Here =================-->
-<div class="rts-deal-section1 section-7">
-    <div class="container">
-        <div class="section-inner">
-            <div class="row">
-                <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12">
-                    <div class="product-image">
-                        <img src="../../static/images/products/home7/shoes.webp" alt="">
-                    </div>
-                </div>
-                <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12">
-                    <div class="single-inner">
-                        <div class="content-box">
-                            <div class="sub-content">
-                                <img class="line-1" src="../../static/images/icons/icon-title.webp" alt="">
-                                <span class="sub-text">Deal Of The Week</span>
-                            </div>
-                            <h2 class="slider-title">Roland Grand White <br> Black Shoes</h2>
-                            <div class="slider-description">
-                                <p>Our intent and our actions have always been informed by progress. We
-                                    look at an impact report as a way to measure.</p>
-                            </div>
-                            <div class="countdown" id="countdown">
-                                <ul>
-                                    <li><span id="days"></span>D</li>
-                                    <li><span id="hours"></span>H</li>
-                                    <li><span id="minutes"></span>M</li>
-                                    <li><span id="seconds"></span>S</li>
-                                </ul>
-                            </div>
-                            <div class="content-bottom">
-                                <div class="img-box"><img src="../../static/images/hand-picked/deal-icon.png" alt="">
+                                <div class="product-actions">
+                                    <a href="{% url 'Wishlist.Set.Cookie' pid=product.id count=1 %}"
+                                       class="product-action"><i
+                                            class="fal fa-heart"></i></a>
+                                    <a href="{% url 'product.details.product' pk=product.id %}"
+                                       class="product-action product-details-popup-btn"><i
+                                            class="fal fa-eye"></i></a>
                                 </div>
-                                <p class="content">Limited time offer. The deal will expires <br>
-                                    on November 12, 2022 HURRY UP!</p>
+                            </div>
+                        </div>
+                    {% endfor %}
+
+
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--================= Featured Product Section End Here =================-->
+
+
+    <!--================= Video Section Start Here =================-->
+    <div class="rts-video-section">
+        <div class="container">
+            <div class="video-section-inner">
+                <div class="rts-video">
+                    <div class="about-video-wrapper">
+                        <a href="{{ HomeIndex.second_video }}"
+                           class="popup-videos">
+                            <i class="rt-play"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--================= Video Section End Here =================-->
+
+
+
+
+    <!--================= Deal Section Start Here =================-->
+    <div class="rts-deal-section1 section-7">
+        <div class="container">
+            <div class="section-inner">
+                <div class="row">
+                    <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12">
+                        <div class="product-image">
+                            <img src="{{ HomeIndex.DealOfTheWeek.image.url }}" width="501px" height="465px" alt="">
+                        </div>
+                    </div>
+                    <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12">
+                        <div class="single-inner">
+                            <div class="content-box">
+                                <div class="sub-content">
+                                    <img class="line-1" src="../../static/images/icons/icon-title.webp" alt="">
+                                    <span class="sub-text">Deal Of The Week</span>
+                                    <img class="line-1" src="../../static/images/icons/icon-title.webp" alt="">
+                                </div>
+                                <h2 class="slider-title">{{ HomeIndex.DealOfTheWeek.title }}</h2>
+                                <div class="slider-description">
+                                    <p>
+                                        {{ HomeIndex.DealOfTheWeek.content }}
+                                    </p>
+                                </div>
+                                <div class="countdown" id="countdown">
+                                    <ul>
+                                        <li><span id="days"></span>D</li>
+                                        <li><span id="hours"></span>H</li>
+                                        <li><span id="minutes"></span>M</li>
+                                        <li><span id="seconds"></span>S</li>
+                                    </ul>
+                                </div>
+                                <div class="content-bottom">
+                                    <div class="img-box"><img src="../../static/images/hand-picked/deal-icon.png"
+                                                              alt="">
+                                    </div>
+                                    <p class="content">
+                                        {{ HomeIndex.DealOfTheWeek.sub_content }}
+                                    </p>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -577,112 +334,115 @@
             </div>
         </div>
     </div>
-</div>
-<!--================= Deal Section End Here =================-->
+    <!--================= Deal Section End Here =================-->
 
-<!--================= Product-details Section Start Here =================-->
-<div class="product-details-popup-wrapper">
-    <div class="rts-product-details-section rts-product-details-section2 product-details-popup-section">
-        <div class="product-details-popup">
-            <button class="product-details-close-btn"><i class="fal fa-times"></i></button>
-            <div class="details-product-area">
-                <div class="product-thumb-area">
-                    <div class="cursor"></div>
-                    <div class="thumb-wrapper one filterd-items figure">
-                        <div class="product-thumb zoom" onmousemove="zoom(event)"
-                             style="background-image: url(../../static/images/products/product-details.jpg)"><img
-                                src="../../static/images/products/product-details.jpg" alt="product-thumb">
-                        </div>
-                    </div>
-                    <div class="thumb-wrapper two filterd-items hide">
-                        <div class="product-thumb zoom" onmousemove="zoom(event)"
-                             style="background-image: url(../../static/images/products/product-filt2.jpg)"><img
-                                src="../../static/images/products/product-filt2.jpg" alt="product-thumb">
-                        </div>
-                    </div>
-                    <div class="thumb-wrapper three filterd-items hide">
-                        <div class="product-thumb zoom" onmousemove="zoom(event)"
-                             style="background-image: url(../../static/images/products/product-filt3.jpg)"><img
-                                src="../../static/images/products/product-filt3.jpg" alt="product-thumb">
-                        </div>
-                    </div>
-                    <div class="product-thumb-filter-group">
-                        <div class="thumb-filter filter-btn active" data-show=".one"><img
-                                src="../../static/images/products/product-filt1.jpg" alt="product-thumb-filter"></div>
-                        <div class="thumb-filter filter-btn" data-show=".two"><img
-                                src="../../static/images/products/product-filt2.jpg" alt="product-thumb-filter"></div>
-                        <div class="thumb-filter filter-btn" data-show=".three"><img
-                                src="../../static/images/products/product-filt3.jpg" alt="product-thumb-filter"></div>
-                    </div>
-                </div>
-                <div class="contents">
-                    <div class="product-status">
-                        <span class="product-catagory">Dress</span>
-                        <div class="rating-stars-group">
-                            <div class="rating-star"><i class="fas fa-star"></i></div>
-                            <div class="rating-star"><i class="fas fa-star"></i></div>
-                            <div class="rating-star"><i class="fas fa-star-half-alt"></i></div>
-                            <span>10 Reviews</span>
-                        </div>
-                    </div>
-                    <h2 class="product-title">Wide Cotton Tunic Dress <span class="stock">In Stock</span></h2>
-                    <span class="product-price"><span class="old-price">$9.35</span> $7.25</span>
-                    <p>
-                        Priyoshop has brought to you the Hijab 3 Pieces Combo Pack PS23. It is a
-                        completely modern design and you feel comfortable to put on this hijab.
-                        Buy it at the best price.
-                    </p>
-                    <div class="product-bottom-action">
-                        <div class="cart-edit">
-                            <div class="quantity-edit action-item">
-                                <button class="button"><i class="fal fa-minus minus"></i></button>
-                                <input type="text" class="input" value="01"/>
-                                <button class="button plus">+<i class="fal fa-plus plus"></i></button>
+    <!--================= Product-details Section Start Here =================-->
+    <div class="product-details-popup-wrapper">
+        <div class="rts-product-details-section rts-product-details-section2 product-details-popup-section">
+            <div class="product-details-popup">
+                <button class="product-details-close-btn"><i class="fal fa-times"></i></button>
+                <div class="details-product-area">
+                    <div class="product-thumb-area">
+                        <div class="cursor"></div>
+                        <div class="thumb-wrapper one filterd-items figure">
+                            <div class="product-thumb zoom" onmousemove="zoom(event)"
+                                 style="background-image: url(../../static/images/products/product-details.jpg)"><img
+                                    src="../../static/images/products/product-details.jpg" alt="product-thumb">
                             </div>
                         </div>
-                        <a href="../AESOrder/cart.html" class="addto-cart-btn action-item"><i
-                                class="rt-basket-shopping"></i>
-                            Add To
-                            Cart</a>
-                        <a href="../AESOrder/wishlist.html" class="wishlist-btn action-item"><i class="rt-heart"></i></a>
+                        <div class="thumb-wrapper two filterd-items hide">
+                            <div class="product-thumb zoom" onmousemove="zoom(event)"
+                                 style="background-image: url(../../static/images/products/product-filt2.jpg)"><img
+                                    src="../../static/images/products/product-filt2.jpg" alt="product-thumb">
+                            </div>
+                        </div>
+                        <div class="thumb-wrapper three filterd-items hide">
+                            <div class="product-thumb zoom" onmousemove="zoom(event)"
+                                 style="background-image: url(../../static/images/products/product-filt3.jpg)"><img
+                                    src="../../static/images/products/product-filt3.jpg" alt="product-thumb">
+                            </div>
+                        </div>
+                        <div class="product-thumb-filter-group">
+                            <div class="thumb-filter filter-btn active" data-show=".one"><img
+                                    src="../../static/images/products/product-filt1.jpg" alt="product-thumb-filter">
+                            </div>
+                            <div class="thumb-filter filter-btn" data-show=".two"><img
+                                    src="../../static/images/products/product-filt2.jpg" alt="product-thumb-filter">
+                            </div>
+                            <div class="thumb-filter filter-btn" data-show=".three"><img
+                                    src="../../static/images/products/product-filt3.jpg" alt="product-thumb-filter">
+                            </div>
+                        </div>
                     </div>
-                    <div class="product-uniques">
-                        <span class="sku product-unipue"><span>SKU: </span> BO1D0MX8SJ</span>
-                        <span class="catagorys product-unipue"><span>Categories: </span> T-Shirts, Tops, Mens</span>
-                        <span class="tags product-unipue"><span>Tags: </span> fashion, t-shirts, Men</span>
-                    </div>
-                    <div class="share-social">
-                        <span>Share:</span>
-                        <a class="platform" href="=http://facebook.com/"
-                           target="_blank"><i
-                                class="fab fa-facebook-f"></i></a>
-                        <a class="platform" href="http://twitter.com/"
-                           target="_blank"><i
-                                class="fab fa-twitter"></i></a>
-                        <a class="platform" href="http://behance.com/"
-                           target="_blank"><i
-                                class="fab fa-behance"></i></a>
-                        <a class="platform" href="http://youtube.com/"
-                           target="_blank"><i
-                                class="fab fa-youtube"></i></a>
-                        <a class="platform" href="http://linkedin.com/"
-                           target="_blank"><i
-                                class="fab fa-linkedin"></i></a>
+                    <div class="contents">
+                        <div class="product-status">
+                            <span class="product-catagory">Dress</span>
+                            <div class="rating-stars-group">
+                                <div class="rating-star"><i class="fas fa-star"></i></div>
+                                <div class="rating-star"><i class="fas fa-star"></i></div>
+                                <div class="rating-star"><i class="fas fa-star-half-alt"></i></div>
+                                <span>10 Reviews</span>
+                            </div>
+                        </div>
+                        <h2 class="product-title">Wide Cotton Tunic Dress <span class="stock">In Stock</span></h2>
+                        <span class="product-price"><span class="old-price">$9.35</span> $7.25</span>
+                        <p>
+                            Priyoshop has brought to you the Hijab 3 Pieces Combo Pack PS23. It is a
+                            completely modern design and you feel comfortable to put on this hijab.
+                            Buy it at the best price.
+                        </p>
+                        <div class="product-bottom-action">
+                            <div class="cart-edit">
+                                <div class="quantity-edit action-item">
+                                    <button class="button"><i class="fal fa-minus minus"></i></button>
+                                    <input type="text" class="input" value="01"/>
+                                    <button class="button plus">+<i class="fal fa-plus plus"></i></button>
+                                </div>
+                            </div>
+                            <a href="../AESOrder/cart.html" class="addto-cart-btn action-item"><i
+                                    class="rt-basket-shopping"></i>
+                                Add To
+                                Cart</a>
+                            <a href="../AESOrder/wishlist.html" class="wishlist-btn action-item"><i
+                                    class="rt-heart"></i></a>
+                        </div>
+                        <div class="product-uniques">
+                            <span class="sku product-unipue"><span>SKU: </span> BO1D0MX8SJ</span>
+                            <span class="catagorys product-unipue"><span>Categories: </span> T-Shirts, Tops, Mens</span>
+                            <span class="tags product-unipue"><span>Tags: </span> fashion, t-shirts, Men</span>
+                        </div>
+                        <div class="share-social">
+                            <span>Share:</span>
+                            <a class="platform" href="=http://facebook.com/"
+                               target="_blank"><i
+                                    class="fab fa-facebook-f"></i></a>
+                            <a class="platform" href="http://twitter.com/"
+                               target="_blank"><i
+                                    class="fab fa-twitter"></i></a>
+                            <a class="platform" href="http://behance.com/"
+                               target="_blank"><i
+                                    class="fab fa-behance"></i></a>
+                            <a class="platform" href="http://youtube.com/"
+                               target="_blank"><i
+                                    class="fab fa-youtube"></i></a>
+                            <a class="platform" href="http://linkedin.com/"
+                               target="_blank"><i
+                                    class="fab fa-linkedin"></i></a>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-</div>
-<!--================= Product-details Section End Here =================-->
+    <!--================= Product-details Section End Here =================-->
 
-<!--================= Footer Start Here =================-->
-<!--================= Footer End Here =================-->
+    <!--================= Footer Start Here =================-->
+    <!--================= Footer End Here =================-->
 
 
-<!--================= Scroll to Top Start =================-->
-<div class="scroll-top-btn scroll-top-btn1 scroll-top-btn2"><i class="fas fa-angle-up arrow-up"></i><i
-        class="fas fa-circle-notch"></i></div>
-<!--================= Scroll to Top End =================-->
+    <!--================= Scroll to Top Start =================-->
+    <div class="scroll-top-btn scroll-top-btn1 scroll-top-btn2"><i class="fas fa-angle-up arrow-up"></i><i
+            class="fas fa-circle-notch"></i></div>
+    <!--================= Scroll to Top End =================-->
 
 {% endblock %}

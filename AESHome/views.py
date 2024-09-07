@@ -7,12 +7,19 @@ from AESUtils.lists_maker import lists_maker
 from .forms import ContactUsForm
 from .models import (
     SiteSetting, Footer_Link_my_account, Footer_Link_info, InstaFeed, FooterFeatures, FAQS, About_us,
-    RedLine
+    RedLine,BlackBelt ,HomeIndex
 )
+from AESProduct.models import Product
 
 
 def index(request):
-    return render(request, 'AESHome/index.html')
+
+    context = {
+        'BlackBelt': BlackBelt.active.all(),
+        'HomeIndex': HomeIndex.active.order_by('-id').first(),
+        'Products': Product.active.order_by('-id').all()[:4],
+    }
+    return render(request, 'AESHome/index.html', context)
 
 
 class Contact_Us(CreateView):

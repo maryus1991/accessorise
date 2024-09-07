@@ -1424,17 +1424,17 @@ function sizerField(size) {
 
 function AddToCart(pid, stock) {
     let count = $('#counter').val()
-    if (count > stock){
+    if (count > stock) {
         document.getElementById('countAlert').removeAttribute('hidden')
     }
     let sizer = $('#sizer').text().replace(/\s/g, '')
-    if (sizer === ''){
+    if (sizer === '') {
         sizer = 0
     }
-    if (count <= stock){
-    $.ajax('/order/set-order-cookie-size/'+pid+'/'+count+'/'+sizer+'/').then(
-                   location.reload()
-    )
+    if (count <= stock) {
+        $.ajax('/order/set-order-cookie-size/' + pid + '/' + count + '/' + sizer + '/').then(
+            location.reload()
+        )
 
     }
 
@@ -1443,20 +1443,22 @@ function AddToCart(pid, stock) {
 function comment_reply(cpid) {
     $('#comment_parent').val(cpid)
     document.getElementById('comment_parent').value = cpid;
-    document.getElementById('validationDefault01').scrollIntoView({ behavior: "smooth" })
+    document.getElementById('validationDefault01').scrollIntoView({behavior: "smooth"})
 }
+
 function star_rate(num) {
     $('#star_rate').val(num)
     document.getElementById('star_rate').value = num;
 
 }
 
-function counterMines(){
+function counterMines() {
     let val = document.getElementById('counterCarPage').value
     console.log(val)
     $('#countsendser').val(val)
 }
-function counterPlus(){
+
+function counterPlus() {
     let val = document.getElementById('counterCarPage').value
     console.log(val)
     $('#countsendser').val(val)

@@ -82,7 +82,7 @@ class Product(models.Model):
     is_active = models.BooleanField(default=True, verbose_name='فعال')
     is_delete = models.BooleanField(default=False, verbose_name='حذف')
     off = models.FloatField(null=True, blank=True, verbose_name='تخفیف',
-                            validators=[MinValueValidator(0), MaxValueValidator(100)])
+                            validators=[MinValueValidator(1), MaxValueValidator(100)])
     new = models.BooleanField(default=False, verbose_name='جدید')
     has_size = models.BooleanField(default=False, verbose_name="داشتن سایز برای محصول")
     active = ProductManager()

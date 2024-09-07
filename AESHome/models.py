@@ -1,9 +1,102 @@
 from django.db import models
 
+from AESProduct.models import Product
+
 
 class ProductManager(models.Manager):
     def get_queryset(self):
         return super().get_queryset().filter(is_delete=False, is_active=True).all()
+
+
+class BlackBelt(models.Model):
+    title_part_1 = models.CharField(max_length=150, verbose_name='عنوان اول')
+    title_part_2 = models.CharField(max_length=150, verbose_name='عنوان دوم')
+    repeat = models.IntegerField(default=1, verbose_name='تکرار')
+
+    is_active = models.BooleanField(default=True, verbose_name='فعال')
+    is_delete = models.BooleanField(default=False, verbose_name='حذف')
+    active = ProductManager()
+
+    def __str__(self):
+        return f'{self.title_part_1} {self.title_part_2} {self.repeat}'
+
+    class Meta:
+        verbose_name = 'عنوان در بند سیاه صفحه'
+        verbose_name_plural = 'عنوان ها در بند سیاه صفحه'
+
+
+class HomeIndex(models.Model):
+    created = models.DateField(verbose_name='زمان ساخت')
+    product = models.OneToOneField(Product, on_delete=models.CASCADE, verbose_name='محصول ویژه')
+
+    title = models.CharField(max_length=50, verbose_name='عنوان')
+    sub_title = models.CharField(max_length=50, verbose_name='زیر عنوان')
+
+    link = models.URLField(verbose_name='لینک')
+    link_name = models.CharField(max_length=50, verbose_name='نام لینک')
+
+    first_video = models.URLField(verbose_name='لینک ویدیو اول (پیشنهاد در اپلود ان در اپارت)')
+    second_video = models.URLField(verbose_name='لینک ویدیو دوم (پیشنهاد در اپلود ان در اپارت)')
+
+    active_DealOfTheWeek = models.BooleanField(default=True, verbose_name='فعال قسمت پیشنهادات ویژه')
+    active_BlackBelt = models.BooleanField(default=True, verbose_name='فعال قسمت  بند سیاه صفحه')
+
+    is_active = models.BooleanField(default=True, verbose_name='فعال')
+    is_delete = models.BooleanField(default=False, verbose_name='حذف')
+
+    active = ProductManager()
+    objects = models.Manager()
+
+    def __str__(self):
+        return f'{self.title}'
+
+    class Meta:
+        verbose_name = 'تنظیم صفحه اصلی'
+        verbose_name_plural = 'تنظیمات صفحه اصلی'
+
+
+class HomeIndexNewCollections(models.Model):
+    home = models.ForeignKey('HomeIndex', on_delete=models.CASCADE, related_name='HomeIndexNewCollections',
+                             verbose_name='مربوط به کدوم صفحه')
+    image = models.ImageField(upload_to='image/HomeIndexNewCollections/', verbose_name='عکس')
+    title = models.CharField(max_length=50, verbose_name='عنوان')
+    sub_title = models.CharField(max_length=50, verbose_name='زیر عنوان')
+    link = models.URLField(verbose_name='لینک به صفحه مربوط')
+    link_name = models.CharField(max_length=50, verbose_name='نام لینک')
+
+    is_active = models.BooleanField(default=True, verbose_name='فعال')
+    is_delete = models.BooleanField(default=False, verbose_name='حذف')
+
+    active = ProductManager()
+
+    def __str__(self):
+        return f'{self.home.title}>{self.title}'
+
+    class Meta:
+        verbose_name = 'پست  بالای صفحه اصلی'
+        verbose_name_plural = 'پست های بالای صفحه اصلی'
+
+
+class DealOfTheWeek(models.Model):
+    home = models.OneToOneField('HomeIndex', on_delete=models.CASCADE, related_name='DealOfTheWeek',
+                             verbose_name='مربوط به کدوم صفحه')
+    created = models.DateTimeField(auto_now_add=True, verbose_name='زمان ساخت')
+    expires = models.DateTimeField(null=True, blank=True, verbose_name='زمان انقضا')
+    title = models.CharField(max_length=150, verbose_name='عنوان')
+    content = models.CharField(max_length=250, verbose_name='زیر عنوان')
+    sub_content = models.CharField(max_length=250, verbose_name='عنوان تشفیقی پایین صفحه')
+    image = models.ImageField(upload_to='image/DealOfTheWeek/', verbose_name='عکس', null=True)
+    is_active = models.BooleanField(default=True, verbose_name='فعال')
+    is_delete = models.BooleanField(default=False, verbose_name='حذف')
+
+    active = ProductManager()
+
+    def __str__(self):
+        return f'{self.home.title}>{self.title}'
+
+    class Meta:
+        verbose_name = 'پیشنهاد  ویژه هفته'
+        verbose_name_plural = 'پیشنهاد های ویژه هفته'
 
 
 class SiteSetting(models.Model):
