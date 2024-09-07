@@ -170,7 +170,7 @@ AUTH_USER_MODEL = 'AESAccount.User'
 
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_USE_TLS = True
-EMAIL_HOST = 'mail.mebrahimy.ir'
-EMAIL_HOST_USER = 'aes@mebrahimy.ir'
-EMAIL_HOST_PASSWORD = 'J#JqE[wC%baJ'
+EMAIL_HOST = ''
+EMAIL_HOST_USER = ''
+EMAIL_HOST_PASSWORD = ''
 EMAIL_PORT = 587
